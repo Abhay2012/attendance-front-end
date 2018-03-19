@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="wrapper">
+      <form name="Login_Form" class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <h3 class="form-signin-heading"> Please Login to Continue </h3>
+        <hr class="colorgraph">
+        <br>
+        <div style="margin-bottom: 15px" class="input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-user" aria-hidden="true" style="min-width: 16px;"></i>
+          </span>
+          <input id="login-username" type="text" class="form-control"  formControlName="username" name="username" placeholder="Username" autofocus> 
+        </div>
+        <nl-show-errors [control]="username"></nl-show-errors>
+        <div style="margin-bottom: 30px" class="input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-key" aria-hidden="true"></i>
+          </span>
+          <input id="login-password" type="password" class="form-control"  formControlName="password" name="password" placeholder="Password">
+        </div>
+        <nl-show-errors [control]="password"></nl-show-errors>
+        <div style="color:red" *ngIf="invalidCredentials">
+        <p>Username or password is invalid.</p>
+        </div>
+        <button type="submit" #btnLogin class="btn btn-lg btn-primary btn-block">Submit</button>
+      </form>
+    </div>
+  </div>
+  

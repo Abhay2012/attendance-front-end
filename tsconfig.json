@@ -14,6 +14,12 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@nl-providers/*": ["app/providers/*"],
+      "@nl-model/*": ["app/model/*"],
+      "@nl-shared/*": ["app/shared/*"],
+      "@nl-directives/*": ["app/directives/*"]
+    }
   }
 }
