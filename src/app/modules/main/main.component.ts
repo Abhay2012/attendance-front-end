@@ -20,10 +20,7 @@ export class MainComponent implements OnInit {
     // public ngProgress: NgProgress
   ) {
 
-    // this.appService.updateUserInfo();
-    // API += '/management';
-    // this.appService.editComplaintInfo().subscribe(res => res);
-    // this.appService.getStandardsFromStore().subscribe(res => res);
+    
     // $('#splash').remove(); // remove tne  2nd splash in case of refresh(i.e not routed from login screen)
   }
 

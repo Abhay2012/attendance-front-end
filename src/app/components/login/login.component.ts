@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(data).subscribe((res: any) => {
     //   this.storeInfo(res);
     console.log('login sucess/////');
-    this.router.navigate(['/main']);
+    this.router.navigate(['/app']);
     
     }, (err) => {
       if (err.status === 400) {

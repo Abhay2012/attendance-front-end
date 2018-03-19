@@ -12,13 +12,15 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './modules/main/main.component';
+import { AuthGuard } from './providers/authGaurd.service';
+import { LoginPageGuard } from './providers/loginPageGaurd.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -27,12 +29,17 @@ import { MainComponent } from './modules/main/main.component';
     CommonModule,
     ShowErrorsModule,
     RouterModule.forRoot([
-      { path: 'login', component: LoginComponent },
-      { path: 'app', loadChildren: 'app/modules/main/main.module#MainModule'},
+      { path: 'login', component: LoginComponent,canActivate:[LoginPageGuard] },
+      { path: 'app', loadChildren: 'app/modules/main/main.module#MainModule', canActivate: [AuthGuard] },
       { path: '', redirectTo: 'app', pathMatch: 'full' },
+      { path: '**', redirectTo: 'app', pathMatch: 'full' },
     ])
   ],
-  providers: [LoginService],
+  providers: [
+    LoginService,
+    AuthGuard,
+    LoginPageGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
