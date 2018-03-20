@@ -5,7 +5,7 @@ import { AbstractControlDirective, AbstractControl } from '@angular/forms';
 @Component({
   selector: 'nl-show-errors',
   template: `
-    <ul *ngIf="shouldShowErrors()">
+    <ul *ngIf="shouldShowErrors()" style="margin-top:-15px">
       <li style="color: red" *ngFor="let error of listOfErrors()">{{error}}</li>
     </ul>
   `,

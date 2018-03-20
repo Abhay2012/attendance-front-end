@@ -1,7 +1,7 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bgTheme">
     <a class="navbar-brand" href="#">
         <img src="assets/logo.ico" width="40" height="40" alt=""> JOBTEAM KONSULT
-        </a>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,14 +10,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Link1
+            <li class="nav-item active" *ngFor="let n of navs" routerLinkActive="rActive">
+                <a class="nav-link" [routerLink]="n.routerLink">{{n.title}}
                     <span class="sr-only">(current)</span>
                 </a>
             </li>
 
-            <li class="nav-item active">
-                <a class="nav-link" href="#" (click)="onLogout()">Logout
+            <li class="nav-item active" >
+                <a class="nav-link" style="cursor: pointer" (click)="onLogout()">Logout
                     <span class="sr-only">(current)</span>
                 </a>
             </li>

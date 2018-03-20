@@ -18,7 +18,6 @@ export class AppComponent {
           /**remove the 2nd splash present in app component's html,
            * which is displayed untill the dashboard  screen is visible*/
           // $('#splash').remove();
-          localStorage.setItem('access_token',"111111");
         });
     }
 

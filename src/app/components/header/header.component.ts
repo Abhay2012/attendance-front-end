@@ -9,9 +9,17 @@ import { Router } from '@angular/router';
 
 export class HeaderComponent {
 
+    navs: Array<{ title: string, routerLink: string }>;
+
     constructor(
         private router: Router
-    ) { }
+    ) {
+
+        this.navs = [
+            { title: 'Main', routerLink: 'main' },
+            { title: 'Addresses', routerLink: 'addresses' },
+        ];
+    }
 
     onLogout() {
         localStorage.clear();

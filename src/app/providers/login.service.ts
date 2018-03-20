@@ -4,44 +4,34 @@ import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { mergeMap } from 'rxjs/operators/mergeMap';
-import { catchError, map, tap,delay } from 'rxjs/operators';
+import { catchError, map, tap, delay } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { CustomHttpService } from './custom-http.service';
 
 
 @Injectable()
 export class LoginService {
 
-    constructor(private http: HttpClient,
+    constructor(
+        private customHttp: CustomHttpService,
         //   private toast: MyToastService
     ) { }
 
     login(data) {
-        // blog: https://coryrylan.com/blog/angular-multiple-http-requests-with-rxjs
-        // const login_api = `${API}/oauth/token?grant_type=password&username=${data.username}&password=${data.password}`;
-        // return this.http.post(login_api, {}).pipe(
-        //   mergeMap((res: Token) => {
-        //     localStorage.setItem('access_token', res.access_token);
-        //     return this.http.get(`${API}/management/info`);
-        //   })
-        // );
 
-        return of({});
+
+        return this.customHttp.postForLogin(data);
 
     }
 
     isLoggedIn = () => {
         return localStorage.getItem('access_token') ? true : false;
-      }
+    }
 
-    // storeUserInfo = (userInfo: UserInfo): Observable<any> => {
-    //     return Observable.create((observer) => {
-    //         Object.keys(userInfo).forEach((key, index) => {
-    //             localStorage.setItem(key, userInfo[key]);
-    //         });
-    //         observer.next('success');
-    //         observer.complete();
-    //     });
-    // }
+    updateUserInfo(info: any) {
+        localStorage.setItem('access_token',info.token);
+        localStorage.setItem('userInfo', JSON.stringify(info.data));
+    }
 
     // logout = () => {
     //     return this.http.get(`${API}/logout`);

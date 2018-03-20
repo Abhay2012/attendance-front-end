@@ -55,8 +55,7 @@ export class LoginComponent implements OnInit {
     this.loginForm.disable(); // disable form control when form submitted
     this.invalidCredentials = false;
     this.loginService.login(data).subscribe((res: any) => {
-    //   this.storeInfo(res);
-    console.log('login sucess/////');
+      this.storeInfo(res);
     this.router.navigate(['/app']);
     
     }, (err) => {
@@ -69,16 +68,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-//   storeInfo = (res) => {
-//     const success = this.loginService.storeUserInfo(res);
-//     success.subscribe((msg) => {
-//       this.router.navigate(['/my'])
-//         .then(() => {
-
-//           this.toast.successToast(`Welcome ${res.name} [${res.roles}]`);
-//         });
-//       this.appService.updateUserInfo();
-//     });
-//   }
+  storeInfo = (res) => {
+      this.loginService.updateUserInfo(res);
+    }
+  
 
 }

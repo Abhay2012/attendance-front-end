@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './modules/main/main.component';
 import { AuthGuard } from './providers/authGaurd.service';
 import { LoginPageGuard } from './providers/loginPageGaurd.service';
+import { CustomHttpService } from './providers/custom-http.service';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { LoginPageGuard } from './providers/loginPageGaurd.service';
     ShowErrorsModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent,canActivate:[LoginPageGuard] },
-      { path: 'app', loadChildren: 'app/modules/main/main.module#MainModule', canActivate: [AuthGuard] },
+      { path: 'app', loadChildren: 'app/modules/myApp/myApp.module#MyAppModule', canActivate: [AuthGuard] },
       { path: '', redirectTo: 'app', pathMatch: 'full' },
       { path: '**', redirectTo: 'app', pathMatch: 'full' },
     ])
@@ -38,7 +39,8 @@ import { LoginPageGuard } from './providers/loginPageGaurd.service';
   providers: [
     LoginService,
     AuthGuard,
-    LoginPageGuard
+    LoginPageGuard,
+    CustomHttpService
   ],
   bootstrap: [AppComponent]
 })
