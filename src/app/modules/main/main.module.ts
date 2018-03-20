@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule, Router } from '@angular/router';
 import { MainComponent } from './main.component';
 import { HeaderModule } from '../../components/header/header.module';
+import { PeopleListModule } from '../../components/people-list/people-list.module';
+import { PeopleService } from '../../providers/people.service';
 // import { HeaderComponent } from '../header/header.component';
 // import { FooterComponent } from '../footer/footer.component';
 // import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -18,6 +20,7 @@ import { HeaderModule } from '../../components/header/header.module';
   imports: [
     CommonModule,
     HeaderModule,
+    PeopleListModule,
     RouterModule.forChild([
     
       {
@@ -34,13 +37,11 @@ import { HeaderModule } from '../../components/header/header.module';
   ],
   exports: [],
   declarations: [
-    MainComponent,
-    // DashboardComponent,
-    // HeaderComponent,
-    // FooterComponent,
-    // SidebarComponent
+    MainComponent
   ],
-  providers: []
+  providers: [
+    PeopleService
+  ]
 })
 
 export class MainModule {
