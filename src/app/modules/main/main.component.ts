@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationCancel, NavigationError, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { People } from '../../models/people';
 import { PeopleService } from '../../providers/people.service';
@@ -13,13 +13,14 @@ declare const $;
   //   styleUrls: ['./main.component.scss'],
 })
 
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
 
   peopleList: People[];
   clickedPerson: People;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private peopleService: PeopleService
     // public ngProgress: NgProgress
   ) {
@@ -48,12 +49,18 @@ export class MainComponent implements OnInit {
     //   });
   }
 
+  ngAfterViewInit() {
+
+  }
+
 
 
   openSignatureModal(selectedPeople: People) {
     this.clickedPerson = selectedPeople;
     console.log(selectedPeople);
-    $('#myModal').modal('show');
+    this.peopleService.clickedPerson = selectedPeople;
+    this.router.navigate(['../signature2'], { relativeTo: this.route });
+    // $('#myModal').modal('show');
 
   }
 

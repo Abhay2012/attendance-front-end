@@ -12,6 +12,8 @@ import { People } from '../models/people';
 @Injectable()
 export class PeopleService {
 
+clickedPerson:People;
+
     constructor(
         private http: HttpClient,
         //   private toast: MyToastService

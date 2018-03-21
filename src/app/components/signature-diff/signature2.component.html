@@ -1,0 +1,13 @@
+
+<h3 class="topMargin">Please sign below</h3>
+
+
+<div id="signature"  style="border: 3px dotted">
+</div>
+<!-- <button (click)="onDoneBtn()">Done</button> -->
+<button (click)="onResetBtn()">Reset</button>
+
+<img *ngIf="signString" [src]="signString" alt="Signature Preview">
+
+<button type="button" class="btn btn-success" (click)="closeModalAndEmit(1)">Save</button>
+<button type="button" class="btn btn-secondary" (click)="closeModalAndEmit(null)">Cancel</button>

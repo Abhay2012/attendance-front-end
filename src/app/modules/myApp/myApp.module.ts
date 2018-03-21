@@ -8,6 +8,8 @@ import { AddressesComponent } from '../../components/addresses/addresses.compone
 import { MainComponent } from '../main/main.component';
 import { MyAppComponent } from './myApp.component';
 import { SignatureModule } from '../../components/signature/signature.module';
+import { Signature2Component } from '../../components/signature-diff/signature2.component';
+import { CommonModule } from '@angular/common';
 // import { HeaderComponent } from '../header/header.component';
 // import { FooterComponent } from '../footer/footer.component';
 // import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -21,10 +23,11 @@ import { SignatureModule } from '../../components/signature/signature.module';
 
 @NgModule({
     imports: [
-        // CommonModule,
+        CommonModule,
         HeaderModule,
         PeopleListModule,
         SignatureModule,
+
         RouterModule.forChild([
             {
                 path: '',
@@ -34,6 +37,10 @@ import { SignatureModule } from '../../components/signature/signature.module';
                     {
                         path: 'main',
                         component: MainComponent
+                    },
+                    {
+                        path: 'signature2',
+                        component: Signature2Component
                     },
                     {
                         path: 'addresses',
@@ -55,7 +62,8 @@ import { SignatureModule } from '../../components/signature/signature.module';
     declarations: [
         AddressesComponent,
         MainComponent,
-        MyAppComponent
+        MyAppComponent,
+        Signature2Component
     ],
     providers: [
         PeopleService
