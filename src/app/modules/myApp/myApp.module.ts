@@ -7,6 +7,7 @@ import { PeopleService } from '../../providers/people.service';
 import { AddressesComponent } from '../../components/addresses/addresses.component';
 import { MainComponent } from '../main/main.component';
 import { MyAppComponent } from './myApp.component';
+import { SignatureModule } from '../../components/signature/signature.module';
 // import { HeaderComponent } from '../header/header.component';
 // import { FooterComponent } from '../footer/footer.component';
 // import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -23,6 +24,7 @@ import { MyAppComponent } from './myApp.component';
         // CommonModule,
         HeaderModule,
         PeopleListModule,
+        SignatureModule,
         RouterModule.forChild([
             {
                 path: '',

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { People } from '../../models/people';
 
 @Component({
@@ -9,10 +9,13 @@ import { People } from '../../models/people';
 
 export class PeopleListComponent {
 
-    @Input() peoples: Array<People>;
+    @Input() people: Array<People>;
+    @Output() selectedPeople: EventEmitter<People> = new EventEmitter<People>();
 
     constructor(
     ) { }
 
-
+    onPeopleSelect(p: People) {
+        this.selectedPeople.emit(p);
+    }
 }

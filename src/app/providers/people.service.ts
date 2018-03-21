@@ -18,10 +18,10 @@ export class PeopleService {
     ) { }
 
     pList: People[] = [
-        { name: "Nitin", id: 1, signed: true, signature: "nnnnnn" },
+        { name: "Nitin", id: 1, signed: false, signature: "nnnnnn" },
         { name: "Abhay", id: 2, signed: false, signature: "nnnnnn" },
         { name: "Maria", id: 3, signed: true, signature: "nnnnnn" },
-        { name: "Abhay", id: 5, signed: false, signature: "nnnnnn" },
+        { name: "Abhay", id: 5, signed: null, signature: "nnnnnn" },
         { name: "Arun", id: 1, signed: true, signature: "nnnnnn" },
         { name: "Hillary", id: 1, signed: false, signature: "nnnnnn" },
         { name: "Arun", id: 1, signed: true, signature: "nnnnnn" },

@@ -1,7 +1,8 @@
+<h4>    People List</h4>
+
+<app-people-list [people]="peopleList" (selectedPeople)="openSignatureModal($event)"></app-people-list>
 
 
-<h4>People List</h4>
-
-<app-people-list [peoples]="peopleList"></app-people-list>
-
-
+<div>
+    <app-signature (signatureString)="saveSignature($event)"></app-signature>
+</div>

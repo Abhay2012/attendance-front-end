@@ -6,15 +6,17 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Signed</th>
+                    <th scope="col">Attendance</th>
                 </tr>
             </thead>
            
             <tbody>
-                <tr *ngFor="let p of peoples; let i=index">
+                <tr *ngFor="let p of people; let i=index" (click)="onPeopleSelect(p)">
                     <th scope="row">{{i+1}}</th>
                     <td>{{p.name}}</td>
-                    <td>{{p.signed}}</td>
+                    <td *ngIf="p.signed==true"><i class="fa fa-lg fa-check" aria-hidden="true"></i></td>
+                    <td *ngIf="p.signed==false"><i class="fa fa-lg fa-times" aria-hidden="true"></i></td>              
+                    <td *ngIf="p.signed==null">'N.A'</td>
                 </tr>
 
             </tbody>

@@ -5,6 +5,8 @@ import { People } from '../../models/people';
 import { PeopleService } from '../../providers/people.service';
 // import { NgProgress } from 'ngx-progressbar';
 
+declare const $;
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -14,6 +16,7 @@ import { PeopleService } from '../../providers/people.service';
 export class MainComponent implements OnInit {
 
   peopleList: People[];
+  clickedPerson: People;
 
   constructor(
     private router: Router,
@@ -32,6 +35,7 @@ export class MainComponent implements OnInit {
         this.peopleList = list;
       });
 
+
     /**for showing loader while a lazy loaded module chunk is fetched from server */
     // this.router.events
     //   .filter(ev => ev instanceof RouteConfigLoadStart || ev instanceof RouteConfigLoadEnd)
@@ -42,6 +46,23 @@ export class MainComponent implements OnInit {
     //       this.ngProgress.done();
     //     }
     //   });
+  }
+
+
+
+  openSignatureModal(selectedPeople: People) {
+    this.clickedPerson = selectedPeople;
+    console.log(selectedPeople);
+    $('#myModal').modal('show');
+
+  }
+
+  saveSignature(sign: string | null) {
+    // null in case of modal close/cancel when not saving any signature
+    console.log('modal closed');
+    console.log('signature', sign);
+
+
   }
 
 }
