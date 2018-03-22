@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationCancel, NavigationError, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
-import { People } from '../../models/people';
+import { People, Address } from '../../models/people';
 import { PeopleService } from '../../providers/people.service';
+import { AddressService } from '../../providers/address.service';
 // import { NgProgress } from 'ngx-progressbar';
 
 declare const $;
@@ -16,37 +17,45 @@ declare const $;
 export class MainComponent implements OnInit, AfterViewInit {
 
   peopleList: People[];
+  addressList: Address[];
   clickedPerson: People;
 
+  isAdmin = JSON.parse(localStorage.getItem('username')) === 'admin';
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private peopleService: PeopleService
+    private peopleService: PeopleService,
+    private addressService: AddressService
     // public ngProgress: NgProgress
   ) {
-
-
-    // $('#splash').remove(); // remove tne  2nd splash in case of refresh(i.e not routed from login screen)
   }
 
+
   ngOnInit() {
+    console.log('isAdmin', this.isAdmin);
+
+    if (this.isAdmin) {
+      this.getPeopleList();
+    } else {
+      this.getAddressList();
+    }
+
+  }
+
+  getPeopleList() {
 
     this.peopleService.getPeopleList()
       .subscribe((list: People[]) => {
         this.peopleList = list;
       });
+  }
 
+  getAddressList() {
 
-    /**for showing loader while a lazy loaded module chunk is fetched from server */
-    // this.router.events
-    //   .filter(ev => ev instanceof RouteConfigLoadStart || ev instanceof RouteConfigLoadEnd)
-    //   .subscribe((event) => {
-    //     if (event instanceof RouteConfigLoadStart) {
-    //       this.ngProgress.start();
-    //     } else {
-    //       this.ngProgress.done();
-    //     }
-    //   });
+    this.addressService.getAddressList()
+      .subscribe((list: Address[]) => {
+        this.addressList = list;
+      });
   }
 
   ngAfterViewInit() {

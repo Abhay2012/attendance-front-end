@@ -3,13 +3,18 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~font-awesome/css/font-awesome.min.css';
 
+@import 'variables.scss';
 
 /*add our own global styles here*/
 
 
 .topMargin{
-    margin-top: 60px;
+    margin-bottom: 100px;
   }
 
+  h1{
+  color: $theme-color;
+  text-align: center;
+  }
 
 

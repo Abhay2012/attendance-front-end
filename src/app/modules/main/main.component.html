@@ -1,8 +1,13 @@
-<h4> People List</h4>
-
-<app-people-list [people]="peopleList" (selectedPeople)="openSignatureModal($event)"></app-people-list>
 
 
-<div>
-    <app-signature (signatureString)="saveSignature($event)"></app-signature>
+
+
+<div class="container" *ngIf="isAdmin">
+    <h1> People List</h1>
+    <app-people-list  [people]="peopleList" (selectedPeople)="openSignatureModal($event)"></app-people-list>
 </div>
+
+<div class="container" *ngIf="!isAdmin">
+    <h1 style="margin-top:5%;margin-bottom:5%"> Address List</h1>
+    <app-address-list  [addresses]="addressList"></app-address-list>
+    </div>

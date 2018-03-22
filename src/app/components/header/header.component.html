@@ -11,7 +11,7 @@
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active" *ngFor="let n of navs" routerLinkActive="rActive">
-                <a class="nav-link" [routerLink]="n.routerLink">{{n.title}}
+                <a class="nav-link" [routerLink]="n.routerLink" (click)="closeNavBar()">{{n.title}}
                     <span class="sr-only">(current)</span>
                 </a>
             </li>

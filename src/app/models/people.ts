@@ -6,3 +6,10 @@ export interface People {
     signed: boolean | null;
     signature: string ;
 }
+
+export interface Address {
+    _id: string;
+    address: string;
+    username: string;
+ 
+}

@@ -13,15 +13,15 @@ export class CustomHttpService {
 
     private getAccessToken() {
 
-        return 'Bearer ' + (localStorage.getItem('access_token') || '');
+        return (localStorage.getItem('access_token') || '');
 
     }
 
     private addHeaders(optionalHeaders?: HttpHeaders) {
 
         let requestHeaders = new HttpHeaders()
-            .set('Authorization', this.getAccessToken())
-            .set('Content-Type', 'application/json');
+            .set('Authorization', this.getAccessToken());
+        // .set('Content-Type', 'application/json');
         if (optionalHeaders) {
             for (const header of optionalHeaders.keys()) {
                 requestHeaders = requestHeaders.append(header, optionalHeaders.get(header));
@@ -44,13 +44,15 @@ export class CustomHttpService {
     post(url: string, body: any, options?: HttpHeaders) {
 
         let headers = this.addHeaders(options);
+        console.log(headers);
 
-        return this.httpClient.get(BASE_URL + url, { headers: headers, observe: 'response' })
+
+        return this.httpClient.post(BASE_URL + url, body, { headers: headers, observe: 'response' })
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    postForLogin( body: any) {
+    postForLogin(body: any) {
 
         return this.httpClient.post(BASE_URL + '/login', body, { observe: 'response' })
             .map(this.extractData)

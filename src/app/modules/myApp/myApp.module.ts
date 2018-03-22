@@ -10,6 +10,10 @@ import { MyAppComponent } from './myApp.component';
 import { SignatureModule } from '../../components/signature/signature.module';
 import { Signature2Component } from '../../components/signature-diff/signature2.component';
 import { CommonModule } from '@angular/common';
+import { ShowErrorsModule } from '../../components/show-errors/show-errors.module';
+import { AddressService } from '../../providers/address.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AddressListModule } from '../../components/address-list/address-list.module';
 // import { HeaderComponent } from '../header/header.component';
 // import { FooterComponent } from '../footer/footer.component';
 // import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -27,11 +31,13 @@ import { CommonModule } from '@angular/common';
         HeaderModule,
         PeopleListModule,
         SignatureModule,
-
+        ShowErrorsModule,
+        ReactiveFormsModule,
+        AddressListModule,
         RouterModule.forChild([
             {
                 path: '',
-                component:MyAppComponent,
+                component: MyAppComponent,
                 children: [
 
                     {
@@ -66,7 +72,9 @@ import { CommonModule } from '@angular/common';
         Signature2Component
     ],
     providers: [
-        PeopleService
+        PeopleService,
+        AddressService,
+
     ]
 })
 
