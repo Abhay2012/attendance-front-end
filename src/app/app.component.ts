@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { LoginService } from './providers/login.service';
-// import { LoginService } from '@nl-providers/login.service';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +9,13 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
-  constructor(private loginService: LoginService,
-    private router: Router) {
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private toastr: ToastsManager,
+    private vcr: ViewContainerRef
+  ) {
+    this.toastr.setRootViewContainerRef(vcr);
 
     if (!loginService.isLoggedIn()) {
       router.navigate(['/login'])

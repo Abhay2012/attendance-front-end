@@ -1,17 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// import { LoginService } from '@nl-providers/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../providers/login.service';
-// import { AppService } from '@nl-providers/app.service';
-// import { MyToastService } from '@nl-providers/toast.service';
-// import { ToastMessagesEnum } from '@nl-model/toast-msg.enum';
+import { ToastService } from '../../providers/toast.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-//   providers: [LoginService]
+  //   providers: [LoginService]
 })
 
 export class LoginComponent implements OnInit {
@@ -24,8 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private toastService: ToastService,
     // private appService: AppService,
-    // private toast: MyToastService,
     private loginService: LoginService
   ) {
     // if (loginService.isLoggedIn()) {
@@ -56,8 +53,12 @@ export class LoginComponent implements OnInit {
     this.invalidCredentials = false;
     this.loginService.login(data).subscribe((res: any) => {
       this.storeInfo(res);
-    this.router.navigate(['/app']);
-    
+      this.router.navigate(['/app'])
+        .then(() => {
+          const username = JSON.parse(localStorage.getItem('username')) || 'Back';
+          this.toastService.showSuccess(`Welcome ${username}`);
+        });
+
     }, (err) => {
       if (err.status === 400) {
         this.invalidCredentials = true;
@@ -69,8 +70,8 @@ export class LoginComponent implements OnInit {
   }
 
   storeInfo = (res) => {
-      this.loginService.updateUserInfo(res);
-    }
-  
+    this.loginService.updateUserInfo(res);
+  }
+
 
 }
