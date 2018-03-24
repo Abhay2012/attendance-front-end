@@ -35,9 +35,9 @@ export class MainComponent implements OnInit, AfterViewInit {
     console.log('isAdmin', this.isAdmin);
 
     if (this.isAdmin) {
-      this.getPeopleList();
-    } else {
       this.getAddressList();
+    } else {
+      this.getPeopleList();
     }
 
   }

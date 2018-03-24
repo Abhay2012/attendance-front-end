@@ -30,7 +30,7 @@ import { CustomHttpService } from './providers/custom-http.service';
     CommonModule,
     ShowErrorsModule,
     RouterModule.forRoot([
-      { path: 'login', component: LoginComponent,canActivate:[LoginPageGuard] },
+      { path: 'login', component: LoginComponent, canActivate: [LoginPageGuard] },
       { path: 'app', loadChildren: 'app/modules/myApp/myApp.module#MyAppModule', canActivate: [AuthGuard] },
       { path: '', redirectTo: 'app', pathMatch: 'full' },
       { path: '**', redirectTo: 'app', pathMatch: 'full' },
