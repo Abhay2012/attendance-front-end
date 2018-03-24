@@ -1,5 +1,10 @@
 <app-header>
 </app-header>
 <div class="topMargin">
-    </div>
+</div>
+
+<div [hidden]="!showLoader">
+    <div class="loader"></div>
+</div>
+
 <router-outlet></router-outlet>

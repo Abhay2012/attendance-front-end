@@ -1,6 +1,7 @@
 <div class="container">
 
-<button class="btn btn-primary" routerLink="../"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+    <button class="btn btn-primary" routerLink="../">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
 
     <h1>Create New Address</h1>
     <div style="margin-top:5%;margin-bottom:5%">
@@ -23,7 +24,8 @@
                 <nl-show-errors [control]="password"></nl-show-errors>
             </div>
 
-            <button type="submit" style="width:100%;margin-top:8%;background:#4aa23a;color:black" [disabled]="!addAddressForm.valid" class="btn btn-lg ">{{!sending?'Submit':'Submitting...'}}</button>
+            <button type="submit" style="width:100%;margin-top:8%;background:#4aa23a;color:black" [disabled]="!addAddressForm.valid"
+                class="btn btn-lg ">Submit</button>
 
         </form>
     </div>

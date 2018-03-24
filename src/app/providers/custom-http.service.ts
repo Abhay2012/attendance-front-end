@@ -51,6 +51,16 @@ export class CustomHttpService {
             .catch(this.handleError);
     }
 
+    put(url: string, body: any, options?: HttpHeaders) {
+
+        let headers = this.addHeaders(options);
+
+
+        return this.httpClient.put(BASE_URL + url, body, { headers: headers, observe: 'response' })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     delete(url: string, options?: HttpHeaders) {
 
         let headers = this.addHeaders(options);

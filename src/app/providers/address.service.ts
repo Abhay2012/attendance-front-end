@@ -13,7 +13,6 @@ export class AddressService {
 
     constructor(
         private customHttp: CustomHttpService,
-        //   private toast: MyToastService
     ) { }
 
     postNewAddress(data: any) {
@@ -38,12 +37,24 @@ export class AddressService {
         this.addressStore.unshift(add);
     }
 
+    // code for deletion
+
     deleteAddress(username: string) {
         return this.customHttp.delete(`/delete/:${username}`);
     }
 
     deleteAddressFromStore(index: number) {
         this.addressStore.splice(index, 1);
+    }
+
+    // code for edition
+
+    editAddress(data: any) {
+        return this.customHttp.put('/update', data);
+    }
+
+    editAddressInStore(index: number, newData: Address) {
+        this.addressStore.splice(index, 1, newData);
     }
 
 

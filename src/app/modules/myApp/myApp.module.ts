@@ -13,18 +13,8 @@ import { CommonModule } from '@angular/common';
 import { ShowErrorsModule } from '../../components/show-errors/show-errors.module';
 import { AddressService } from '../../providers/address.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AddressListModule } from '../../components/address-list/address-list.module';
 import { CreateAddressComponent } from '../../components/createAddress/createAddress..component';
-// import { HeaderComponent } from '../header/header.component';
-// import { FooterComponent } from '../footer/footer.component';
-// import { SidebarComponent } from '../sidebar/sidebar.component';
-// import { AuthGuard } from '@nl-providers/auth.guard';
-// import { MyComponent } from './my.component';
-// import { MyToastService } from '@nl-providers/toast.service';
-// import { LoaderService } from '@nl-providers/loader.service';
-// import { DashboardComponent } from '../dashboard/dashboard.component';
-
-// import { NgProgressModule } from 'ngx-progressbar';
+import { LoaderService } from '../../providers/loader.service';
 
 @NgModule({
     imports: [
@@ -34,7 +24,6 @@ import { CreateAddressComponent } from '../../components/createAddress/createAdd
         SignatureModule,
         ShowErrorsModule,
         ReactiveFormsModule,
-        AddressListModule,
         RouterModule.forChild([
             {
                 path: '',
@@ -81,7 +70,7 @@ import { CreateAddressComponent } from '../../components/createAddress/createAdd
     providers: [
         PeopleService,
         AddressService,
-
+        LoaderService
     ]
 })
 
