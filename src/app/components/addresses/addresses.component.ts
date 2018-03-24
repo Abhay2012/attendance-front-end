@@ -1,67 +1,62 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddressService } from '../../providers/address.service';
+import { Address } from '../../models/people';
+import { ToastService } from '../../providers/toast.service';
 
 
 @Component({
     selector: 'app-addresses',
     templateUrl: './addresses.component.html',
-    // styleUrls: ['./addresses.component.scss'],
+    styleUrls: ['./addresses.component.scss'],
 })
 
-export class AddressesComponent {
+export class AddressesComponent implements OnInit {
 
 
-    addAddressForm: FormGroup;
-    sending = false;
+    addressList: Address[];
+    loader = false;
 
     constructor(
-        private fb: FormBuilder,
-        private addressService: AddressService
+        private addressService: AddressService,
+        private toastService: ToastService
+    ) { }
 
-    ) {
-        this.initForm();
+    ngOnInit() {
+        this.getAddressList();
     }
 
-    initForm() {
-        this.addAddressForm = this.fb.group({
-            address: ['', Validators.required],
-            username: ['', Validators.required],
-            password: ['', Validators.required]
-        });
-    }
-
-    get address() {
-        return this.addAddressForm.get('address');
-    }
-    get username() {
-        return this.addAddressForm.get('username');
-    }
-    get password() {
-        return this.addAddressForm.get('password');
-    }
-
-    onSubmit() {
-        console.log(this.addAddressForm.value);
-        this.sending = true;
-        this.addressService.addNewAddress(this.addAddressForm.value)
-            .subscribe((res: any) => {
-                console.log(res);
-
-                this.addAddressForm.reset();
-                this.sending = false;
-                setTimeout(() => {
-                    alert('Address created successfully');
-                }, 200);
-
+    getAddressList() {
+        this.loader = true;
+        this.addressService.getAddressList()
+            .subscribe((list: Address[]) => {
+                this.addressList = list;
+                this.loader = false;
+                this.addressService.initializeAddressStore(list);
             }, (err: any) => {
-                this.sending = false;
-                setTimeout(() => {
-                    alert('Some error occured');
-                }, 200);
+                this.loader = false;
+                // show toast msg here
+                this.toastService.showError(err.msg);
             });
     }
 
+    onEdit(add: Address, index: number) {
+
+    }
+
+    onDelete(add: Address, index: number) {
+
+        if (confirm('This address will be deleted !')) {
+            this.addressService.deleteAddress(add.username)
+                .subscribe((res: any) => {
+                    this.addressService.deleteAddressFromStore(index);
+                    this.toastService.showSuccess('Deleted Successfully');
+                }, (err: any) => {
+                    this.toastService.showError(err.msg);
+                });
+        }
+
+    }
 
 }

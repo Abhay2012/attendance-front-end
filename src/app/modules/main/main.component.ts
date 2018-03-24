@@ -14,10 +14,9 @@ declare const $;
   //   styleUrls: ['./main.component.scss'],
 })
 
-export class MainComponent implements OnInit, AfterViewInit {
+export class MainComponent implements OnInit{
 
   peopleList: People[];
-  addressList: Address[];
   clickedPerson: People;
 
   isAdmin = JSON.parse(localStorage.getItem('username')) === 'admin';
@@ -35,7 +34,7 @@ export class MainComponent implements OnInit, AfterViewInit {
     console.log('isAdmin', this.isAdmin);
 
     if (this.isAdmin) {
-      this.getAddressList();
+      // this.getAddressList();
     } else {
       this.getPeopleList();
     }
@@ -49,19 +48,6 @@ export class MainComponent implements OnInit, AfterViewInit {
         this.peopleList = list;
       });
   }
-
-  getAddressList() {
-
-    this.addressService.getAddressList()
-      .subscribe((list: Address[]) => {
-        this.addressList = list;
-      });
-  }
-
-  ngAfterViewInit() {
-
-  }
-
 
 
   openSignatureModal(selectedPeople: People) {

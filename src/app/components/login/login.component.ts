@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
 
   createForm = () => {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      username: ['admin', Validators.required],
+      password: ['abc123', Validators.required]
     });
   }
 
@@ -62,6 +62,8 @@ export class LoginComponent implements OnInit {
     }, (err) => {
       if (err.status === 400) {
         this.invalidCredentials = true;
+      } else {
+        this.toastService.showError(err.msg);
       }
       this.spinnerBtn.nativeElement.innerHTML = 'Submit';
       localStorage.clear();

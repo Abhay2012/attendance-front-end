@@ -11,11 +11,11 @@ export class ToastService {
 
     
     showSuccess(msg: string) {
-        this.toastr.success(msg, 'Success!');
+        this.toastr.success(msg || 'Some Error Occured', 'Success!');
     }
 
     showError(msg: string) {
-        this.toastr.error(msg, 'Oops!');
+        this.toastr.error(msg || 'Some Error Occured', 'Oops!');
     }
 
     // showWarning() {

@@ -44,10 +44,19 @@ export class CustomHttpService {
     post(url: string, body: any, options?: HttpHeaders) {
 
         let headers = this.addHeaders(options);
-        console.log(headers);
 
 
         return this.httpClient.post(BASE_URL + url, body, { headers: headers, observe: 'response' })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    delete(url: string, options?: HttpHeaders) {
+
+        let headers = this.addHeaders(options);
+
+
+        return this.httpClient.delete(BASE_URL + url, { headers: headers, observe: 'response' })
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -73,9 +82,10 @@ export class CustomHttpService {
             /**A client-side or network error occurred. Handle it accordingly.*/
             // console.log('An error occurred:', );
             errorInfo.status = err.status;
-            errorInfo.status == 0 ? errorInfo.msg = "No Internet, Check Your connection Or Try again" : errorInfo = err.message || 'Some Error Occured';
-        }
-        else {
+            errorInfo.status === 0 ? errorInfo.msg = "No Internet, Check Your connection Or Try again"
+                : errorInfo.msg = err.message || 'Some Error Occured';
+        } else {
+
             /**The backend returned an unsuccessful response code.*/
             // console.log('Server occurred:', err);
             errorInfo.status = err.status;

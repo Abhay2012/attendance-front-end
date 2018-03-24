@@ -14,6 +14,7 @@ import { ShowErrorsModule } from '../../components/show-errors/show-errors.modul
 import { AddressService } from '../../providers/address.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressListModule } from '../../components/address-list/address-list.module';
+import { CreateAddressComponent } from '../../components/createAddress/createAddress..component';
 // import { HeaderComponent } from '../header/header.component';
 // import { FooterComponent } from '../footer/footer.component';
 // import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -51,7 +52,12 @@ import { AddressListModule } from '../../components/address-list/address-list.mo
                     {
                         path: 'addresses',
                         component: AddressesComponent
-
+                        // add guard to this component
+                    },
+                    {
+                        path: 'addresses/create',
+                        component: CreateAddressComponent
+                        // add guard to this component
                     },
                     {
                         path: '',
@@ -67,6 +73,7 @@ import { AddressListModule } from '../../components/address-list/address-list.mo
     exports: [],
     declarations: [
         AddressesComponent,
+        CreateAddressComponent,
         MainComponent,
         MyAppComponent,
         Signature2Component
