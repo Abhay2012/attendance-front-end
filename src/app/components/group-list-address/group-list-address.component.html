@@ -1,0 +1,27 @@
+<div class="container">
+
+    <h1>Group List</h1>
+    <p>Select a group to view students</p>
+
+    <div class="table-responsive" style="margin-top:20px">
+        <table class="table  table-striped table-bordered">
+
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Group Name</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let g of groups; let i=index" (click)="onGroupSelect(g)">
+                    <td scope="row">{{i+1}}</td>
+                    <td>{{g.group_name}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

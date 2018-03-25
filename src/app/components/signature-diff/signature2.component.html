@@ -1,6 +1,6 @@
 <div class="container">
 
-    <button class="btn btn-default" routerLink="../main">
+    <button class="btn btn-default" (click)="routeBack()">
         <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
     </button>
 
@@ -9,7 +9,7 @@
             <span>{{person?.name}}</span>
         </h5>
         <h5>Id:
-            <span>{{person?.id}}</span>
+            <span>{{person?._id}}</span>
         </h5>
     </div>
 
@@ -21,7 +21,7 @@
 
     <div>
         <button class="btn btn-default" (click)="onResetBtn()">Reset</button>
-        <button class="btn btn-primary" (click)="onDoneBtn()">Show Preview</button>
+        <button class="btn btn-primary" (click)="onPreviewBtn()">Show Preview</button>
     </div>
 
     <div *ngIf="signString">
@@ -30,7 +30,7 @@
     </div>
 
     <div *ngIf="signString">
-        <button type="button" class="btn btn-success" (click)="closeModalAndEmit(1)">Save</button>
-        <button type="button" class="btn btn-danger" (click)="closeModalAndEmit(null)">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="onSave()">Save</button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
     </div>
 </div>

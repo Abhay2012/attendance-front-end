@@ -1,0 +1,10 @@
+@import '../../../sass/variables.scss';
+
+
+tbody{
+
+    tr:hover{
+          background-color:$theme-color !important;
+          cursor: pointer;
+      }
+    }

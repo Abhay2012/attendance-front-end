@@ -32,38 +32,7 @@ export class MainComponent implements OnInit{
   ngOnInit() {
     console.log('isAdmin', this.isAdmin);
 
-    if (this.isAdmin) {
-      // this.getAddressList();
-    } else {
-      this.getPeopleList();
-    }
-
   }
 
-  getPeopleList() {
-
-    this.peopleService.getPeopleList()
-      .subscribe((list: People[]) => {
-        this.peopleList = list;
-      });
-  }
-
-
-  openSignatureModal(selectedPeople: People) {
-    this.clickedPerson = selectedPeople;
-    console.log(selectedPeople);
-    this.peopleService.clickedPerson = selectedPeople;
-    this.router.navigate(['../signature2'], { relativeTo: this.route });
-    // $('#myModal').modal('show');
-
-  }
-
-  saveSignature(sign: string | null) {
-    // null in case of modal close/cancel when not saving any signature
-    console.log('modal closed');
-    console.log('signature', sign);
-
-
-  }
 
 }

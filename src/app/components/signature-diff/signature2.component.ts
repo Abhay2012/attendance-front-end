@@ -28,44 +28,40 @@ export class Signature2Component implements OnInit {
 
     ngOnInit() {
         this.person = this.peopleService.clickedPerson;
+
+        // in case of refresh
+        if (!this.person) {
+            this.routeBack();
+        }
         /**iniitalize the jquery plugin used for signature */
         $('#signature').jSignature();
 
     }
 
-    onDoneBtn() {
+    onPreviewBtn() {
         const datapair = $('#signature').jSignature('getData', 'svgbase64');
-        // const i = new Image();
-        console.log(datapair);
-
         this.signString = 'data:' + datapair[0] + ',' + datapair[1];
         this.signString = <string>this.sanitizer.bypassSecurityTrustUrl(this.signString);
     }
-   
+
     onResetBtn() {
         // clears the canvas and rerenders the decor on it.
         $('#signature').jSignature('reset');
         this.signString = null;
     }
 
-    closeModalAndEmit(e?: any) {
 
-        /**e will be null when Cancel or top right cross brn is pressed */
-        // $('#myModal').modal('hide');
-        // if (!e) {
-        //     this.router.navigate(['../main'], { relativeTo: this.route });
+    onSave() {
+        this.person.signed = true;
+        this.person.signature = this.signString;
+        this.routeBack();
+    }
+    onCancel() {
+        this.routeBack();
+    }
 
-        //     return;
-        // }
-        // // this.signatureString.emit(this.signString);
-        // this.onDoneBtn();
-        // console.log(this.signString);
-        // if (this.peopleService.clickedPerson) {
-
-        //     this.signString && (this.peopleService.clickedPerson.signed = true);
-        // }
-        // console.log(this.peopleService.clickedPerson);
-        // this.router.navigate(['../main'], { relativeTo: this.route });
+    routeBack() {
+        this.router.navigate(['../'], { relativeTo: this.route });
 
     }
 

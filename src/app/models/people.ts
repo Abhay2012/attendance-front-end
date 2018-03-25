@@ -4,10 +4,10 @@
 
 
 export interface People {
-    id: number;
+    _id: number;
     name: string;
     signed: boolean | null;
-    signature: string;
+    signature: string | any;
 }
 
 export interface Address {

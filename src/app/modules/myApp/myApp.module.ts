@@ -15,6 +15,10 @@ import { AddressService } from '../../providers/address.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateAddressComponent } from '../../components/createAddress/createAddress..component';
 import { LoaderService } from '../../providers/loader.service';
+import { AdminMainModule } from '../../components/admin-main/admin-main.module';
+import { GroupService } from '../../providers/group.service';
+import { GroupListForAddressModule } from '../../components/group-list-address/group-list-address.module';
+import { PeopleListComponent } from '../../components/people-list/people-list.component';
 
 @NgModule({
     imports: [
@@ -22,6 +26,8 @@ import { LoaderService } from '../../providers/loader.service';
         HeaderModule,
         PeopleListModule,
         SignatureModule,
+        AdminMainModule,
+        GroupListForAddressModule,
         ShowErrorsModule,
         ReactiveFormsModule,
         RouterModule.forChild([
@@ -34,10 +40,10 @@ import { LoaderService } from '../../providers/loader.service';
                         path: 'main',
                         component: MainComponent
                     },
-                    {
-                        path: 'signature2',
-                        component: Signature2Component
-                    },
+                    // {
+                    //     path: 'main/signature2',
+                    //     component: Signature2Component
+                    // },
                     {
                         path: 'addresses',
                         component: AddressesComponent
@@ -46,6 +52,20 @@ import { LoaderService } from '../../providers/loader.service';
                     {
                         path: 'addresses/create',
                         component: CreateAddressComponent
+                        // add guard to this component
+                    },
+                    {
+                        path: 'main/group/:id',
+                        children: [
+                            {
+                                path: 'signature2',
+                                component: Signature2Component
+                            },
+                            {
+                                path: '',
+                                component: PeopleListComponent
+                            }
+                        ]
                         // add guard to this component
                     },
                     {
@@ -70,6 +90,7 @@ import { LoaderService } from '../../providers/loader.service';
     providers: [
         PeopleService,
         AddressService,
+        GroupService,
         LoaderService
     ]
 })
