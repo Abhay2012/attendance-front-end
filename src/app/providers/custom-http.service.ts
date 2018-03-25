@@ -85,15 +85,16 @@ export class CustomHttpService {
     }
 
     private handleError(err: HttpErrorResponse) {
-        // console.log('inside handle error', err);
+        console.log('inside handle error', err);
         let errorInfo: any = {};
 
         if (err.error instanceof Error || err.error instanceof ProgressEvent) {
             /**A client-side or network error occurred. Handle it accordingly.*/
             // console.log('An error occurred:', );
             errorInfo.status = err.status;
-            errorInfo.status === 0 ? errorInfo.msg = "No Internet, Check Your connection Or Try again"
-                : errorInfo.msg = err.message || 'Some Error Occured';
+            errorInfo.status === 0
+                ? errorInfo.msg = "Some error occured, Couldn't connect to server"
+                : errorInfo.msg = err.message || 'Some unknown error occured';
         } else {
 
             /**The backend returned an unsuccessful response code.*/

@@ -1,13 +1,36 @@
+<div class="container">
 
-<h3>Please sign below</h3>
+    <button class="btn btn-default" routerLink="../main">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+    </button>
+
+    <div class="detail">
+        <h5>Name:
+            <span>{{person?.name}}</span>
+        </h5>
+        <h5>Id:
+            <span>{{person?.id}}</span>
+        </h5>
+    </div>
+
+    <h6>Please sign below</h6>
 
 
-<div id="signature"  style="border: 3px dotted">
+    <div id="signature" style="border: 3px dotted">
+    </div>
+
+    <div>
+        <button class="btn btn-default" (click)="onResetBtn()">Reset</button>
+        <button class="btn btn-primary" (click)="onDoneBtn()">Show Preview</button>
+    </div>
+
+    <div *ngIf="signString">
+        <h6>Preview</h6>
+        <img [src]="signString" alt="Signature Preview">
+    </div>
+
+    <div *ngIf="signString">
+        <button type="button" class="btn btn-success" (click)="closeModalAndEmit(1)">Save</button>
+        <button type="button" class="btn btn-danger" (click)="closeModalAndEmit(null)">Cancel</button>
+    </div>
 </div>
-<!-- <button (click)="onDoneBtn()">Done</button> -->
-<button (click)="onResetBtn()">Reset</button>
-
-<img *ngIf="signString" [src]="signString" alt="Signature Preview">
-
-<button type="button" class="btn btn-success" (click)="closeModalAndEmit(1)">Save</button>
-<button type="button" class="btn btn-secondary" (click)="closeModalAndEmit(null)">Cancel</button>

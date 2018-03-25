@@ -12,7 +12,7 @@ import { People } from '../models/people';
 @Injectable()
 export class PeopleService {
 
-clickedPerson:People;
+    clickedPerson: People;  // tores the people for whom signature page is currently opened to his/her details and take signature
 
     constructor(
         private http: HttpClient,

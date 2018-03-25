@@ -1,5 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { People } from '../../models/people';
+import { PeopleService } from '../../providers/people.service';
+import { ToastService } from '../../providers/toast.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-people-list',
@@ -7,15 +10,37 @@ import { People } from '../../models/people';
     styleUrls: ['./people-list.component.scss'],
 })
 
-export class PeopleListComponent {
+export class PeopleListComponent implements OnInit {
 
-    @Input() people: Array<People>;
-    @Output() selectedPeople: EventEmitter<People> = new EventEmitter<People>();
+    peopleList: Array<People>;
+    selectedPeople: People; // not being used now,  to be used later
 
     constructor(
+        private peopleService: PeopleService,
+        private toastService: ToastService,
+        private router:Router,
+        private route:ActivatedRoute
     ) { }
 
+    ngOnInit() {
+        this.getPeopleList();
+    }
+
+    getPeopleList() {
+
+        this.peopleService.getPeopleList()
+            .subscribe((list: People[]) => {
+                this.peopleList = list;
+            }, (err: any) => {
+                this.toastService.showError(err.msg);
+            });
+    }
+
+
     onPeopleSelect(p: People) {
-        this.selectedPeople.emit(p);
+        // this.selectedPeople.emit(p);
+        this.peopleService.clickedPerson =p;
+        this.router.navigate(['../signature2'], { relativeTo: this.route });
+
     }
 }

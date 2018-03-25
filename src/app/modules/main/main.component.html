@@ -1,12 +1,7 @@
-
-
-
-
-<div class="container" *ngIf="!isAdmin">
-    <h1> People List</h1>
-    <app-people-list  [people]="peopleList" (selectedPeople)="openSignatureModal($event)"></app-people-list>
+<div *ngIf="!isAdmin">
+    <app-people-list></app-people-list>
 </div>
 
-<div class="container" *ngIf="isAdmin">
+<div *ngIf="isAdmin">
     <h1 style="margin-top:5%;margin-bottom:5%"> Admin main page (to be developed)</h1>
-    </div>
+</div>

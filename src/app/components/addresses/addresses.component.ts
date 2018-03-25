@@ -78,7 +78,7 @@ export class AddressesComponent implements OnInit {
         this.editAddressForm = this.fb.group({
             username: [add ? add.username : ''],
             address: [add ? add.address : '', Validators.required],
-            password: ['******', Validators.required],
+            password: [''],
         });
     }
 
@@ -88,26 +88,27 @@ export class AddressesComponent implements OnInit {
 
     onEditSubmit() {
 
-        if (this.editAddressForm.invalid) {
-            alert('Username or password can not be empty');
+        if (this.address.value.trim().length === 0) {
+            alert('Address can not be empty');
             return;
         }
         // check if there is no change in the data
-        if (this.editAddressForm.value.address === this.addressInModal.address
-            && this.editAddressForm.value.password === this.addressInModal.password
-        ) {
+        const addressChanged = this.address.value.trim() !== this.addressInModal.address
+            , pwdChanged = this.password.value.trim() !== '';
+
+        if (!addressChanged && !pwdChanged) {
             alert('No information has been edited');
             return;
         }
 
-        // construct the payload with username(mandatory) and only changed parameter
+        // construct the payload with username(mandatory) and only changed parameters
         const data: any = {
             username: this.addressInModal.username
         };
-        if (this.editAddressForm.value.address !== this.addressInModal.address) {
+        if (addressChanged) {
             data['address'] = this.editAddressForm.value.address;
         }
-        if (this.editAddressForm.value.password !== this.addressInModal.password) {
+        if (pwdChanged) {
             data['password'] = this.editAddressForm.value.password;
         }
 
@@ -123,7 +124,13 @@ export class AddressesComponent implements OnInit {
         this.addressService.editAddress(data)
             .subscribe((res: any) => {
                 this.loaderService.hideLoader();
-                this.addressService.editAddressInStore(this.indexInModal, res);
+                this.addressService.editAddressInStore(this.indexInModal, {
+
+                    _id: this.addressInModal._id,
+                    username: data.username,
+                    address: data.address || this.addressInModal.address,
+                    password: data.password || this.addressInModal.password
+                });
                 this.toastService.showSuccess('Edited Successfully');
             }, (err: any) => {
                 this.loaderService.hideLoader();

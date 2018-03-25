@@ -25,7 +25,6 @@ export class MainComponent implements OnInit{
     private route: ActivatedRoute,
     private peopleService: PeopleService,
     private addressService: AddressService
-    // public ngProgress: NgProgress
   ) {
   }
 
