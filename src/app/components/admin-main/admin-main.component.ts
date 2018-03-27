@@ -13,11 +13,14 @@ import { ToastService } from '../../providers/toast.service';
 export class AdminMainComponent implements OnInit {
 
     groups: Array<any>;
-    dates: Array<any>;
+    dates: Array<{ date: string }>;
 
     // ngModal variables
     selectedGroup: any;
-    selectedDate: any;
+    selectedDate: { date: string };
+
+    grpAttendance: Array<any>;
+    grpDetailInfo: any;  // without the attenance
 
     constructor(
         private router: Router,
@@ -28,17 +31,20 @@ export class AdminMainComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('admin main oninit');
+        
         this.getGroups();
     }
+
+
 
     getGroups() {
 
         this.loaderService.showLoader();
-        this.groupService.getGroupListForAdmin()
+        this.groupService.getGroupList()
             .subscribe((res: any) => {
                 this.groups = res.groups;
                 this.loaderService.hideLoader();
-
             }, (err: any) => {
                 this.loaderService.hideLoader();
                 this.toastService.showError(err.msg);
@@ -47,8 +53,11 @@ export class AdminMainComponent implements OnInit {
 
     onGroupChange() {
         console.log(this.selectedGroup);
-
+        this.grpDetailInfo = null;
+        this.grpAttendance = null;
+        this.selectedDate=null;
         this.getDates();
+        this.getGroupInfoById();
     }
 
     getDates() {
@@ -62,7 +71,58 @@ export class AdminMainComponent implements OnInit {
             }, (err: any) => {
                 this.loaderService.hideLoader();
                 this.toastService.showError(err.msg);
-            }); 
+            });
+    }
+
+
+    // fetches only the group's student name and other basic info
+    getGroupInfoById() {
+        this.loaderService.showLoader();
+        this.groupService.getGroupById(this.selectedGroup._id)
+            .subscribe((res: any) => {
+                this.grpDetailInfo = res;
+                this.loaderService.hideLoader();
+
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+    }
+
+    onDateChange() {
+        console.log(this.selectedDate);
+        this.grpAttendance = null;
+        this.grpDetailInfo = null;
+        this.getGrpAttendance();
+    }
+
+    getGrpAttendance() {
+        console.log('loader start before grp attendance');
+
+        this.loaderService.showLoader();
+        this.groupService.getGroupAttendace(this.selectedGroup._id, this.selectedDate.date)
+            .subscribe((res: any) => {
+                console.log('loader hide after grp attendance');
+                
+                this.loaderService.hideLoader();
+                this.grpAttendance = res;
+
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+    }
+
+    onGrpInfoBtn() {
+        this.grpDetailInfo = null;
+        this.grpAttendance = null;
+        this.getGroupInfoById();
+    }
+
+    onGrpAttendanceBtn() {
+        this.grpDetailInfo = null;
+        this.grpAttendance = null;
+        this.getGrpAttendance();
     }
 
 }

@@ -4,21 +4,64 @@
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
                 <label for="group">Select Group</label>
-                <select class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()" >
-                    <option *ngFor="let g of groups" [ngValue]="g">{{g.group_name}} ({{g.address_name}})</option>
+                <select class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+                    <option *ngFor="let g of groups" [ngValue]="g">{{g.group_name}} ({{g.address_name}}) </option>
                 </select>
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-6">
+        <div *ngIf="selectedGroup" class="col-sm-12 col-md-6">
 
             <div class="form-group">
-                <label for="data">Select Date</label>
-                <input type="date" class="form-control"  [(ngModel)]="selectedDate">
+                <label for="data">Select a Date to view Attendance</label>
+                <select class="form-control" [(ngModel)]="selectedDate" (change)="onDateChange()">
+                    <option *ngFor="let d of dates" [ngValue]="d">{{d.date}}</option>
+                </select>
+                <p *ngIf="dates?.length==0" style="color:red">No Dates available</p>
             </div>
         </div>
+    </div>
 
+    <div *ngIf="grpAttendance">
+        <button class="btn btn-default" (click)="onGrpInfoBtn()">View Group Info only</button>
+    </div>
+    <div *ngIf="grpDetailInfo && selectedDate && dates?.length!==0">
+        <button class="btn btn-default" (click)="onGrpAttendanceBtn()">View Group Attendance</button>
+    </div>
 
+    <div *ngIf="grpDetailInfo && !grpAttendance">
 
+        <h4>Group Name: {{grpDetailInfo.group_name}}</h4>
+        <h5>Teachers: {{grpDetailInfo.teachers.join(',')}}</h5>
+        <h1> Student List</h1>
+
+        <div class="table-responsive">
+            <table class="table  table-striped table-bordered">
+
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Course Completed</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let g of grpDetailInfo.students; let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{g.name}}</td>
+                        <td>{{g.completed}}</td>
+                    </tr>
+                    <div *ngIf="grpDetailInfo.students.length==0">
+                        <h4>Group's Students Info Not Avaiable</h4>
+                    </div>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="grpAttendance">
+           <app-people-list-admin [grpAttendance]="grpAttendance"></app-people-list-admin>
     </div>
 </div>

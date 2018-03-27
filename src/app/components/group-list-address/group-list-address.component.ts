@@ -24,23 +24,23 @@ export class GroupListForAddressComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getGroups();
+        // this.getGroups();
     }
 
-    getGroups() {
+    // getGroups() {
 
-        this.ls.showLoader();
-        this.groupService.getGroupListForAddress()
-            .subscribe((res: any) => {
-                this.groups = res;
-                this.groupService.initializeGroupStore(res);
-                this.ls.hideLoader();
+    //     this.ls.showLoader();
+    //     this.groupService.getGroupListForAddress()
+    //         .subscribe((res: any) => {
+    //             this.groups = res;
+    //             this.groupService.initializeGroupStore(res);
+    //             this.ls.hideLoader();
 
-            }, (err: any) => {
-                this.ls.hideLoader();
-                this.ts.showError(err.msg);
-            });
-    }
+    //         }, (err: any) => {
+    //             this.ls.hideLoader();
+    //             this.ts.showError(err.msg);
+    //         });
+    // }
 
     onGroupSelect(g: any) {
         this.router.navigate([`../main/group/${g._id}`],{relativeTo:this.route});

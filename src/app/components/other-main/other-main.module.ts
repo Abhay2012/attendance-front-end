@@ -1,23 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AdminMainComponent } from './admin-main.component';
 import { FormsModule } from '@angular/forms';
-import { PeopleListAdminModule } from '../people-list-admin/people-list-admin.module';
+import { OtherMainComponent } from './other-main.component';
 
 @NgModule({
     imports: [   
         CommonModule,
         FormsModule,
-        RouterModule,
-        PeopleListAdminModule
+        RouterModule
     ],
     declarations: [
-        AdminMainComponent,
+        OtherMainComponent,
     ],
-    exports: [AdminMainComponent],
+    exports: [OtherMainComponent],
 })
 
-export class AdminMainModule {
+export class OtherMainModule {
 
 }

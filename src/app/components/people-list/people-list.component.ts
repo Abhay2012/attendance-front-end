@@ -74,9 +74,9 @@ export class PeopleListComponent implements OnInit {
 
             return {
                 name: p.name,
-                id: p._id,
-                present: p.signed || false,
-                sign: p.signature ? p.signature.changingThisBreaksApplicationSecurity : 'ABSENT NOTE'
+                id: p.id,
+                present: p.present || false,
+                sign: p.sign ? p.sign.changingThisBreaksApplicationSecurity : 'ABSENT NOTE'
             };
         });
 

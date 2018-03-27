@@ -61,8 +61,8 @@ export class Signature2Component implements OnInit {
 
 
     onSave() {
-        this.person.signed = true;
-        this.person.signature = this.signString;
+        this.person.present = true;
+        this.person.sign = this.signString;
         this.routeBack();
     }
     onCancel() {

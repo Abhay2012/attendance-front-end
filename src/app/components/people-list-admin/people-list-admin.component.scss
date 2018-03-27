@@ -1,0 +1,16 @@
+@import '../../../sass/variables.scss';
+
+
+// .table tr.active td {
+//     background-color: $secondary-font-color !important;
+//     color: white;
+//   }
+ 
+
+tbody{
+
+tr:hover{
+      background-color:$theme-color !important;
+      cursor: pointer;
+  }
+}

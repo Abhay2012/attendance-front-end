@@ -12,13 +12,14 @@ import { Signature2Component } from '../../components/signature-diff/signature2.
 import { CommonModule } from '@angular/common';
 import { ShowErrorsModule } from '../../components/show-errors/show-errors.module';
 import { AddressService } from '../../providers/address.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CreateAddressComponent } from '../../components/createAddress/createAddress..component';
 import { LoaderService } from '../../providers/loader.service';
 import { AdminMainModule } from '../../components/admin-main/admin-main.module';
 import { GroupService } from '../../providers/group.service';
 import { GroupListForAddressModule } from '../../components/group-list-address/group-list-address.module';
 import { PeopleListComponent } from '../../components/people-list/people-list.component';
+import { OtherMainModule } from '../../components/other-main/other-main.module';
 
 @NgModule({
     imports: [
@@ -27,9 +28,11 @@ import { PeopleListComponent } from '../../components/people-list/people-list.co
         PeopleListModule,
         SignatureModule,
         AdminMainModule,
+        OtherMainModule,
         GroupListForAddressModule,
         ShowErrorsModule,
         ReactiveFormsModule,
+        FormsModule,
         RouterModule.forChild([
             {
                 path: '',

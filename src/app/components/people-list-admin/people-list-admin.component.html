@@ -1,0 +1,77 @@
+<div class="container">
+
+    <h3> Group Attendance</h3>
+    <div>
+        <h4>Group Name: {{grpAttendance?.group_name}}</h4>
+        <h4>Address : {{grpAttendance?.address_name}}</h4>
+        <h4 *ngIf="grpAttendance?.date">Date : {{grpAttendance?.date}}</h4>
+    </div>
+
+    <div *ngIf="grpAttendance?.attendance">
+
+        <h6>Click to View Signature or Absent Note</h6>
+
+        <div class="table-responsive">
+            <table class="table  table-striped table-bordered">
+
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Student Name</th>
+                        <th scope="col">Attendance</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let a of grpAttendance?.attendance; let i=index" (click)="onPeopleSelect(a)">
+                        <td>{{i+1}}</td>
+                        <td>{{a.name}}</td>
+                        <td *ngIf="a.present==true">
+                            <i class="fa fa-lg fa-check" aria-hidden="true"></i>
+                        </td>
+                        <td *ngIf="a.present==false">
+                            <i class="fa fa-lg fa-times" aria-hidden="true"></i>
+                        </td>
+                        <td *ngIf="a.present==null|| a.present==undefined">'Not Available'</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="!grpAttendance?.attendance">
+        <h4>No Attendance available for this group at this date</h4>
+    </div>
+</div>
+
+
+<!-- ATTENDANCE DETAIL MODAL -->
+
+<div *ngIf="clickedPerson" class="modal fade" id="attendanceDetailModal" tabindex="-1" role="dialog" aria-labelledby="attendanceDetailModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{clickedPerson.name}} Signature</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <div *ngIf="clickedPerson.present">
+                    <img [src]="clickedPersonSign" alt="Signature Image">
+                </div>
+                <div *ngIf="!clickedPerson.present">
+
+                    <p>{{clickedPerson.note || 'Absent note here'}}</p>
+                </div>
+                <!-- <h6>Are you sure to submit the attendance of this group ?</h6> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

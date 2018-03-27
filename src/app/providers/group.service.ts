@@ -9,7 +9,6 @@ import { tap } from 'rxjs/operators/tap';
 export class GroupService {
 
 
-    groupStore: Array<any>;
 
     constructor(
         private customHttp: CustomHttpService,
@@ -24,40 +23,48 @@ export class GroupService {
     //     this.addressStore = data;
     // }
 
-    getGroupListForAdmin() {
-        if (this.groupStore) {
-            return of(this.groupStore);
-        } else {
-
+    getGroupList() {
+     
             return this.customHttp.get('/getGroups');
-        }
+      
     }
 
-    getGroupListForAddress() {
-        if (this.groupStore) {
-            return of(this.groupStore);
-        } else {
 
-            return this.customHttp.get('/getGroupsForAddress');
-        }
+    // getGroupListForAdmin() {
+    //     if (this.groupStore) {
+    //         return of(this.groupStore);
+    //     } else {
+
+    //         return this.customHttp.get('/getGroups');
+    //     }
+    // }
+
+    // getGroupListForAddress() {
+    //     if (this.groupStore) {
+    //         return of(this.groupStore);
+    //     } else {
+
+    //         return this.customHttp.get('/getGroupsForAddress');
+    //     }
+    // }
+
+  
+
+    getGroupById(gId: number) {
+
+        return this.customHttp.get(`/getGroupById/${gId}`);
     }
 
-    initializeGroupStore(grp:any){
-        this.groupStore = grp;
+
+
+    getDateList(gId: string) {
+
+        return this.customHttp.get(`/getDates/${gId}`);
     }
 
-    getGroupById(id: number) {
-        // in case of refresh, groupstore is undefined
-        if (!this.groupStore) { return undefined; }
+    getGroupAttendace(gId: string, date: string) {
+        return this.customHttp.get(`/attendance/${gId}/${date}`);
 
-        return this.groupStore.find(g => g._id === id);
-    }
-
-   
-
-    getDateList(gId: number) {
-
-        return this.customHttp.get(`/getDates/:${gId}`);
     }
 
     // addNewAddressToStore(add: Address) {

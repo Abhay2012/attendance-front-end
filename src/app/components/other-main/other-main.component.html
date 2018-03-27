@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-12 col-md-6">
+            <div class="form-group">
+                <label for="group">Select Group</label>
+                <select class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+                    <option *ngFor="let g of groups" [ngValue]="g">{{g.group_name}} ({{g.address_name}})</option>
+                </select>
+            </div>
+        </div>
+
+        <div *ngIf="selectedGroup" class="col-sm-12 col-md-6">
+
+            <div class="form-group">
+                <label for="data">Select Date</label>
+                <select class="form-control" [(ngModel)]="selectedDate" (change)="onDateChange()">
+                    <option *ngFor="let d of dates" [ngValue]="d">{{d.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn btn-primary">submit</button>
+
+    </div>
+</div>
