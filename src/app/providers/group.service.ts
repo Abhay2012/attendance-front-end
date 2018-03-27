@@ -49,7 +49,6 @@ export class GroupService {
     getGroupById(id: number) {
         // in case of refresh, groupstore is undefined
         if (!this.groupStore) { return undefined; }
-console.log(id,typeof id);
 
         return this.groupStore.find(g => g._id === id);
     }

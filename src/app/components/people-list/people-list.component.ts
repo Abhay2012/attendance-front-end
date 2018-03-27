@@ -6,6 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { GroupService } from '../../providers/group.service';
 import { LoaderService } from '../../providers/loader.service';
 
+declare const $;
+
 @Component({
     selector: 'app-people-list',
     templateUrl: './people-list.component.html',
@@ -52,10 +54,21 @@ export class PeopleListComponent implements OnInit {
 
     onUploadAttendance() {
 
+        $('#attendanceSubmitModal').modal('show');
+    }
+
+    onSubmitCancel() {
+        $('#attendanceSubmitModal').modal('hide');
+
+    }
+
+    finallyUpload() {
+        $('#attendanceSubmitModal').modal('hide');
+
         let data: any = {};
         data.group_id = this.group._id;
         data.group_name = this.group.group_name;
-        data.date = new Date().toISOString().slice(0, 10); // to be corrected by including time zone
+        data.date = this.giveCorrectIsoTime();
 
         data.attendance = this.peopleService.peopleList.map((p: People) => {
 
@@ -63,11 +76,9 @@ export class PeopleListComponent implements OnInit {
                 name: p.name,
                 id: p._id,
                 present: p.signed || false,
-                sign: p.signature?p.signature.changingThisBreaksApplicationSecurity : 'ABSENT NOTE'
+                sign: p.signature ? p.signature.changingThisBreaksApplicationSecurity : 'ABSENT NOTE'
             };
         });
-
-        console.log(data);
 
         this.laoderService.showLoader();
         this.peopleService.uploadGroupAttendance(data)
@@ -78,8 +89,11 @@ export class PeopleListComponent implements OnInit {
                 this.toastService.showError(err.msg);
                 this.laoderService.hideLoader();
             });
+    }
 
-
+    giveCorrectIsoTime() {
+        const tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+        return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
 
     }
 }
