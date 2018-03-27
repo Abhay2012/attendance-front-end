@@ -18,6 +18,8 @@ export class PeopleListComponent implements OnInit {
 
     peopleList: Array<People>;
     group: any;
+    absentNote: string;
+    absentNoteStudent: any;
 
     constructor(
         private peopleService: PeopleService,
@@ -32,15 +34,23 @@ export class PeopleListComponent implements OnInit {
 
         this.route.params.subscribe((params: any) => {
 
-            const grpId: number = params['id'];
-            if (this.groupService.getGroupById(grpId)) {
-                this.group = this.groupService.getGroupById(grpId);
+            // const grpId: number = params['id'];
+            // if (this.groupService.getGroupById(grpId)) {
+            //     this.group = this.groupService.getGroupById(grpId);
+            //     this.peopleList = this.group.students;
+            //     this.peopleService.peopleList = this.peopleList;
+            // } else {
+            //     this.router.navigate(['../../'], { relativeTo: this.route });
+            // }
+
+            if (this.groupService.grpAttendance) {
+                this.group = this.groupService.grpAttendance;
                 this.peopleList = this.group.students;
                 this.peopleService.peopleList = this.peopleList;
+
             } else {
                 this.router.navigate(['../../'], { relativeTo: this.route });
             }
-
 
         });
 
@@ -49,6 +59,22 @@ export class PeopleListComponent implements OnInit {
     onPeopleSelect(p: People) {
         this.peopleService.clickedPerson = p;
         this.router.navigate(['signature2'], { relativeTo: this.route });
+
+    }
+
+    onMarkAbsent(ev: any, stud: any) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        $('#markAbsentModal').modal('show');
+        this.absentNoteStudent = stud;
+    }
+
+    onMarkAbsentDone() {
+        console.log(this.absentNote);
+        $('#markAbsentModal').modal('hide');
+
+        this.absentNoteStudent.present = false;
+        this.absentNoteStudent.note = this.absentNote;
 
     }
 
@@ -70,14 +96,24 @@ export class PeopleListComponent implements OnInit {
         data.group_name = this.group.group_name;
         data.date = this.giveCorrectIsoTime();
 
-        data.attendance = this.peopleService.peopleList.map((p: People) => {
+        data.attendance = this.peopleService.peopleList.map((p: any) => {
 
-            return {
+            let a: any = {
                 name: p.name,
-                id: p.id,
+                id: p._id,
                 present: p.present || false,
-                sign: p.sign ? p.sign.changingThisBreaksApplicationSecurity : 'ABSENT NOTE'
             };
+
+            if (a.present) {
+                a.sign = p.sign ? p.sign.changingThisBreaksApplicationSecurity : 'ABSENT NOTE'
+
+            } else {
+                a.note = p.note;
+            }
+
+            return a;
+
+
         });
 
         this.laoderService.showLoader();

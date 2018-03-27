@@ -15,12 +15,13 @@ declare const $;
     styleUrls: ['./people-list-admin.component.scss'],
 })
 
-export class PeopleListAdminComponent implements OnInit,OnChanges {
+export class PeopleListAdminComponent implements OnInit, OnChanges {
 
     @Input() grpAttendance: any;
+    fromRouting=false;
     // group: any;
-    clickedPerson:People;
-    clickedPersonSign:string;
+    clickedPerson: People;
+    clickedPersonSign: string;
 
     constructor(
         private peopleService: PeopleService,
@@ -33,11 +34,16 @@ export class PeopleListAdminComponent implements OnInit,OnChanges {
 
     ) { }
 
-    ngOnChanges(){
+    ngOnChanges() {
         this.grpAttendance = this.grpAttendance[0];
     }
 
     ngOnInit() {
+
+        if (this.groupService.grpAttendance) {
+            this.grpAttendance = this.groupService.grpAttendance;
+            this.fromRouting =true;
+        }
 
         // this.route.params.subscribe((params: any) => {
 
@@ -57,7 +63,7 @@ export class PeopleListAdminComponent implements OnInit,OnChanges {
 
     onPeopleSelect(p: People) {
         this.clickedPerson = p;
-       this.clickedPersonSign = <string>this.sanitizer.bypassSecurityTrustUrl(this.clickedPerson.sign);
+        this.clickedPersonSign = <string>this.sanitizer.bypassSecurityTrustUrl(this.clickedPerson.sign);
         // this.router.navigate(['signature2'], { relativeTo: this.route });
         $('#attendanceDetailModal').modal('show');
 

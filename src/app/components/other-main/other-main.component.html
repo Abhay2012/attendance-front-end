@@ -1,4 +1,11 @@
 <div class="container">
+
+    <h2>Home</h2>
+    <div class="alert alert-info">
+        <strong>Info! </strong>Select a Group and then a date to view previous attendance.
+        <br>To mark attendance select today's date 
+    </div>
+
     <div class="row">
 
         <div class="col-sm-12 col-md-6">
@@ -10,17 +17,17 @@
             </div>
         </div>
 
-        <div *ngIf="selectedGroup" class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-6">
 
             <div class="form-group">
                 <label for="data">Select Date</label>
                 <select class="form-control" [(ngModel)]="selectedDate" (change)="onDateChange()">
-                    <option *ngFor="let d of dates" [ngValue]="d">{{d.name}}</option>
+                    <option *ngFor="let d of dates" [ngValue]="d">{{d.date}}</option>
                 </select>
             </div>
+            <p *ngIf="dates?.length==0" style="color:red">No Date exists for this group</p>
         </div>
-
-        <button class="btn btn-primary">submit</button>
-
     </div>
+    
+    <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
 </div>

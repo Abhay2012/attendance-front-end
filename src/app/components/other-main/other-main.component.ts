@@ -13,7 +13,7 @@ import { ToastService } from '../../providers/toast.service';
 export class OtherMainComponent implements OnInit {
 
     groups: Array<any>;
-    dates: Array<any>;
+    dates: Array<{ date: string }>;
 
     // ngModal variables
     selectedGroup: any;
@@ -25,33 +25,37 @@ export class OtherMainComponent implements OnInit {
         private loaderService: LoaderService,
         private toastService: ToastService
     ) {
+        this.dates = [{ date: this.giveCorrectIsoTime() }];
+    }
+
+    giveCorrectIsoTime() {
+        const tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+        return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
+
     }
 
     ngOnInit() {
-        // this.getGroups();
+        this.getGroups();
     }
 
-    onDateChange(){
-        
+
+    getGroups() {
+
+        this.loaderService.showLoader();
+        this.groupService.getGroupList()
+            .subscribe((res: any) => {
+                this.groups = res.groups;
+                this.loaderService.hideLoader();
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
     }
-
-    // getGroups() {
-
-    //     this.loaderService.showLoader();
-    //     this.groupService.getGroupListForAdmin()
-    //         .subscribe((res: any) => {
-    //             this.groups = res.groups;
-    //             this.loaderService.hideLoader();
-
-    //         }, (err: any) => {
-    //             this.loaderService.hideLoader();
-    //             this.toastService.showError(err.msg);
-    //         });
-    // }
 
     onGroupChange() {
         console.log(this.selectedGroup);
-
+        this.selectedDate = null;
+        this.dates = [{ date: this.giveCorrectIsoTime() }];
         this.getDates();
     }
 
@@ -60,13 +64,55 @@ export class OtherMainComponent implements OnInit {
         this.loaderService.showLoader();
         this.groupService.getDateList(this.selectedGroup._id)
             .subscribe((res: any) => {
-                this.dates = res;
+                if (res.date !== this.dates[0].date) {
+                this.dates = this.dates.concat(res);
+            }
                 this.loaderService.hideLoader();
 
             }, (err: any) => {
                 this.loaderService.hideLoader();
                 this.toastService.showError(err.msg);
-            }); 
+            });
+    }
+
+    onDateChange() {
+        console.log(this.selectedDate);
+    }
+
+    onSubmit() {
+        if (!this.selectedGroup) {
+            this.toastService.showError('Please select a group');
+            return;
+        }
+        if (!this.selectedDate) {
+            this.toastService.showError('Please select a date');
+            return;
+        }
+
+        this.getAttendance();
+
+    }
+
+    getAttendance() {
+
+        this.loaderService.showLoader();
+        this.groupService.getGroupAttendace(this.selectedGroup._id, this.selectedDate.date)
+            .subscribe((res: any) => {
+                this.loaderService.hideLoader();
+                this.groupService.grpAttendance = res[0];
+                if (res[0].attendance) {
+                    this.groupService.grpAttendance = res[0];
+                    this.router.navigate([`/app/main/groupInfo`]);
+
+                } else {
+                    this.groupService.grpAttendance = res[0];
+                    this.router.navigate([`/app/main/group/${this.selectedGroup._id}`]);
+                }
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+
     }
 
 }

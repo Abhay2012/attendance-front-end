@@ -20,6 +20,8 @@ import { GroupService } from '../../providers/group.service';
 import { GroupListForAddressModule } from '../../components/group-list-address/group-list-address.module';
 import { PeopleListComponent } from '../../components/people-list/people-list.component';
 import { OtherMainModule } from '../../components/other-main/other-main.module';
+import { PeopleListAdminModule } from '../../components/people-list-admin/people-list-admin.module';
+import { PeopleListAdminComponent } from '../../components/people-list-admin/people-list-admin.component';
 
 @NgModule({
     imports: [
@@ -29,6 +31,7 @@ import { OtherMainModule } from '../../components/other-main/other-main.module';
         SignatureModule,
         AdminMainModule,
         OtherMainModule,
+        PeopleListAdminModule,
         GroupListForAddressModule,
         ShowErrorsModule,
         ReactiveFormsModule,
@@ -70,6 +73,10 @@ import { OtherMainModule } from '../../components/other-main/other-main.module';
                             }
                         ]
                         // add guard to this component
+                    },
+                    {
+                        path:'main/groupInfo',
+                        component:PeopleListAdminComponent
                     },
                     {
                         path: '',

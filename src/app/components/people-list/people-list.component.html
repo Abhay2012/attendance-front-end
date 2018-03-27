@@ -22,13 +22,16 @@
                 <tr *ngFor="let p of peopleList; let i=index" (click)="onPeopleSelect(p)">
                     <th scope="row">{{i+1}}</th>
                     <td>{{p.name}}</td>
-                    <td *ngIf="p.signed==true">
+                    <td *ngIf="p.present==true">
                         <i class="fa fa-lg fa-check" aria-hidden="true"></i>
                     </td>
-                    <td *ngIf="p.signed==false">
+                    <td *ngIf="p.present==false">
                         <i class="fa fa-lg fa-times" aria-hidden="true"></i>
                     </td>
-                    <td *ngIf="p.signed==null|| p.signed==undefined">'Not Available'</td>
+                    <td *ngIf="p.present==null|| p.present==undefined">
+                        'Not Available'
+                        <button class="btn btn-link" (click)="onMarkAbsent($event,p)">Mark Absent</button>
+                    </td>
                 </tr>
 
             </tbody>
@@ -44,24 +47,48 @@
 </div>
 
 
- <!-- SUBMIT CONFORATION MODAL -->
+<!-- SUBMIT CONFORATION MODAL -->
 
- <div class="modal fade" id="attendanceSubmitModal" tabindex="-1" role="dialog" aria-labelledby="attendanceSubmitModalTitle" aria-hidden="true">
+<div class="modal fade" id="attendanceSubmitModal" tabindex="-1" role="dialog" aria-labelledby="attendanceSubmitModalTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Attendance Submit Confirmation !</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Attendance Submit Confirmation !</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Are you sure to submit the attendance of this group ?</h6>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onSubmitCancel()">Cancel</button>
+                <button type="button" class="btn btn-success" (click)="finallyUpload()">Yes</button>
+            </div>
         </div>
-        <div class="modal-body">
-        <h6>Are you sure to submit the attendance of this group ?</h6>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"  (click)="onSubmitCancel()">Cancel</button>
-          <button type="button" class="btn btn-success" (click)="finallyUpload()">Yes</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<!-- MARK ABSENT MODAL -->
+
+<div class="modal fade" id="markAbsentModal" tabindex="-1" role="dialog" aria-labelledby="markAbsentModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"> Please write an absent note !</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea [(ngModel)]="absentNote"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" (click)="onMarkAbsentDone()">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
