@@ -22,6 +22,7 @@ import { PeopleListComponent } from '../../components/people-list/people-list.co
 import { OtherMainModule } from '../../components/other-main/other-main.module';
 import { PeopleListAdminModule } from '../../components/people-list-admin/people-list-admin.module';
 import { PeopleListAdminComponent } from '../../components/people-list-admin/people-list-admin.component';
+import { UploadStudentsComponent } from '../../components/upload-students/upload-students.component';
 
 @NgModule({
     imports: [
@@ -75,8 +76,13 @@ import { PeopleListAdminComponent } from '../../components/people-list-admin/peo
                         // add guard to this component
                     },
                     {
-                        path:'main/groupInfo',
-                        component:PeopleListAdminComponent
+                        path: 'main/groupInfo',
+                        component: PeopleListAdminComponent
+                    },
+
+                    {
+                        path: 'uploadStudents',
+                        component: UploadStudentsComponent
                     },
                     {
                         path: '',
@@ -95,7 +101,8 @@ import { PeopleListAdminComponent } from '../../components/people-list-admin/peo
         CreateAddressComponent,
         MainComponent,
         MyAppComponent,
-        Signature2Component
+        Signature2Component,
+        UploadStudentsComponent
     ],
     providers: [
         PeopleService,

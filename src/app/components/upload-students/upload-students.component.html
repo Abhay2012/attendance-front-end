@@ -1,0 +1,17 @@
+<div class="container">
+    <h2>Upload Student List</h2>
+
+    <div style="margin-top:50px">
+
+
+        <div class="form-group">
+            <h5 for="file">Please Upload Excel File containing students' list</h5>
+            <input type="file" class="form-control" (change)="onFileSelect($event)">
+            <div class="row justify-content-center" style="margin-top:30px">
+                <div class="col-sm-12 col-md-6">
+                    <button style="width:100%" class="btn btn-success" [disabled]="!file" (click)="onUploadBtn()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
