@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators/tap';
 @Injectable()
 export class GroupService {
 
-    grpAttendance: any; //  stores the fetched grp attendance in case of address login
+    grpAttendance: any; //  stores the fetched grp attendance (when attendance is being taken) in case of address login
 
     constructor(
         private customHttp: CustomHttpService,
@@ -32,7 +32,14 @@ export class GroupService {
     }
 
     getGroupAttendace(gId: string, date: string) {
-        return this.customHttp.get(`/attendance/${gId}/${date}`);
+
+        if (this.grpAttendance) {
+            return of(this.grpAttendance);
+
+        } else {
+
+            return this.customHttp.get(`/attendance/${gId}/${date}`);
+        }
 
     }
 }

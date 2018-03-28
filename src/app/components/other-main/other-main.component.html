@@ -1,22 +1,19 @@
 <div class="container">
 
     <h2>Home</h2>
-    <div class="alert alert-info">
-        <strong>Info! </strong>Select a Group and then a date to view previous attendance.
-        <br>To mark attendance select today's date 
+
+
+    <h5 style="margin-bottom:30px">Today's Attendance</h5>
+
+
+
+    <div class="form-group">
+        <label for="group">Select a Group to mark attendance</label>
+        <select class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+            <option *ngFor="let g of groups" [ngValue]="g">{{g.group_name}} ({{g.address_name}})</option>
+        </select>
     </div>
-
-    <div class="row">
-
-        <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-                <label for="group">Select Group</label>
-                <select class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
-                    <option *ngFor="let g of groups" [ngValue]="g">{{g.group_name}} ({{g.address_name}})</option>
-                </select>
-            </div>
-        </div>
-
+    <!-- 
         <div class="col-sm-12 col-md-6">
 
             <div class="form-group">
@@ -25,9 +22,13 @@
                     <option *ngFor="let d of dates" [ngValue]="d">{{d.date}}</option>
                 </select>
             </div>
+
             <p *ngIf="dates?.length==0" style="color:red">No Date exists for this group</p>
+        </div> -->
+
+    <div class="row justify-content-center" style="margin-top:30px">
+        <div class="col-sm-12 col-md-6">
+            <button type="button" style="width:100%" class="btn btn-success" [disabled]="!selectedGroup" (click)="onSubmit()">Submit</button>
         </div>
     </div>
-    
-    <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
 </div>

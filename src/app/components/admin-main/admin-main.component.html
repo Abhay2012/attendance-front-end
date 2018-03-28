@@ -1,5 +1,8 @@
 <div class="container">
-    <div class="row">
+
+    <h2>Home</h2>
+
+    <div class="row" style="margin-top:20px">
 
         <div class="col-sm-12 col-md-6">
             <div class="form-group">
@@ -22,46 +25,55 @@
         </div>
     </div>
 
-    <div *ngIf="grpAttendance">
-        <button class="btn btn-default" (click)="onGrpInfoBtn()">View Group Info only</button>
-    </div>
-    <div *ngIf="grpDetailInfo && selectedDate && dates?.length!==0">
-        <button class="btn btn-default" (click)="onGrpAttendanceBtn()">View Group Attendance</button>
-    </div>
+    <div style="margin-top:25px">
 
-    <div *ngIf="grpDetailInfo && !grpAttendance">
+        <div style="margin-bottom:20px">
+            <div *ngIf="grpAttendance">
+                <button class="btn btn-default" (click)="onGrpInfoBtn()">View Group Info </button>
+            </div>
+            <div *ngIf="grpDetailInfo && selectedDate && dates?.length!==0">
+                <button class="btn btn-default" (click)="onGrpAttendanceBtn()">View Group Attendance</button>
+            </div>
+        </div>
 
-        <h4>Group Name: {{grpDetailInfo.group_name}}</h4>
-        <h5>Teachers: {{grpDetailInfo.teachers.join(',')}}</h5>
-        <h1> Student List</h1>
+        <div *ngIf="grpDetailInfo && !grpAttendance">
+            <h3 style='color:#4aa23a'>Group Information</h3>
+            <div class="detail">
+                <h5>Group Name: {{grpDetailInfo.group_name}}</h5>
+                <h5>Teachers: {{grpDetailInfo.teachers.join(',')}}</h5>
+            </div>
+            <div style="margin-top:20px">
+                <h4> Student List</h4>
 
-        <div class="table-responsive">
-            <table class="table  table-striped table-bordered">
+                <div class="table-responsive">
+                    <table class="table  table-striped table-bordered">
 
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Student Name</th>
-                        <th scope="col">Course Completed</th>
-                    </tr>
-                </thead>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Student Name</th>
+                                <th scope="col">Course Completed</th>
+                            </tr>
+                        </thead>
 
-                <tbody>
-                    <tr *ngFor="let g of grpDetailInfo.students; let i=index">
-                        <td>{{i+1}}</td>
-                        <td>{{g.name}}</td>
-                        <td>{{g.completed}}</td>
-                    </tr>
-                    <div *ngIf="grpDetailInfo.students.length==0">
-                        <h4>Group's Students Info Not Avaiable</h4>
-                    </div>
-                </tbody>
+                        <tbody>
+                            <tr *ngFor="let g of grpDetailInfo.students; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{g.name}}</td>
+                                <td>{{g.completed}}</td>
+                            </tr>
+                            <div *ngIf="grpDetailInfo.students.length==0">
+                                <h4>Group's Students Info Not Avaiable</h4>
+                            </div>
+                        </tbody>
 
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
     <div *ngIf="grpAttendance">
-           <app-people-list-admin [grpAttendance]="grpAttendance"></app-people-list-admin>
+        <app-people-list-admin [grpAttendance]="grpAttendance"></app-people-list-admin>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="container">
 
 
-    <button class="btn btn-default" routerLink="../../../">
+    <button class="btn btn-default" (click)="routeBack()">
         <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
     </button>
 
@@ -20,16 +20,16 @@
 
             <tbody>
                 <tr *ngFor="let p of peopleList; let i=index" (click)="onPeopleSelect(p)">
-                    <th scope="row">{{i+1}}</th>
-                    <td>{{p.name}}</td>
+                    <td scope="row">{{i+1}}</td>
+                    <td [style.color]="p.present==true?'#4aa23a':p.present==false?'red':'' ">{{p.name}}</td>
                     <td *ngIf="p.present==true">
-                        <i class="fa fa-lg fa-check" aria-hidden="true"></i>
+                        <i class="fa fa-lg fa-check" style="color:#4aa23a" aria-hidden="true"></i>
                     </td>
                     <td *ngIf="p.present==false">
-                        <i class="fa fa-lg fa-times" aria-hidden="true"></i>
+                        <i class="fa fa-lg fa-times" style="color:red" aria-hidden="true"></i>
                     </td>
                     <td *ngIf="p.present==null|| p.present==undefined">
-                        'Not Available'
+                        NA
                         <button class="btn btn-link" (click)="onMarkAbsent($event,p)">Mark Absent</button>
                     </td>
                 </tr>
@@ -83,7 +83,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <textarea [(ngModel)]="absentNote"></textarea>
+                <textarea style="width:100%" [(ngModel)]="absentNote"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

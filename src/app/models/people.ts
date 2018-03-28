@@ -4,7 +4,7 @@
 
 
 export interface People {
-    id: number;
+    _id: number;
     name: string;
     present: boolean | null;
     sign: string | any;

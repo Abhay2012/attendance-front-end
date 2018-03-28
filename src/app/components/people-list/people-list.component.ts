@@ -24,7 +24,7 @@ export class PeopleListComponent implements OnInit {
     constructor(
         private peopleService: PeopleService,
         private toastService: ToastService,
-        private laoderService: LoaderService,
+        private loaderService: LoaderService,
         private router: Router,
         private route: ActivatedRoute,
         private groupService: GroupService
@@ -34,7 +34,7 @@ export class PeopleListComponent implements OnInit {
 
         this.route.params.subscribe((params: any) => {
 
-            // const grpId: number = params['id'];
+            const grpId: string = params['id'];
             // if (this.groupService.getGroupById(grpId)) {
             //     this.group = this.groupService.getGroupById(grpId);
             //     this.peopleList = this.group.students;
@@ -43,16 +43,44 @@ export class PeopleListComponent implements OnInit {
             //     this.router.navigate(['../../'], { relativeTo: this.route });
             // }
 
-            if (this.groupService.grpAttendance) {
-                this.group = this.groupService.grpAttendance;
-                this.peopleList = this.group.students;
-                this.peopleService.peopleList = this.peopleList;
+            this.getAttendance(grpId);
 
-            } else {
-                this.router.navigate(['../../'], { relativeTo: this.route });
-            }
 
         });
+
+    }
+
+    giveCorrectIsoTime() {
+        const tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+        return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
+
+    }
+
+    getAttendance(gId: string) {
+
+        const d = this.giveCorrectIsoTime();
+
+        this.loaderService.showLoader();
+        this.groupService.getGroupAttendace(gId, d)
+            .subscribe((res: any) => {
+                this.loaderService.hideLoader();
+                this.group = res[0];
+                this.groupService.grpAttendance = res;
+                this.peopleList = this.group.students;
+                this.peopleService.peopleList = this.peopleList;
+                // this.groupService.grpAttendance = res[0];
+                // if (res[0].attendance) {
+                //     this.groupService.grpAttendance = res[0];
+                //     this.router.navigate([`/app/main/groupInfo`]);
+
+                // } else {
+                //     this.groupService.grpAttendance = res[0];
+                //     this.router.navigate([`/app/main/group/${this.selectedGroup._id}`]);
+                // }
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
 
     }
 
@@ -72,10 +100,10 @@ export class PeopleListComponent implements OnInit {
     onMarkAbsentDone() {
         console.log(this.absentNote);
         $('#markAbsentModal').modal('hide');
-
-        this.absentNoteStudent.present = false;
-        this.absentNoteStudent.note = this.absentNote;
-
+        if (this.absentNote && this.absentNote.trim() !== '') {
+            this.absentNoteStudent.present = false;
+            this.absentNoteStudent.note = this.absentNote;
+        }
     }
 
     onUploadAttendance() {
@@ -105,7 +133,7 @@ export class PeopleListComponent implements OnInit {
             };
 
             if (a.present) {
-                a.sign = p.sign ? p.sign.changingThisBreaksApplicationSecurity : 'ABSENT NOTE'
+                a.sign = p.sign ? p.sign.changingThisBreaksApplicationSecurity : 'ABSENT NOTE';
 
             } else {
                 a.note = p.note;
@@ -116,20 +144,28 @@ export class PeopleListComponent implements OnInit {
 
         });
 
-        this.laoderService.showLoader();
+        this.loaderService.showLoader();
         this.peopleService.uploadGroupAttendance(data)
             .subscribe((res: any) => {
-                this.laoderService.hideLoader();
+                this.loaderService.hideLoader();
                 this.toastService.showSuccess('Attendance saved successfuly');
             }, (err: any) => {
                 this.toastService.showError(err.msg);
-                this.laoderService.hideLoader();
+                this.loaderService.hideLoader();
             });
     }
 
-    giveCorrectIsoTime() {
-        const tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
-        return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
+    routeBack() {
+        // this.router.navigate(['/app/main']);
+        this.goBackFinally();
+    }
+
+    goBackFinally() {
+        this.groupService.grpAttendance = null;
+        this.peopleService.peopleList = null;
+        this.router.navigate(['/app/main']);
 
     }
+
+
 }
