@@ -23,6 +23,7 @@ import { OtherMainModule } from '../../components/other-main/other-main.module';
 import { PeopleListAdminModule } from '../../components/people-list-admin/people-list-admin.module';
 import { PeopleListAdminComponent } from '../../components/people-list-admin/people-list-admin.component';
 import { UploadStudentsComponent } from '../../components/upload-students/upload-students.component';
+import { PreviousAttendanceComponent } from '../../components/previous-attendance/previous-attendance.component';
 
 @NgModule({
     imports: [
@@ -47,10 +48,6 @@ import { UploadStudentsComponent } from '../../components/upload-students/upload
                         path: 'main',
                         component: MainComponent
                     },
-                    // {
-                    //     path: 'main/signature2',
-                    //     component: Signature2Component
-                    // },
                     {
                         path: 'addresses',
                         component: AddressesComponent
@@ -76,8 +73,8 @@ import { UploadStudentsComponent } from '../../components/upload-students/upload
                         // add guard to this component
                     },
                     {
-                        path: 'main/groupInfo',
-                        component: PeopleListAdminComponent
+                        path: 'previousAttendance',
+                        component:PreviousAttendanceComponent
                     },
 
                     {
@@ -102,7 +99,8 @@ import { UploadStudentsComponent } from '../../components/upload-students/upload
         MainComponent,
         MyAppComponent,
         Signature2Component,
-        UploadStudentsComponent
+        UploadStudentsComponent,
+        PreviousAttendanceComponent
     ],
     providers: [
         PeopleService,

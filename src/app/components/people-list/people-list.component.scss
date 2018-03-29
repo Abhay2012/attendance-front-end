@@ -10,7 +10,16 @@
 tbody{
 
 tr:hover{
-      background-color:$theme-color !important;
       cursor: pointer;
   }
+}
+
+.detail{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #dee2e6;
+  border: 1px dotted black;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: inherit;
 }

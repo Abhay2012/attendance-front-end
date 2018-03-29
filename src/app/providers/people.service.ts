@@ -14,7 +14,8 @@ export class PeopleService {
 
     clickedPerson: People;  // tores the people for whom signature page is currently opened to his/her details and take signature
     peopleList: Array<People>; // stores the list of all students of selected group
-
+    groupName:string; // stores the groupName for which attendance is being taken
+    
     constructor(
         private customHttp: CustomHttpService
         //   private toast: MyToastService

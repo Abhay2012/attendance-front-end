@@ -59,6 +59,7 @@ export class PeopleListComponent implements OnInit {
     getAttendance(gId: string) {
 
         const d = this.giveCorrectIsoTime();
+console.log('showing loader');
 
         this.loaderService.showLoader();
         this.groupService.getGroupAttendace(gId, d)
@@ -86,6 +87,7 @@ export class PeopleListComponent implements OnInit {
 
     onPeopleSelect(p: People) {
         this.peopleService.clickedPerson = p;
+        this.peopleService.groupName = this.group.group_name;
         this.router.navigate(['signature2'], { relativeTo: this.route });
 
     }
@@ -107,8 +109,17 @@ export class PeopleListComponent implements OnInit {
     }
 
     onUploadAttendance() {
+        if (this.checkAllAttendanceDone()) {
 
-        $('#attendanceSubmitModal').modal('show');
+            $('#attendanceSubmitModal').modal('show');
+        } else {
+            this.toastService.showError('Please complete the attendance of all students');
+        }
+    }
+
+    checkAllAttendanceDone() {
+        const a = this.peopleService.peopleList.findIndex(p => !(p.present === true || p.present === false));
+        return a === -1;
     }
 
     onSubmitCancel() {
@@ -149,6 +160,7 @@ export class PeopleListComponent implements OnInit {
             .subscribe((res: any) => {
                 this.loaderService.hideLoader();
                 this.toastService.showSuccess('Attendance saved successfuly');
+                this.router.navigate(['/app/main']);
             }, (err: any) => {
                 this.toastService.showError(err.msg);
                 this.loaderService.hideLoader();
@@ -156,16 +168,32 @@ export class PeopleListComponent implements OnInit {
     }
 
     routeBack() {
-        // this.router.navigate(['/app/main']);
-        this.goBackFinally();
+        // ask for confirmation if he/she is able to mark attendance (i.e people list is present)
+        if (this.peopleList) {
+            $('#goBackConfirmationModal').modal('show');
+        } else {
+            this.goBackFinally();
+        }
     }
 
     goBackFinally() {
-        this.groupService.grpAttendance = null;
-        this.peopleService.peopleList = null;
+        this.clearServiceData();
+        $('#goBackConfirmationModal').modal('hide');
         this.router.navigate(['/app/main']);
 
     }
 
+    clearServiceData() {
+        this.groupService.grpAttendance = null;
+        this.peopleService.peopleList = null;
+        this.peopleService.groupName = null;
+        this.peopleService.clickedPerson = null;
+    }
+
+    goToPreviousAttendance(){
+        this.clearServiceData();
+        this.router.navigate(['/app/previousAttendance']);
+
+    }
 
 }

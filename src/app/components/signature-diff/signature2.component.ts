@@ -17,6 +17,7 @@ export class Signature2Component implements OnInit {
 
 
     person: People;
+    personGroupName: string;
     signString: string;
 
     constructor(
@@ -28,7 +29,7 @@ export class Signature2Component implements OnInit {
 
     ngOnInit() {
         this.person = this.peopleService.clickedPerson;
-
+        this.personGroupName = this.peopleService.groupName;
         // in case of refresh
         if (!this.person) {
             this.routeBack();
@@ -40,7 +41,6 @@ export class Signature2Component implements OnInit {
 
     onPreviewBtn() {
         const datapair = $('#signature').jSignature('getData', 'svgbase64');
-        console.log(datapair);
 
         if (this.emptySign(datapair[1])) { return; }
 

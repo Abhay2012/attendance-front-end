@@ -30,6 +30,8 @@ export class HeaderComponent {
         } else {
             this.navs = [
                 { title: 'Home', routerLink: 'main' },
+                { title: 'Previous Attendance', routerLink: 'previousAttendance' },
+                
             ];
         }
     }
