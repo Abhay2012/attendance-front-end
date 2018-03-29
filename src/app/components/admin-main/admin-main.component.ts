@@ -14,10 +14,11 @@ export class AdminMainComponent implements OnInit {
 
     groups: Array<any>;
     dates: Array<{ date: string }>;
+    isAdmin = JSON.parse(localStorage.getItem('username')) === 'admin';
 
     // ngModal variables
     selectedGroup: any;
-    selectedDate: { date: string };
+    selectedDate: string;
 
     grpAttendance: Array<any>;
     grpDetailInfo: any;  // without the attenance
@@ -31,8 +32,7 @@ export class AdminMainComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('admin main oninit');
-        
+
         this.getGroups();
     }
 
@@ -55,7 +55,6 @@ export class AdminMainComponent implements OnInit {
         console.log(this.selectedGroup);
         this.grpDetailInfo = null;
         this.grpAttendance = null;
-        this.selectedDate=null;
         this.getDates();
         this.getGroupInfoById();
     }
@@ -64,8 +63,9 @@ export class AdminMainComponent implements OnInit {
 
         this.loaderService.showLoader();
         this.groupService.getDateList(this.selectedGroup._id)
-            .subscribe((res: any) => {
+            .subscribe((res: Array<any>) => {
                 this.dates = res;
+                this.selectedDate = null;
                 this.loaderService.hideLoader();
 
             }, (err: any) => {
@@ -100,10 +100,10 @@ export class AdminMainComponent implements OnInit {
         console.log('loader start before grp attendance');
 
         this.loaderService.showLoader();
-        this.groupService.getGroupAttendace(this.selectedGroup._id, this.selectedDate.date)
+        this.groupService.getGroupAttendace(this.selectedGroup._id, this.selectedDate)
             .subscribe((res: any) => {
                 console.log('loader hide after grp attendance');
-                
+
                 this.loaderService.hideLoader();
                 this.grpAttendance = res;
 
