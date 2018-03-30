@@ -67,14 +67,14 @@ import { PreviousAttendanceComponent } from '../../components/previous-attendanc
                             },
                             {
                                 path: '',
-                                component: PeopleListComponent
+                                component: PeopleListComponent,
                             }
                         ]
                         // add guard to this component
                     },
                     {
                         path: 'previousAttendance',
-                        component:PreviousAttendanceComponent
+                        component: PreviousAttendanceComponent
                     },
 
                     {
@@ -106,7 +106,7 @@ import { PreviousAttendanceComponent } from '../../components/previous-attendanc
         PeopleService,
         AddressService,
         GroupService,
-        LoaderService
+        LoaderService,
     ]
 })
 

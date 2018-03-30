@@ -32,6 +32,7 @@ export class GroupService {
     }
 
     getGroupAttendace(gId: string, date: string) {
+console.log('INSIDE SERVICE: GET GROUP ATTENDANCE',this.grpAttendance);
 
         if (this.grpAttendance) {
             return of(this.grpAttendance);

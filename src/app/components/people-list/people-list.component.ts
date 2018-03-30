@@ -105,6 +105,7 @@ console.log('showing loader');
         if (this.absentNote && this.absentNote.trim() !== '') {
             this.absentNoteStudent.present = false;
             this.absentNoteStudent.note = this.absentNote;
+            this.absentNote = null;
         }
     }
 
@@ -160,6 +161,7 @@ console.log('showing loader');
             .subscribe((res: any) => {
                 this.loaderService.hideLoader();
                 this.toastService.showSuccess('Attendance saved successfuly');
+                this.clearServiceData();
                 this.router.navigate(['/app/main']);
             }, (err: any) => {
                 this.toastService.showError(err.msg);

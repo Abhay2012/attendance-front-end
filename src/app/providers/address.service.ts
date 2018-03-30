@@ -40,7 +40,7 @@ export class AddressService {
     // code for deletion
 
     deleteAddress(username: string) {
-        return this.customHttp.delete(`/delete/:${username}`);
+        return this.customHttp.delete(`/delete/${username}`);
     }
 
     deleteAddressFromStore(index: number) {

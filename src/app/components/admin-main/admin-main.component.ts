@@ -21,7 +21,7 @@ export class AdminMainComponent implements OnInit {
     selectedDate: string;
 
     grpAttendance: Array<any>;
-    grpDetailInfo: any;  // without the attenance
+    grpDetailInfo: any;  // without the attendance
 
     constructor(
         private router: Router,
@@ -34,6 +34,10 @@ export class AdminMainComponent implements OnInit {
     ngOnInit() {
 
         this.getGroups();
+        this.groupService.grpAttendance=null; // to remove a bug in which grpAttendance in service 
+        // is not cleared when 
+        // routeed away from people-list-component, duw to which fresh attendance is nt fetched 
+        // in current(AdminMainComponent) component
     }
 
 
