@@ -44,6 +44,7 @@
             </div>
             <div style="margin-top:20px">
                 <h4> Student List</h4>
+                <p>Select the student to view his/her attendance record till now</p>
 
                 <div class="table-responsive">
                     <table class="table  table-striped table-bordered">
@@ -57,7 +58,7 @@
                         </thead>
 
                         <tbody>
-                            <tr *ngFor="let g of grpDetailInfo.students; let i=index">
+                            <tr style="cursor:pointer" *ngFor="let g of grpDetailInfo.students; let i=index" (click)="onStudentSelect(g)">
                                 <td>{{i+1}}</td>
                                 <td>{{g.name}}</td>
                                 <td>{{g.completed}}</td>
@@ -76,4 +77,92 @@
     <div *ngIf="grpAttendance">
         <app-people-list-admin [grpAttendance]="grpAttendance"></app-people-list-admin>
     </div>
+
+
+
+    <!-- PARTICULAR STUDENT'S  OVERALL ATTENDANCE RECORD  MODAL-->
+
+    <div class="modal fade bd-example-modal-lg" id="attendanceRecordModal" tabindex="-1" role="dialog" aria-labelledby="attendanceRecordModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="attendanceRecordModal">Student's Attendance Record</h5>
+                    <button type="button" class="close" (click)="onAttendanceRecordModalClose()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="detail">
+                        <h5>Student Name: {{selectedStudent?.name}}</h5>
+                    </div>
+                    <p>Select the entry to view Signature or Absent Note</p>
+
+                    <div class="table-responsive">
+                        <table class="table  table-striped table-bordered">
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Attendance</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let a of selectedStudentAttendance; let i=index" (click)="onAttendanceRecordSelect(a)">
+                                    <td>{{a.date}}</td>
+                                    <td *ngIf="a.attendance.present==true">
+                                        <i class="fa fa-lg fa-check" style="color:#4aa23a" aria-hidden="true"></i>
+                                    </td>
+                                    <td *ngIf="a.attendance.present==false">
+                                        <i class="fa fa-lg fa-times" style="color:red" aria-hidden="true"></i>
+                                    </td>
+                                    <td *ngIf="a.attendance.present==null || a.attendance.present==undefined">'Not Available'</td>
+                                </tr>
+                                <div *ngIf="!selectedStudentAttendance || selectedStudentAttendance.length==0">
+                                    <h4>No attendance record available for this student</h4>
+                                </div>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <!-- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="onAttendanceRecordModalClose()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SELECTED STUDENT'S SIGNATURE OR ABSENT NOTE MODAL  -->
+
+    <div class="modal fade" id="viewSignmodal" tabindex="-1" role="dialog" aria-labelledby="viewSignmodalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewSignmodalLabel"> {{selectedStudentDateRecord?.attendance.present?'Signature':'Absent Note'}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div *ngIf="selectedStudentDateRecord && selectedStudentDateRecord.attendance.present">
+                                <img [src]="selectedStudentDateSign" alt="Signature Image">
+                            </div>
+                            <div *ngIf="selectedStudentDateRecord && !selectedStudentDateRecord.attendance.present">
+            
+                                <p>{{selectedStudentDateRecord.attendance.note || 'Absent note Not Available'}}</p>
+                            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

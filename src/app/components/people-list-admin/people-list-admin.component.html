@@ -10,7 +10,7 @@
 
     <div *ngIf="grpAttendance?.attendance" style="margin-top:20px">
         <h4> Student List</h4>
-        <p>Select the student to View Signature or Absent Note</p>
+        <p>Select the student to view Signature or Absent Note for the selected date</p>
 
         <div class="table-responsive">
             <table class="table  table-striped table-bordered">
@@ -66,9 +66,8 @@
                 </div>
                 <div *ngIf="clickedPerson && !clickedPerson.present">
 
-                    <p>{{clickedPerson.note || 'Absent note here'}}</p>
+                    <p>{{clickedPerson.note || 'Absent note Not Available'}}</p>
                 </div>
-                <!-- <h6>Are you sure to submit the attendance of this group ?</h6> -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>

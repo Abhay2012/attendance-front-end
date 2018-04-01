@@ -19,18 +19,29 @@
     <div id="signature" style="border: 3px dotted">
     </div>
 
-    <div>
-        <button class="btn btn-default" (click)="onResetBtn()">Reset</button>
-        <button class="btn btn-primary" (click)="onPreviewBtn()">Show Preview</button>
+
+    <div class="row justify-content-center" style="margin-top:30px">
+        <div class="col-6">
+            <button type="button" style="width:100%" class="btn btn-default" (click)="onResetBtn()">Reset</button>
+        </div>
+        <div class="col-6">
+            <button type="button" style="width:100%" class="btn btn-primary" (click)="onPreviewBtn()">Show Preview</button>
+        </div>
     </div>
 
-    <div *ngIf="signString">
+    <div *ngIf="signString" style="margin-top:15px">
         <h6>Preview</h6>
         <img [src]="signString" alt="Signature Preview">
     </div>
 
-    <div *ngIf="signString">
-        <button type="button" class="btn btn-success" (click)="onSave()">Save</button>
-        <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
-    </div>
+    
+    <div *ngIf="signString" class="row justify-content-center" style="margin-top:20px;margin-bottom:10px">
+            <div class="col-6">
+                <button type="button" style="width:100%" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            </div>
+            <div class="col-6">
+                <button type="button" style="width:100%" class="btn btn-success" (click)="onSave()">Save</button>
+            </div>
+        </div>
+
 </div>

@@ -32,7 +32,7 @@ export class GroupService {
     }
 
     getGroupAttendace(gId: string, date: string) {
-console.log('INSIDE SERVICE: GET GROUP ATTENDANCE',this.grpAttendance);
+// console.log('INSIDE SERVICE: GET GROUP ATTENDANCE',this.grpAttendance);
 
         if (this.grpAttendance) {
             return of(this.grpAttendance);
@@ -41,6 +41,12 @@ console.log('INSIDE SERVICE: GET GROUP ATTENDANCE',this.grpAttendance);
 
             return this.customHttp.get(`/attendance/${gId}/${date}`);
         }
+
+    }
+
+    getAttendanceByStudentId(sId:string){
+
+        return this.customHttp.get(`/attendanceByStudentId/${sId}`);
 
     }
 }

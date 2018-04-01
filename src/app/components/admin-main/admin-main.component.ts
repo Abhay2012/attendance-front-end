@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { GroupService } from '../../providers/group.service';
 import { LoaderService } from '../../providers/loader.service';
 import { ToastService } from '../../providers/toast.service';
+import { DomSanitizer } from '@angular/platform-browser';
+declare const $;
 
 @Component({
     selector: 'app-admin-main',
@@ -20,6 +22,13 @@ export class AdminMainComponent implements OnInit {
     selectedGroup: any;
     selectedDate: string;
 
+    // below varibles are for showing the attendance record of particular student
+    selectedStudent: any; // for storing the student whose attendance record is being viewed in modal
+    selectedStudentAttendance: Array<any>;
+    selectedStudentDateRecord: any; // stores the object containing the record for a particular date of selectedStudent
+    selectedStudentDateSign: string;
+
+
     grpAttendance: Array<any>;
     grpDetailInfo: any;  // without the attendance
 
@@ -27,14 +36,16 @@ export class AdminMainComponent implements OnInit {
         private router: Router,
         private groupService: GroupService,
         private loaderService: LoaderService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private sanitizer: DomSanitizer
+
     ) {
     }
 
     ngOnInit() {
 
         this.getGroups();
-        this.groupService.grpAttendance=null; // to remove a bug in which grpAttendance in service 
+        this.groupService.grpAttendance = null; // to remove a bug in which grpAttendance in service 
         // is not cleared when 
         // routeed away from people-list-component, duw to which fresh attendance is nt fetched 
         // in current(AdminMainComponent) component
@@ -56,7 +67,7 @@ export class AdminMainComponent implements OnInit {
     }
 
     onGroupChange() {
-        console.log(this.selectedGroup);
+        // console.log(this.selectedGroup);
         this.grpDetailInfo = null;
         this.grpAttendance = null;
         this.getDates();
@@ -101,12 +112,12 @@ export class AdminMainComponent implements OnInit {
     }
 
     getGrpAttendance() {
-        console.log('loader start before grp attendance');
+        // console.log('loader start before grp attendance');
 
         this.loaderService.showLoader();
         this.groupService.getGroupAttendace(this.selectedGroup._id, this.selectedDate)
             .subscribe((res: any) => {
-                console.log('loader hide after grp attendance');
+                // console.log('loader hide after grp attendance');
 
                 this.loaderService.hideLoader();
                 this.grpAttendance = res;
@@ -128,5 +139,38 @@ export class AdminMainComponent implements OnInit {
         this.grpAttendance = null;
         this.getGrpAttendance();
     }
+
+    // BELOW CODE RELATED TO FETCH ATTENDACE RECORD OF A PARTICULAR STUDENT
+
+    onStudentSelect(student: any) {
+        this.loaderService.showLoader();
+        this.groupService.getAttendanceByStudentId(student._id).
+            subscribe((res: any) => {
+                this.loaderService.hideLoader();
+                this.selectedStudent = student;
+                this.selectedStudentAttendance = res.data;
+                $('#attendanceRecordModal').modal('show');
+
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+    }
+
+    onAttendanceRecordModalClose() {
+        $('#attendanceRecordModal').modal('hide');
+
+        this.selectedStudent = null;
+        this.selectedStudentAttendance = null;
+    }
+
+    onAttendanceRecordSelect(attendanceRecord: any) {
+        this.selectedStudentDateRecord = attendanceRecord;
+        this.selectedStudentDateSign = <string>this.sanitizer.bypassSecurityTrustUrl(this.selectedStudentDateRecord.attendance.sign);
+        $('#viewSignmodal').modal('show');
+
+    }
+
+
 
 }
