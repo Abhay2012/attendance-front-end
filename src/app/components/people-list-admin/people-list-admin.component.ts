@@ -14,7 +14,6 @@ declare const $;
 export class PeopleListAdminComponent implements OnInit, OnChanges {
 
     @Input() grpAttendance: any;
-    fromRouting = false;
     // group: any;
     clickedPerson: People;
     clickedPersonSign: string;
@@ -26,22 +25,20 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
     ) { }
 
     ngOnChanges() {
+
         this.grpAttendance = this.grpAttendance[0];
     }
 
-    ngOnInit() {
-
-        if (this.groupService.grpAttendance) {
-            this.grpAttendance = this.groupService.grpAttendance;
-            this.fromRouting = true;
-        }
-
-    }
+    ngOnInit() { }
 
     onPeopleSelect(p: People) {
         this.clickedPerson = p;
-        this.clickedPersonSign = <string>this.sanitizer.bypassSecurityTrustUrl(this.clickedPerson.sign);
+        this.clickedPersonSign = this.giveSanitizedImageUrl(this.clickedPerson.sign);
         $('#attendanceDetailModal').modal('show');
 
+    }
+
+    giveSanitizedImageUrl(url: string) {
+        return <string>this.sanitizer.bypassSecurityTrustUrl(url)
     }
 }

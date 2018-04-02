@@ -149,6 +149,7 @@ export class AdminMainComponent implements OnInit {
                 this.loaderService.hideLoader();
                 this.selectedStudent = student;
                 this.selectedStudentAttendance = res.data;
+
                 $('#attendanceRecordModal').modal('show');
 
             }, (err: any) => {

@@ -20,6 +20,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Student Name</th>
                         <th scope="col">Attendance</th>
+                        <th scope="col">Sign/Note</th>
+
                     </tr>
                 </thead>
 
@@ -34,6 +36,11 @@
                             <i class="fa fa-lg fa-times" style="color:red" aria-hidden="true"></i>
                         </td>
                         <td *ngIf="a.present==null|| a.present==undefined">'Not Available'</td>
+                        <td>
+                            <img *ngIf="a.present==true" style="width:100px;height:40px" [src]="giveSanitizedImageUrl(a.sign)" alt="Signature Image">
+                            <p *ngIf="a.present==false">{{a.note}}</p>
+                            <p *ngIf="a.present==null|| a.present==undefined">'Not Available'</p>
+                        </td>
                     </tr>
 
                 </tbody>

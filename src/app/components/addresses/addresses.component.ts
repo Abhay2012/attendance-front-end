@@ -76,43 +76,43 @@ export class AddressesComponent implements OnInit {
 
     initEditForm(add?: Address) {
         this.editAddressForm = this.fb.group({
-            username: [add ? add.username : ''],
-            address: [add ? add.address : '', Validators.required],
+            username: [add ? add.username : '', Validators.required],
+            address: [add ? add.address : ''],
             password: [''],
         });
     }
 
     // getters for validtion errors
-    get address() { return this.editAddressForm.get('address'); }
+    // get address() { return this.editAddressForm.get('address'); }
+    get username() { return this.editAddressForm.get('username'); }
     get password() { return this.editAddressForm.get('password'); }
 
     onEditSubmit() {
 
-        if (this.address.value.trim().length === 0) {
-            alert('Address can not be empty');
+        if (this.username.value.trim().length === 0) {
+            alert('Username can not be empty');
             return;
         }
         // check if there is no change in the data
-        const addressChanged = this.address.value.trim() !== this.addressInModal.address
+        const usernameChanged = this.username.value.trim() !== this.addressInModal.username
             , pwdChanged = this.password.value.trim() !== '';
 
-        if (!addressChanged && !pwdChanged) {
+        if (!usernameChanged && !pwdChanged) {
             alert('No information has been edited');
             return;
         }
 
-        // construct the payload with username(mandatory) and only changed parameters
+        // construct the payload with address(mandatory) and only changed parameters
         const data: any = {
-            username: this.addressInModal.username
+            address: this.addressInModal.address
         };
-        if (addressChanged) {
-            data['address'] = this.editAddressForm.value.address;
+        if (usernameChanged) {
+            data['username'] = this.editAddressForm.value.username;
         }
         if (pwdChanged) {
             data['password'] = this.editAddressForm.value.password;
         }
 
-        $('#editModal').modal('hide');
 
         // finally send the request
         this.sendEditRequest(data);
@@ -124,11 +124,12 @@ export class AddressesComponent implements OnInit {
         this.addressService.editAddress(data)
             .subscribe((res: any) => {
                 this.loaderService.hideLoader();
+                $('#editModal').modal('hide');
                 this.addressService.editAddressInStore(this.indexInModal, {
 
                     _id: this.addressInModal._id,
-                    username: data.username,
-                    address: data.address || this.addressInModal.address,
+                    address: data.address,
+                    username: data.username || this.addressInModal.username,
                     password: data.password || this.addressInModal.password
                 });
                 this.toastService.showSuccess('Edited Successfully');
