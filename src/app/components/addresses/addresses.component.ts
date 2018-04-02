@@ -104,7 +104,8 @@ export class AddressesComponent implements OnInit {
 
         // construct the payload with address(mandatory) and only changed parameters
         const data: any = {
-            address: this.addressInModal.address
+            address: this.addressInModal.address,
+            _id: this.addressInModal._id
         };
         if (usernameChanged) {
             data['username'] = this.editAddressForm.value.username;
