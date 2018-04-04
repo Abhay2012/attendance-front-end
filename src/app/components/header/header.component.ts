@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 declare const $;
+declare let html2canvas: any;
+declare let jsPDF: any;
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -23,15 +25,15 @@ export class HeaderComponent {
     setNavbarContent() {
         if (this.isAdmin) {
             this.navs = [
-                { title: 'Home', routerLink: 'main' },
-                { title: 'Addresses', routerLink: 'addresses' },
-                { title: 'Teachers', routerLink: 'teachers' },
-                { title: 'Upload Students', routerLink: 'uploadStudents' },
+                { title: 'Hem', routerLink: 'main' },
+                { title: 'Adresses', routerLink: 'addresses' },
+                { title: 'Handledare', routerLink: 'teachers' },
+                { title: 'Ladda upp excel fil', routerLink: 'uploadStudents' },
             ];
         } else {
             this.navs = [
-                { title: 'Home', routerLink: 'main' },
-                { title: 'Previous Attendance', routerLink: 'previousAttendance' },
+                { title: 'Hem', routerLink: 'main' },
+                { title: 'Tidigare historik', routerLink: 'previousAttendance' },
                 
             ];
         }
@@ -44,6 +46,19 @@ export class HeaderComponent {
 
         location.reload();
 
+    }
+
+    print() {
+        html2canvas(document.body, {
+            onrendered: (canvas) => {
+                var img = canvas.toDataURL('image/jpeg', 1.0);
+                var doc = new jsPDF('l', 'mm', [297, 210]);
+                doc.addImage(img, 'JPEG', 20, 20, 220, 180);
+                doc.save(`schema-attendance.pdf`);
+                document.body.style.width = '100%';
+                document.body.style.height = '100%';
+            }
+        })
     }
 
     closeNavBar() {

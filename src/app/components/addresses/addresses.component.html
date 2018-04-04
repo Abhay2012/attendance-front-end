@@ -1,9 +1,9 @@
 <div class="container">
 
 
-    <h2>Addresses</h2>
+    <h2>Adresser</h2>
     <div style="margin-bottom:25px">
-        <button class="btn btn-primary" routerLink="../create">Create New</button>
+        <button class="btn btn-primary" routerLink="../create">Skapa ny</button>
 
         <div class="table-responsive" style="margin-top:20px">
             <table class="table  table-striped table-bordered">
@@ -11,9 +11,9 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Username</th>
-                        <th scope="col" style="text-align:center">Edit </th>
+                        <th scope="col">Adress</th>
+                        <th scope="col">Användarnamn</th>
+                        <th scope="col" style="text-align:center">redigera </th>
                         <th scope="col" style="text-align:center">Delete</th>
                     </tr>
                 </thead>
@@ -55,7 +55,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Address</h5>
+                <h5 class="modal-title">redigera Adress</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -69,12 +69,12 @@
                     <form name="editForm" [formGroup]="editAddressForm" novalidate>
 
                         <div class="form-group">
-                            <label for="address">Address</label>
+                            <label for="address">Adress</label>
                             <input type="text" disabled class="form-control" formControlName="address" placeholder="Enter Address">
                         </div>
 
                         <div class="form-group">
-                            <label for="username">Username</label>
+                            <label for="username">Användarnamn</label>
                             <input type="text" class="form-control" formControlName="username">
                             <nl-show-errors [control]="username"></nl-show-errors>
                         </div>
@@ -89,7 +89,7 @@
             </div>
             <!-- modal body ends -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="onEditSubmit()">Edit</button>
+                <button type="button" class="btn btn-success" (click)="onEditSubmit()">redigera</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>

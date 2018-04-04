@@ -1,14 +1,14 @@
 <div class="container">
 
-    <h2>Home</h2>
+    <h2>Hem</h2>
 
 
-    <h5 style="margin-bottom:30px">Today's Attendance</h5>
+    <h5 style="margin-bottom:30px">Dagens närvaro</h5>
 
 
 
     <div class="form-group">
-        <label for="group">Select a Group to mark attendance</label>
+        <label for="group">Välj Grupp</label>
         <select class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
             <option *ngFor="let g of groups" [ngValue]="g">{{g.group_name}} ({{g.address_name}})</option>
         </select>

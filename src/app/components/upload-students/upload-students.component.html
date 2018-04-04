@@ -5,11 +5,11 @@
 
 
         <div class="form-group">
-            <h5 for="file">Please Upload Excel File containing students' list</h5>
+            <h5 for="file">Var vänlig och ladda upp excel fil med deltagarna</h5>
             <input type="file" class="form-control" (change)="onFileSelect($event)">
             <div class="row justify-content-center" style="margin-top:30px">
                 <div class="col-sm-12 col-md-6">
-                    <button style="width:100%" class="btn btn-success" [disabled]="!file" (click)="onUploadBtn()">Upload</button>
+                    <button style="width:100%" class="btn btn-success" [disabled]="!file" (click)="onUploadBtn()">Ladda upp</button>
                 </div>
             </div>
         </div>

@@ -5,9 +5,9 @@
         <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
     </button>
 
-    <h2> Student List</h2>
+    <h2> Deltagar Lista</h2>
     <div class="detail">
-        <h5>Group Name: {{group?.group_name}}</h5>
+        <h5>Grupp Namn: {{group?.group_name}}</h5>
         <h5 *ngIf="group?.teachers">Teachers: {{group?.teachers.join(',')}}</h5>
     </div>
 
@@ -17,8 +17,8 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Student Name</th>
-                    <th scope="col">Attendance</th>
+                    <th scope="col">Deltagare</th>
+                    <th scope="col">Närvaro</th>
                 </tr>
             </thead>
 
@@ -53,7 +53,7 @@
     </div>
     <div class="row justify-content-md-center" *ngIf="peopleList" style="margin-top:20px">
         <div class="col-sm-12 col-md-8">
-            <button style="width:100%" class="btn btn-success btn-lg" (click)="onUploadAttendance()">Upload Attendance</button>
+            <button style="width:100%" class="btn btn-success btn-lg" (click)="onUploadAttendance()">Ladda upp Närvaro</button>
 
         </div>
     </div>
