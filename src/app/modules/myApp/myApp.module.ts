@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { ShowErrorsModule } from '../../components/show-errors/show-errors.module';
 import { AddressService } from '../../providers/address.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CreateAddressComponent } from '../../components/createAddress/createAddress..component';
+import { CreateAddressComponent } from '../../components/createAddress/createAddress.component';
 import { LoaderService } from '../../providers/loader.service';
 import { AdminMainModule } from '../../components/admin-main/admin-main.module';
 import { GroupService } from '../../providers/group.service';
@@ -24,6 +24,8 @@ import { PeopleListAdminModule } from '../../components/people-list-admin/people
 import { PeopleListAdminComponent } from '../../components/people-list-admin/people-list-admin.component';
 import { UploadStudentsComponent } from '../../components/upload-students/upload-students.component';
 import { PreviousAttendanceComponent } from '../../components/previous-attendance/previous-attendance.component';
+import { CreateTeacherComponent } from '../../components/createTeacher/createTeacher..component';
+import { TeachersComponent } from '../../components/teachers/teachers.component';
 
 @NgModule({
     imports: [
@@ -50,24 +52,28 @@ import { PreviousAttendanceComponent } from '../../components/previous-attendanc
                     },
                     {
                         path: 'addresses',
-                        component: AddressesComponent
-                        // add guard to this component
-                    },
-                    {
-                        path: 'addresses/create',
-                        component: CreateAddressComponent
-                        // add guard to this component
-                    },
-                    {
-                        path: 'main/group/:id',
                         children: [
                             {
-                                path: 'signature2',
-                                component: Signature2Component
+                                path: 'create',
+                                component: CreateAddressComponent
                             },
                             {
                                 path: '',
-                                component: PeopleListComponent,
+                                component: AddressesComponent,
+                            }
+                        ]
+                        // add guard to this component
+                    },
+                    {
+                        path: 'teachers',
+                        children: [
+                            {
+                                path: 'create',
+                                component: CreateTeacherComponent
+                            },
+                            {
+                                path: '',
+                                component: TeachersComponent,
                             }
                         ]
                         // add guard to this component
@@ -96,6 +102,8 @@ import { PreviousAttendanceComponent } from '../../components/previous-attendanc
     declarations: [
         AddressesComponent,
         CreateAddressComponent,
+        CreateTeacherComponent,
+        TeachersComponent,
         MainComponent,
         MyAppComponent,
         Signature2Component,

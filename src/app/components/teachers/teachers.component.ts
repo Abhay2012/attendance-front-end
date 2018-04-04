@@ -2,27 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddressService } from '../../providers/address.service';
-import { Address } from '../../models/people';
+import { Teacher } from '../../models/people';
 import { ToastService } from '../../providers/toast.service';
 import { LoaderService } from '../../providers/loader.service';
 
 declare const $;
 
 @Component({
-    selector: 'app-addresses',
-    templateUrl: './addresses.component.html',
-    styleUrls: ['./addresses.component.scss'],
+    selector: 'app-teachers',
+    templateUrl: './teachers.component.html',
+    styleUrls: ['./teachers.component.scss'],
 })
 
-export class AddressesComponent implements OnInit {
+export class TeachersComponent implements OnInit {
 
 
-    addressList: Address[];
+    teacherList: Teacher[];
 
-    // code related to address edit 
-    addressInModal: Address; // stores the address for whom edited btn has been pressed
-    indexInModal: number; // stores the index of address for whom edited btn has been pressed
-    editAddressForm: FormGroup;
+    // code related to teacher edit 
+    teacherInModal: Teacher; // stores the teacher for whom edited btn has been pressed
+    indexInModal: number; // stores the index of teacher for whom edited btn has been pressed
+    editTeacherForm: FormGroup;
 
     constructor(
         private addressService: AddressService,
@@ -32,17 +32,17 @@ export class AddressesComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.addressService.role = 'address';
-        this.getAddressList();
+        this.addressService.role = 'teacher';
+        this.getTeacherList();
         this.initEditForm();
     }
 
-    getAddressList() {
+    getTeacherList() {
         this.loaderService.showLoader();
         this.addressService.getAddressList()
-            .subscribe((list: Address[]) => {
+            .subscribe((list: Teacher[]) => {
                 this.loaderService.hideLoader();
-                this.addressList = list;
+                this.teacherList = list;
                 this.addressService.initializeAddressStore(list);
             }, (err: any) => {
                 this.loaderService.hideLoader();                // show toast msg here
@@ -50,12 +50,12 @@ export class AddressesComponent implements OnInit {
             });
     }
 
-    onDelete(add: Address, index: number) {
+    onDelete(t: Teacher, index: number) {
 
         // take confirmation before deleting
-        if (confirm('This address will be deleted !')) {
+        if (confirm('This teacher will be deleted !')) {
             this.loaderService.showLoader();
-            this.addressService.deleteAddress(add.username)
+            this.addressService.deleteAddress(t.username)
                 .subscribe((res: any) => {
                     this.loaderService.hideLoader();
                     this.addressService.deleteAddressFromStore(index);
@@ -68,25 +68,25 @@ export class AddressesComponent implements OnInit {
 
     }
 
-    onEdit(add: Address, index: number) {
-        this.addressInModal = add;
+    onEdit(t: Teacher, index: number) {
+        this.teacherInModal = t;
         this.indexInModal = index;
-        this.initEditForm(add);
+        this.initEditForm(t);
         $('#editModal').modal('show');
     }
 
-    initEditForm(add?: Address) {
-        this.editAddressForm = this.fb.group({
-            username: [add ? add.username : '', Validators.required],
-            address: [add ? add.address : ''],
+    initEditForm(t?: Teacher) {
+        this.editTeacherForm = this.fb.group({
+            username: [t ? t.username : '', Validators.required],
+            teacher: [t ? t.teacher : ''],
             password: [''],
         });
     }
 
     // getters for validtion errors
-    // get address() { return this.editAddressForm.get('address'); }
-    get username() { return this.editAddressForm.get('username'); }
-    get password() { return this.editAddressForm.get('password'); }
+    // get teacher() { return this.editTeacherForm.get('teacher'); }
+    get username() { return this.editTeacherForm.get('username'); }
+    get password() { return this.editTeacherForm.get('password'); }
 
     onEditSubmit() {
 
@@ -95,7 +95,7 @@ export class AddressesComponent implements OnInit {
             return;
         }
         // check if there is no change in the data
-        const usernameChanged = this.username.value.trim() !== this.addressInModal.username
+        const usernameChanged = this.username.value.trim() !== this.teacherInModal.username
             , pwdChanged = this.password.value.trim() !== '';
 
         if (!usernameChanged && !pwdChanged) {
@@ -103,16 +103,16 @@ export class AddressesComponent implements OnInit {
             return;
         }
 
-        // construct the payload with address(mandatory) and only changed parameters
+        // construct the payload with teacher(mandatory) and only changed parameters
         const data: any = {
-            address: this.addressInModal.address,
-            _id: this.addressInModal._id
+            teacher: this.teacherInModal.teacher,
+            _id: this.teacherInModal._id
         };
         if (usernameChanged) {
-            data['username'] = this.editAddressForm.value.username;
+            data['username'] = this.editTeacherForm.value.username;
         }
         if (pwdChanged) {
-            data['password'] = this.editAddressForm.value.password;
+            data['password'] = this.editTeacherForm.value.password;
         }
 
 
@@ -129,10 +129,10 @@ export class AddressesComponent implements OnInit {
                 $('#editModal').modal('hide');
                 this.addressService.editAddressInStore(this.indexInModal, {
 
-                    _id: this.addressInModal._id,
-                    address: data.address,
-                    username: data.username || this.addressInModal.username,
-                    password: data.password || this.addressInModal.password
+                    _id: this.teacherInModal._id,
+                    teacher: data.teacher,
+                    username: data.username || this.teacherInModal.username,
+                    password: data.password || this.teacherInModal.password
                 });
                 this.toastService.showSuccess('Edited Successfully');
             }, (err: any) => {

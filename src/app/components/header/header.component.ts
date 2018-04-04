@@ -25,6 +25,7 @@ export class HeaderComponent {
             this.navs = [
                 { title: 'Home', routerLink: 'main' },
                 { title: 'Addresses', routerLink: 'addresses' },
+                { title: 'Teachers', routerLink: 'teachers' },
                 { title: 'Upload Students', routerLink: 'uploadStudents' },
             ];
         } else {

@@ -25,6 +25,9 @@ export class LoginService {
         localStorage.setItem('access_token', info.token);
         localStorage.setItem('userInfo', JSON.stringify(info.data));
         localStorage.setItem('username', JSON.stringify(info.data[0].username));
+        if (info.data[0].role) {
+            localStorage.setItem('role', JSON.stringify(info.data[0].role));
+        }
     }
 
     // logout = () => {

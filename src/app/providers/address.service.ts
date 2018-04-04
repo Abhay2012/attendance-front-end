@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CustomHttpService } from './custom-http.service';
-import { Address } from '../models/people';
+import { Address, Teacher } from '../models/people';
 import { of } from 'rxjs/observable/of';
 import { tap } from 'rxjs/operators/tap';
 
@@ -9,32 +9,37 @@ import { tap } from 'rxjs/operators/tap';
 export class AddressService {
 
 
-    addressStore: Array<Address>;
+    addressStore: Array<Address | Teacher>;
+    teacherStore: Array<Address | Teacher>;
+
+    role:string; // specifies either 'address' or 'teacher', set from the addressesComponent and TeachersComponent
 
     constructor(
         private customHttp: CustomHttpService,
     ) { }
 
+
     postNewAddress(data: any) {
-        return this.customHttp.post('/createAddress', data);
+        return this.customHttp.post(`/create/${this.role}`, data);
 
     }
 
-    initializeAddressStore(data: Array<Address>) {
-        this.addressStore = data;
+    initializeAddressStore(data: Array<Address | Teacher>) {
+        this.role === 'address' ? this.addressStore = data : this.teacherStore = data;
     }
 
     getAddressList() {
-        if (this.addressStore) {
+        if (this.role === 'address' && this.addressStore) {
             return of(this.addressStore);
+        } else if (this.role === 'teacher' && this.teacherStore) {
+            return of(this.teacherStore);
         } else {
-
-            return this.customHttp.get('/getAddresses');
+            return this.customHttp.get(`/getUsers/${this.role}`);
         }
     }
 
-    addNewAddressToStore(add: Address) {
-        this.addressStore.unshift(add);
+    addNewAddressToStore(add: Address | Teacher) {
+        this.role === 'address' ? this.addressStore.unshift(add) : this.teacherStore.unshift(add);
     }
 
     // code for deletion
@@ -44,7 +49,9 @@ export class AddressService {
     }
 
     deleteAddressFromStore(index: number) {
-        this.addressStore.splice(index, 1);
+        this.role === 'address' ? this.addressStore.splice(index, 1) : this.teacherStore.splice(index, 1);
+
+
     }
 
     // code for edition
@@ -53,8 +60,9 @@ export class AddressService {
         return this.customHttp.put('/update', data);
     }
 
-    editAddressInStore(index: number, newData: Address) {
-        this.addressStore.splice(index, 1, newData);
+    editAddressInStore(index: number, newData: Address | Teacher) {
+        this.role === 'address' ? this.addressStore.splice(index, 1, newData)
+            : this.teacherStore.splice(index, 1, newData);
     }
 
 

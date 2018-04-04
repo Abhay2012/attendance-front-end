@@ -10,6 +10,7 @@
                 <select class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
                     <option *ngFor="let g of groups" [ngValue]="g">{{g.group_name}} ({{g.address_name}}) </option>
                 </select>
+                <p *ngIf="groups?.length==0" style="color:red">No Groups Available</p>
             </div>
         </div>
 
@@ -109,7 +110,7 @@
                             </thead>
 
                             <tbody>
-                                <tr *ngFor="let a of selectedStudentAttendance; let i=index" (click)="onAttendanceRecordSelect(a)">
+                                <tr style="cursor:pointer" *ngFor="let a of selectedStudentAttendance; let i=index" (click)="onAttendanceRecordSelect(a)">
                                     <td>{{a.date}}</td>
                                     <td *ngIf="a.attendance.present==true">
                                         <i class="fa fa-lg fa-check" style="color:#4aa23a" aria-hidden="true"></i>

@@ -18,3 +18,11 @@ export interface Address {
     password?: string;
 
 }
+
+export interface Teacher {
+    _id: string;
+    teacher: string;
+    username: string;
+    password?: string;
+
+}

@@ -7,15 +7,15 @@ import { LoaderService } from '../../providers/loader.service';
 
 
 @Component({
-    selector: 'app-create-address',
-    templateUrl: './createAddress..component.html',
+    selector: 'app-create-teacher',
+    templateUrl: './createTeacher.component.html',
     // styleUrls: ['./create-address.component.scss'],
-})
+})   
 
-export class CreateAddressComponent {
+export class CreateTeacherComponent {
 
 
-    addAddressForm: FormGroup;
+    addTeacherForm: FormGroup;
     sending = false; // to handle the submit btn press repeatedly
 
     constructor(
@@ -29,34 +29,34 @@ export class CreateAddressComponent {
     }
 
     initForm() {
-        this.addAddressForm = this.fb.group({
-            address: ['', Validators.required],
+        this.addTeacherForm = this.fb.group({
+            teacher: ['', Validators.required],
             username: ['', Validators.required],
             password: ['', Validators.required]
         });
     }
 
-    get address() {
-        return this.addAddressForm.get('address');
+    get teacher() {
+        return this.addTeacherForm.get('teacher');
     }
     get username() {
-        return this.addAddressForm.get('username');
+        return this.addTeacherForm.get('username');
     }
     get password() {
-        return this.addAddressForm.get('password');
+        return this.addTeacherForm.get('password');
     }
 
     onSubmit() {
         if (this.sending) { return; }
         this.sending = true;
         this.loaderService.showLoader();
-        this.addressService.postNewAddress(this.addAddressForm.value)
+        this.addressService.postNewAddress(this.addTeacherForm.value)
             .subscribe((res: any) => {
                 this.sending = false;
-                this.addAddressForm.reset();
+                this.addTeacherForm.reset();
                 this.loaderService.hideLoader();
                 this.addressService.addNewAddressToStore(res.data);
-                this.toastService.showSuccess('Address Created Successfully');
+                this.toastService.showSuccess('Teacher Created Successfully');
 
             }, (err: any) => {
                 this.sending = false;
