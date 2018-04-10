@@ -5,6 +5,7 @@ import { ToastService } from '../../providers/toast.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GroupService } from '../../providers/group.service';
 import { LoaderService } from '../../providers/loader.service';
+import { LoginService } from '../../providers/login.service';
 
 declare const $;
 
@@ -18,8 +19,11 @@ export class PeopleListComponent implements OnInit {
 
     peopleList: Array<People>;
     group: any;
-    absentNote: string;
-    absentNoteStudent: any;
+    // absentNote: string;
+    // absentNoteStudent: any;
+    remainingStudents: Array<People>;
+    uploadPwd: string; // stores the pwd enterd while submitting attendance
+    pwdChecking = false; // for showing loader durign pwd authentication
 
     constructor(
         private peopleService: PeopleService,
@@ -27,7 +31,8 @@ export class PeopleListComponent implements OnInit {
         private loaderService: LoaderService,
         private router: Router,
         private route: ActivatedRoute,
-        private groupService: GroupService
+        private groupService: GroupService,
+        private loginService: LoginService
     ) { }
 
     ngOnInit() {
@@ -59,7 +64,7 @@ export class PeopleListComponent implements OnInit {
     getAttendance(gId: string) {
 
         const d = this.giveCorrectIsoTime();
-console.log('showing loader');
+        console.log('showing loader');
 
         this.loaderService.showLoader();
         this.groupService.getGroupAttendace(gId, d)
@@ -92,49 +97,123 @@ console.log('showing loader');
 
     }
 
-    onMarkAbsent(ev: any, stud: any) {
-        ev.stopPropagation();
-        ev.preventDefault();
-        $('#markAbsentModal').modal('show');
-        this.absentNoteStudent = stud;
-    }
+    // onMarkAbsent(ev: any, stud: any) {
+    //     ev.stopPropagation();
+    //     ev.preventDefault();
+    //     $('#markAbsentModal').modal('show');
+    //     this.absentNoteStudent = stud;
+    // }
 
-    onMarkAbsentDone() {
-        console.log(this.absentNote);
-        $('#markAbsentModal').modal('hide');
-        if (this.absentNote && this.absentNote.trim() !== '') {
-            this.absentNoteStudent.present = false;
-            this.absentNoteStudent.note = this.absentNote;
-            this.absentNote = null;
-        }
-    }
+    // onMarkAbsentDone() {
+    //     console.log(this.absentNote);
+    //     $('#markAbsentModal').modal('hide');
+    //     if (this.absentNote && this.absentNote.trim() !== '') {
+    //         this.absentNoteStudent.present = false;
+    //         this.absentNoteStudent.note = this.absentNote;
+    //         this.absentNote = null;
+    //     }
+    // }
 
     onUploadAttendance() {
-        if (this.checkAllAttendanceDone()) {
+        // OLD CODE STARTS
+        // if (this.checkAllAttendanceDone()) {
 
-            $('#attendanceSubmitModal').modal('show');
-        } else {
-            this.toastService.showError('Please complete the attendance of all students');
+        //     $('#attendanceSubmitModal').modal('show');
+        // } else {
+        //     this.toastService.showError('Please complete the attendance of all students');
+        // }
+        // OLD CODE ENDS
+
+        this.giveRemainingStudents();
+        $('#attendanceAuthenticate').modal('show');
+
+    }
+
+    // give the list of all students whose attendance(Present)has not been marked yet 
+    giveRemainingStudents() {
+        this.remainingStudents = this.peopleList.filter(p => !p.present).map(p => { p.note = ''; return p; });
+    }
+
+    onAuthenticateUpload() {
+        console.log(this.remainingStudents);
+        console.log(this.uploadPwd);
+
+
+        // check all absent notes are filled or not
+        const i = this.remainingStudents.findIndex(p => p.note.trim() === '');
+        if (i > -1) {
+            this.toastService.showError('Please enter all the absent notes');
+            return;
         }
+        if (!this.uploadPwd || this.uploadPwd.trim() === '') {
+            this.toastService.showError('Password is required to submit attendance');
+            return;
+        }
+        this.authenticate();
     }
 
-    checkAllAttendanceDone() {
-        const a = this.peopleService.peopleList.findIndex(p => !(p.present === true || p.present === false));
-        return a === -1;
+    authenticate() {
+        const data: any = {
+            username: JSON.parse(localStorage.getItem('username')),
+            password: this.uploadPwd
+        };
+        this.pwdChecking = true;
+        this.loginService.login(data).subscribe((res: any) => {
+            console.log(res);
+            this.pwdChecking = false;
+            this.toastService.showSuccess('correct');
+            this.finallyUpload();
+
+        }, (err) => {
+            this.pwdChecking = false;
+            if (err.status === 400) {
+                this.toastService.showError('incorrect password');
+            } else {
+                this.toastService.showError(err.msg);
+            }
+
+        });
     }
 
-    onSubmitCancel() {
-        $('#attendanceSubmitModal').modal('hide');
+    // checkAllAttendanceDone() {
+    //     const a = this.peopleService.peopleList.findIndex(p => !(p.present === true || p.present === false));
+    //     return a === -1;
+    // }
 
-    }
+    // onSubmitCancel() {
+    //     $('#attendanceSubmitModal').modal('hide');
+
+    // }
 
     finallyUpload() {
-        $('#attendanceSubmitModal').modal('hide');
+        // $('#attendanceSubmitModal').modal('hide');
 
         let data: any = {};
         data.group_id = this.group._id;
         data.group_name = this.group.group_name;
         data.date = this.giveCorrectIsoTime();
+        // OLD CODE  STARTS
+        // data.attendance = this.peopleService.peopleList.map((p: any) => {
+
+        //     let a: any = {
+        //         name: p.name,
+        //         id: p._id,
+        //         present: p.present || false,
+        //     };
+
+        //     if (a.present) {
+        //         a.sign = p.sign ? p.sign.changingThisBreaksApplicationSecurity : 'ABSENT NOTE';
+
+        //     } else {
+        //         a.note = p.note;
+        //     }
+
+        //     return a;
+
+
+        // });
+
+        // OLD CODE ENDS
 
         data.attendance = this.peopleService.peopleList.map((p: any) => {
 
@@ -145,10 +224,12 @@ console.log('showing loader');
             };
 
             if (a.present) {
-                a.sign = p.sign ? p.sign.changingThisBreaksApplicationSecurity : 'ABSENT NOTE';
+                a.sign = p.sign.changingThisBreaksApplicationSecurity;
 
             } else {
-                a.note = p.note;
+                const absentStudent = this.remainingStudents.find(p => p._id === a.id);
+                if (!absentStudent) { throw new Error('student neither marked absent or present'); }
+                a.note = absentStudent.note;
             }
 
             return a;
@@ -159,6 +240,7 @@ console.log('showing loader');
         this.loaderService.showLoader();
         this.peopleService.uploadGroupAttendance(data)
             .subscribe((res: any) => {
+                $('#attendanceAuthenticate').modal('hide');
                 this.loaderService.hideLoader();
                 this.toastService.showSuccess('Attendance saved successfuly');
                 this.clearServiceData();
@@ -192,7 +274,7 @@ console.log('showing loader');
         this.peopleService.clickedPerson = null;
     }
 
-    goToPreviousAttendance(){
+    goToPreviousAttendance() {
         this.clearServiceData();
         this.router.navigate(['/app/previousAttendance']);
 

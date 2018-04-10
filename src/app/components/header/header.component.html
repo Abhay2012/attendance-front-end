@@ -9,7 +9,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-        <ul class="navbar-nav mr-auto">
+        <ul class="nav navbar-nav">
             <li class="nav-item active" *ngFor="let n of navs" routerLinkActive="rActive">
                 <a class="nav-link" [routerLink]="n.routerLink" (click)="closeNavBar()">{{n.title}}
                     <span class="sr-only">(current)</span>
@@ -21,11 +21,19 @@
                 </a>
             </li>
 
-            <li class="nav-item active" >
+            <!-- <li class="nav-item active" >
                 <a class="nav-link" style="cursor: pointer" (click)="onLogout()">Logout
                     <span class="sr-only">(current)</span>
                 </a>
-            </li>
+            </li> -->
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" style="color:black !important" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logout<span class="caret"></span></a>
+                <ul class="dropdown-menu" style="background-color:#4aa23a">
+                  <li><a class="nav-link" style="cursor: pointer;color:black !important" (click)="onLogout()">Logout</a>
+                  </li>
+                </ul>
+              </li>
         </ul>
 
 
