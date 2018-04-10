@@ -53,7 +53,7 @@ export class TeachersComponent implements OnInit {
     onDelete(t: Teacher, index: number) {
 
         // take confirmation before deleting
-        if (confirm('This teacher will be deleted !')) {
+        if (confirm('This handledare will be deleted !')) {
             this.loaderService.showLoader();
             this.addressService.deleteAddress(t.username)
                 .subscribe((res: any) => {

@@ -7,7 +7,6 @@ import { PeopleService } from '../../providers/people.service';
 import { AddressesComponent } from '../../components/addresses/addresses.component';
 import { MainComponent } from '../main/main.component';
 import { MyAppComponent } from './myApp.component';
-import { SignatureModule } from '../../components/signature/signature.module';
 import { Signature2Component } from '../../components/signature-diff/signature2.component';
 import { CommonModule } from '@angular/common';
 import { ShowErrorsModule } from '../../components/show-errors/show-errors.module';
@@ -32,7 +31,6 @@ import { TeachersComponent } from '../../components/teachers/teachers.component'
         CommonModule,
         HeaderModule,
         PeopleListModule,
-        SignatureModule,
         AdminMainModule,
         OtherMainModule,
         PeopleListAdminModule,

@@ -56,7 +56,7 @@ export class CreateTeacherComponent {
                 this.addTeacherForm.reset();
                 this.loaderService.hideLoader();
                 this.addressService.addNewAddressToStore(res.data);
-                this.toastService.showSuccess('Teacher Created Successfully');
+                this.toastService.showSuccess('Handledare Created Successfully');
 
             }, (err: any) => {
                 this.sending = false;
