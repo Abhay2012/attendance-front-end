@@ -51,6 +51,20 @@ import { TeachersComponent } from '../../components/teachers/teachers.component'
                         component: MainComponent
                     },
                     {
+                        path: 'main/group/:id',
+                        children: [
+                            {
+                                path: 'signature2',
+                                component: Signature2Component
+                            },
+                            {
+                                path: '',
+                                component: PeopleListComponent,
+                            }
+                        ]
+                        // add guard to this component
+                    },
+                    {
                         path: 'addresses',
                         children: [
                             {

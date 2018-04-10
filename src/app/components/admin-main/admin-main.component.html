@@ -54,7 +54,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Deltagare</th>
-                                <th scope="col">Course Completed</th>
+                                <!-- <th scope="col">Course Completed</th> -->
                             </tr>
                         </thead>
 
@@ -62,7 +62,7 @@
                             <tr style="cursor:pointer" *ngFor="let g of grpDetailInfo.students; let i=index" (click)="onStudentSelect(g)">
                                 <td>{{i+1}}</td>
                                 <td>{{g.name}}</td>
-                                <td>{{g.completed}}</td>
+                                <!-- <td>{{g.completed}}</td> -->
                             </tr>
                             <div *ngIf="grpDetailInfo.students.length==0">
                                 <h4>Group's Students Info Not Avaiable</h4>

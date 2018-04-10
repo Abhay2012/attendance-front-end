@@ -1,3 +1,2 @@
 
-
-export const BASE_URL = 'https://jobteam-attendance.herokuapp.com';
+export const BASE_URL = 'https://jobteam-online-attendance.herokuapp.com';
