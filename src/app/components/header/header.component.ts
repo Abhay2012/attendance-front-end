@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { PeopleService } from "../../providers/people.service";
 declare const $;
 declare let html2canvas: any;
 declare let jsPDF: any;
@@ -7,16 +8,18 @@ declare let jsPDF: any;
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
+    providers : [PeopleService]
 })
 
 export class HeaderComponent {
 
     navs: Array<{ title: string, routerLink: string }>;
-
     isAdmin = JSON.parse(localStorage.getItem('username')) === 'admin';
+    file : File;
 
     constructor(
-        private router: Router
+        private router: Router,
+        private peopleService : PeopleService
     ) {
 
         this.setNavbarContent();
@@ -28,7 +31,7 @@ export class HeaderComponent {
                 { title: 'Hem', routerLink: 'main' },
                 { title: 'Adresses', routerLink: 'addresses' },
                 { title: 'Handledare', routerLink: 'teachers' },
-                { title: 'Ladda upp excel fil', routerLink: 'uploadStudents' },
+                { title: 'Ladda upp excel fil', routerLink: 'uploadStudents' }
             ];
         } else {
             this.navs = [
@@ -63,5 +66,24 @@ export class HeaderComponent {
 
     closeNavBar() {
         $('.navbar-collapse').collapse('hide');
+    }
+
+    openModal(){
+        $('#sendMail').modal('show');
+    }
+
+    onFileSelect(ev: any) {
+        this.file = ev.target.files[0];
+    }
+
+    sendMail(form){
+        var sendMailForm = new FormData();
+        sendMailForm.append('avatar',this.file);
+        for(let key of Object.keys(form.value)){
+            sendMailForm.append(key,form.value[key])
+        }
+        this.peopleService.sendMail(sendMailForm).subscribe((res:any)=>{
+        },(err:any)=>{
+        })
     }
 }
