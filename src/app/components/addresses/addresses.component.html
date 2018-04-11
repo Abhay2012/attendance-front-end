@@ -39,7 +39,9 @@
                             </p>
                         </td>
                     </tr>
-                   <div *ngIf="addressList?.length==0"><h6>No Addresses available yet</h6></div>
+                    <div *ngIf="addressList?.length==0">
+                        <h6>No Adresser available yet</h6>
+                    </div>
 
                 </tbody>
 
@@ -63,14 +65,14 @@
             <!-- modal body starts -->
             <div class="modal-body">
                 <div class="alert alert-info">
-                    <strong>Info! </strong>Either username or password or both can be changed
+                    <strong>Info! </strong>Either Användarnamn or Lösenord or both can be changed
                 </div>
                 <div>
                     <form name="editForm" [formGroup]="editAddressForm" novalidate>
 
                         <div class="form-group">
                             <label for="address">Adress</label>
-                            <input type="text" disabled class="form-control" formControlName="address" placeholder="Enter Address">
+                            <input type="text" disabled class="form-control" formControlName="address" placeholder="Enter Adress">
                         </div>
 
                         <div class="form-group">
@@ -80,8 +82,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="text" class="form-control" formControlName="password" placeholder="Enter Password to overwrite the existing one">
+                            <label for="password">Lösenord</label>
+                            <input type="text" class="form-control" formControlName="password" placeholder="Enter Lösenord to overwrite the existing one">
                         </div>
 
                     </form>

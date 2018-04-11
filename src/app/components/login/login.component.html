@@ -11,12 +11,12 @@
         </div>
 
         <div style="margin-bottom: 30px" class="input-group">
-          <input id="login-password" type="password" class="form-control" style="width:auto" formControlName="password" name="password" placeholder="Password">
+          <input id="login-password" type="password" class="form-control" style="width:auto" formControlName="password" name="password" placeholder="Lösenord">
           <nl-show-errors [control]="password"></nl-show-errors>
         </div>
 
         <div style="color:red" *ngIf="invalidCredentials">
-        <p>Username or password is invalid.</p>
+        <p>Användarnamn or Lösenord is invalid.</p>
         </div>
         
         <button type="submit" #btnLogin class="btn btn-lg btn-primary btn-block">Submit</button>

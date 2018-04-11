@@ -40,10 +40,10 @@
                 </tr>
                 <tr *ngIf="group && !peopleList">
                     <h6>Today's attendance for this group has already been uploaded.
-                        <br> To view that attendance go to Previous Attendance page Or
+                        <!-- <br> To view that attendance go to Previous Attendance page Or
                         <span>
                             <a style="cursor:pointer;color:blue" (click)="goToPreviousAttendance()">Click Here</a>
-                        </span>
+                        </span> -->
                     </h6>
                 </tr>
 
@@ -151,9 +151,11 @@
 
                 <div style="margin-top:15px;border: 2px solid green">
                     <div class="form-group">
-                        <label for="address">PASSWORD</label>
-                        <span *ngIf="pwdChecking"><i class="fa fa-refresh fa-spin fa-2x fa-fw"></i></span>
-                        <input type="input" class="form-control" [(ngModel)]="uploadPwd" placeholder="Enter password">
+                        <label for="address"> Lösenord</label>
+                        <span *ngIf="pwdChecking">
+                            <i class="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+                        </span>
+                        <input type="input" class="form-control" [(ngModel)]="uploadPwd" placeholder="Enter Lösenord">
                     </div>
                 </div>
             </div>
