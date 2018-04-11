@@ -33,7 +33,7 @@ export class HeaderComponent {
         } else {
             this.navs = [
                 { title: 'Hem', routerLink: 'main' },
-                { title: 'Tidigare historik', routerLink: 'previousAttendance' },
+                // { title: 'Tidigare historik', routerLink: 'previousAttendance' },
                 
             ];
         }

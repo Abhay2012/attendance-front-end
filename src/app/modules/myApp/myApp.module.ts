@@ -25,6 +25,7 @@ import { UploadStudentsComponent } from '../../components/upload-students/upload
 import { PreviousAttendanceComponent } from '../../components/previous-attendance/previous-attendance.component';
 import { CreateTeacherComponent } from '../../components/createTeacher/createTeacher..component';
 import { TeachersComponent } from '../../components/teachers/teachers.component';
+// import { SwedishDatePipe } from '../../pipes/swedishDatePipe';
 
 @NgModule({
     imports: [
@@ -120,7 +121,8 @@ import { TeachersComponent } from '../../components/teachers/teachers.component'
         MyAppComponent,
         Signature2Component,
         UploadStudentsComponent,
-        PreviousAttendanceComponent
+        PreviousAttendanceComponent,
+        // SwedishDatePipe
     ],
     providers: [
         PeopleService,
