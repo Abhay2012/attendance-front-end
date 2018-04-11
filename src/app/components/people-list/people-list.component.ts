@@ -24,6 +24,7 @@ export class PeopleListComponent implements OnInit {
     remainingStudents: Array<People>;
     uploadPwd: string; // stores the pwd enterd while submitting attendance
     pwdChecking = false; // for showing loader durign pwd authentication
+    today = new Date();
 
     constructor(
         private peopleService: PeopleService,
@@ -214,6 +215,9 @@ export class PeopleListComponent implements OnInit {
         // });
 
         // OLD CODE ENDS
+        console.log('collecting attendance///////');
+        console.log(this.peopleService.peopleList);
+
 
         data.attendance = this.peopleService.peopleList.map((p: any) => {
 
@@ -224,7 +228,8 @@ export class PeopleListComponent implements OnInit {
             };
 
             if (a.present) {
-                a.sign = p.sign.changingThisBreaksApplicationSecurity;
+                // a.sign = p.sign.changingThisBreaksApplicationSecurity; OLD CODE WHEN SHOW PREVIEW OPTION WAS USED
+                a.sign = p.sign;
 
             } else {
                 const absentStudent = this.remainingStudents.find(p => p._id === a.id);

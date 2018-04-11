@@ -9,6 +9,7 @@
     <div class="detail">
         <h5>Grupp Namn: {{group?.group_name}}</h5>
         <h5 *ngIf="group?.teachers">Handledare: {{group?.teachers.join(',')}}</h5>
+        <h5>Date: {{today | date}}</h5>
     </div>
 
     <div class="table-responsive">
@@ -137,7 +138,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Enter absent notes for remaining students!</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Enter absent notes for remaining students </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -148,7 +149,7 @@
                     <input type="input" class="form-control" [(ngModel)]="r.note" placeholder="Enter absent note">
                 </div>
 
-                <div style="margin-top:10px;border-top: 2px solid green">
+                <div style="margin-top:15px;border: 2px solid green">
                     <div class="form-group">
                         <label for="address">PASSWORD</label>
                         <span *ngIf="pwdChecking"><i class="fa fa-refresh fa-spin fa-2x fa-fw"></i></span>

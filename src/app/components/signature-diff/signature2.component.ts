@@ -56,14 +56,20 @@ export class Signature2Component implements OnInit {
     onResetBtn() {
         // clears the canvas and rerenders the decor on it.
         $('#signature').jSignature('reset');
-        this.signString = null;
+        // this.signString = null;
     }
 
 
     onSave() {
         this.person.present = true;
-        this.person.sign = this.signString;
+        this.person.sign = this.setPersonSign();
         this.routeBack();
+    }
+    setPersonSign() {
+        const datapair = $('#signature').jSignature('getData', 'svgbase64');
+        const s = 'data:' + datapair[0] + ',' + datapair[1];
+        // this.signString = <string>this.sanitizer.bypassSecurityTrustUrl(s)
+        return s;
     }
     // onCancel() {
     //     this.routeBack();
