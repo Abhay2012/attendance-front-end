@@ -30,4 +30,8 @@ export class PeopleService {
         return this.customHttp.post('/uploadStudents', formData);
     }
 
+    sendMail(formData: any){
+        return this.customHttp.post('/sendMail',formData);
+    }
+
 }
