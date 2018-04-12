@@ -8,3 +8,16 @@
 .rActive{
     font-weight:bold;
 }
+
+.dropdown-item:active{
+    background-color: $theme-color !important;
+}
+
+@media screen and (min-width: 997px){
+    .mobile-nav{
+        display:none  !important;
+    }
+    .desktop-nav{
+        display : block  !important;
+    }
+}
