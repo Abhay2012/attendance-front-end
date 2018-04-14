@@ -18,7 +18,7 @@
             <span class="mobile-nav">
             <li class="nav-item active" *ngIf="isAdmin">
                 <a class="nav-link" style="cursor: pointer" (click)="openModal()">Send Mail
-                </a>
+                </a>    
             </li>
 
             <li class="nav-item active" *ngIf="isAdmin">
@@ -26,6 +26,11 @@
                 </a>
             </li>
 
+            <li class="nav-item active" *ngIf="isAdmin">
+                <a class="nav-link" style="cursor: pointer" (click)="onAbsentMessage()">Absent Messages
+                </a>
+            </li>
+    
             <li class="nav-item active" >
                 <a class="nav-link" style="cursor: pointer" (click)="onLogout()">Logout
                     <span class="sr-only">(current)</span>
@@ -41,6 +46,7 @@
                 <div style="right: 0 !important;left: auto;" class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" (click)="openModal()">Send Mail</a>
                   <a class="dropdown-item" (click)="print()">Spara Pdf</a>
+                  <a class="dropdown-item" (click)="onAbsentMessage()">Absent Messages</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" (click)="onLogout()">Logout</a>
                 </div>

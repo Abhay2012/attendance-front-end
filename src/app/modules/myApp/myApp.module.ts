@@ -25,6 +25,9 @@ import { UploadStudentsComponent } from '../../components/upload-students/upload
 import { PreviousAttendanceComponent } from '../../components/previous-attendance/previous-attendance.component';
 import { CreateTeacherComponent } from '../../components/createTeacher/createTeacher..component';
 import { TeachersComponent } from '../../components/teachers/teachers.component';
+import { AbsentMessagesComponent } from '../../components/absentMessages/absentMessages.component';
+import { AbsentMessageService } from '../../providers/absent-message.service';
+import { CreateAbsentMessageComponent } from '../../components/createAbsentMessage/createMessage.component';
 // import { SwedishDatePipe } from '../../pipes/swedishDatePipe';
 
 @NgModule({
@@ -92,6 +95,20 @@ import { TeachersComponent } from '../../components/teachers/teachers.component'
                         // add guard to this component
                     },
                     {
+                        path: 'absentMessages',
+                        children: [
+                            {
+                                path: 'create',
+                                component: CreateAbsentMessageComponent
+                            },
+                            {
+                                path: '',
+                                component: AbsentMessagesComponent,
+                            }
+                        ]
+                        // add guard to this component
+                    },
+                    {
                         path: 'previousAttendance',
                         component: PreviousAttendanceComponent
                     },
@@ -122,6 +139,8 @@ import { TeachersComponent } from '../../components/teachers/teachers.component'
         Signature2Component,
         UploadStudentsComponent,
         PreviousAttendanceComponent,
+        AbsentMessagesComponent,
+        CreateAbsentMessageComponent
         // SwedishDatePipe
     ],
     providers: [
@@ -129,6 +148,7 @@ import { TeachersComponent } from '../../components/teachers/teachers.component'
         AddressService,
         GroupService,
         LoaderService,
+        AbsentMessageService
     ]
 })
 
