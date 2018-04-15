@@ -242,22 +242,19 @@ export class PeopleListComponent implements OnInit {
 
 
         });
-console.log('DATA///////');
-console.log(data);
 
-
-        // this.loaderService.showLoader();
-        // this.peopleService.uploadGroupAttendance(data)
-        //     .subscribe((res: any) => {
-        //         $('#attendanceAuthenticate').modal('hide');
-        //         this.loaderService.hideLoader();
-        //         this.toastService.showSuccess('Attendance saved successfuly');
-        //         this.clearServiceData();
-        //         this.router.navigate(['/app/main']);
-        //     }, (err: any) => {
-        //         this.toastService.showError(err.msg);
-        //         this.loaderService.hideLoader();
-        //     });
+        this.loaderService.showLoader();
+        this.peopleService.uploadGroupAttendance(data)
+            .subscribe((res: any) => {
+                $('#attendanceAuthenticate').modal('hide');
+                this.loaderService.hideLoader();
+                this.toastService.showSuccess('Attendance saved successfuly');
+                this.clearServiceData();
+                this.router.navigate(['/app/main']);
+            }, (err: any) => {
+                this.toastService.showError(err.msg);
+                this.loaderService.hideLoader();
+            });
     }
 
     routeBack() {

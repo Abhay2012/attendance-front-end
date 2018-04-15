@@ -11,7 +11,7 @@ declare const $;
     styleUrls: ['./signature2.component.scss'],
 })
 
-/**Do not confuse with name signature2, there is no other component with name signature1 */
+/**Do not get confused with name signature2, there is no other component with name signature1 */
 
 export class Signature2Component implements OnInit {
 

@@ -1,8 +1,8 @@
-<div *ngIf="!isAdmin">
+<div *ngIf="role=='address'">
     <app-other-main></app-other-main>
     <!-- <app-group-list-address></app-group-list-address> -->
 </div>
 
-<div *ngIf="isAdmin">
+<div *ngIf="role==='admin'">
     <app-admin-main></app-admin-main>
 </div>

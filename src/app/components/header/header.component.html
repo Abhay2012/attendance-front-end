@@ -44,11 +44,11 @@
                   
                 </a>
                 <div style="right: 0 !important;left: auto;" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" (click)="openModal()">Send Mail</a>
-                  <a class="dropdown-item" (click)="print()">Spara Pdf</a>
-                  <a class="dropdown-item" (click)="onAbsentMessage()">Absent Messages</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" (click)="onLogout()">Logout</a>
+                  <a class="dropdown-item" style="cursor: pointer;" *ngIf="isAdmin" (click)="openModal()">Send Mail</a>
+                  <a class="dropdown-item" style="cursor: pointer;" *ngIf="isAdmin" (click)="print()">Spara Pdf</a>
+                  <a class="dropdown-item" style="cursor: pointer;" *ngIf="isAdmin" (click)="onAbsentMessage()">Absent Messages</a>
+                  <div *ngIf="isAdmin" class="dropdown-divider"></div>
+                  <a class="dropdown-item" style="cursor: pointer;" (click)="onLogout()">Logout</a>
                 </div>
               </li>
         </ul>

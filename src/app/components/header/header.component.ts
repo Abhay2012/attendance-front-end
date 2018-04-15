@@ -15,7 +15,7 @@ declare let jsPDF: any;
 export class HeaderComponent {
 
     navs: Array<{ title: string, routerLink: string }>;
-    isAdmin = JSON.parse(localStorage.getItem('username')) === 'admin';
+    isAdmin = JSON.parse(localStorage.getItem('role')) === 'admin';
     file: File;
 
     constructor(
@@ -35,11 +35,14 @@ export class HeaderComponent {
                 { title: 'Ladda upp excel fil', routerLink: 'uploadStudents' }
             ];
         } else {
-            this.navs = [
-                { title: 'Hem', routerLink: 'main' },
-                // { title: 'Tidigare historik', routerLink: 'previousAttendance' },
-
-            ];
+            
+            // in case of teacher (address common login), show previous attendance page 
+            if (JSON.parse(localStorage.getItem('role')) === 'teacher') {
+                this.navs = [{ title: 'Tidigare historik', routerLink: 'previousAttendance' }];
+            } else {
+                // in case of address
+                this.navs = [{ title: 'Hem', routerLink: 'main' }];
+            }
         }
     }
 
@@ -94,6 +97,6 @@ export class HeaderComponent {
     onAbsentMessage() {
         this.closeNavBar();
         this.router.navigate(['/app/absentMessages']);
-        
+
     }
 }
