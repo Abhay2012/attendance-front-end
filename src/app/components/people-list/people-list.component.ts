@@ -21,9 +21,11 @@ export class PeopleListComponent implements OnInit {
     group: any;
     // absentNote: string;
     // absentNoteStudent: any;
+    presentStudents: Array<People>; // just for showing before finally uploading attendance
     remainingStudents: Array<People>;
     uploadPwd: string; // stores the pwd enterd while submitting attendance
-    pwdChecking = false; // for showing loader durign pwd authentication
+    pwdChecking = false; // for showing loader during pwd authentication
+    absentMessageList: Array<any>;
     today = new Date();
 
     constructor(
@@ -41,17 +43,7 @@ export class PeopleListComponent implements OnInit {
         this.route.params.subscribe((params: any) => {
 
             const grpId: string = params['id'];
-            // if (this.groupService.getGroupById(grpId)) {
-            //     this.group = this.groupService.getGroupById(grpId);
-            //     this.peopleList = this.group.students;
-            //     this.peopleService.peopleList = this.peopleList;
-            // } else {
-            //     this.router.navigate(['../../'], { relativeTo: this.route });
-            // }
-
             this.getAttendance(grpId);
-
-
         });
 
     }
@@ -75,15 +67,7 @@ export class PeopleListComponent implements OnInit {
                 this.groupService.grpAttendance = res;
                 this.peopleList = this.group.students;
                 this.peopleService.peopleList = this.peopleList;
-                // this.groupService.grpAttendance = res[0];
-                // if (res[0].attendance) {
-                //     this.groupService.grpAttendance = res[0];
-                //     this.router.navigate([`/app/main/groupInfo`]);
 
-                // } else {
-                //     this.groupService.grpAttendance = res[0];
-                //     this.router.navigate([`/app/main/group/${this.selectedGroup._id}`]);
-                // }
             }, (err: any) => {
                 this.loaderService.hideLoader();
                 this.toastService.showError(err.msg);
@@ -116,44 +100,52 @@ export class PeopleListComponent implements OnInit {
     // }
 
     onUploadAttendance() {
-        // OLD CODE STARTS
-        // if (this.checkAllAttendanceDone()) {
+        $('#authenticateModal').modal('show');
 
-        //     $('#attendanceSubmitModal').modal('show');
-        // } else {
-        //     this.toastService.showError('Please complete the attendance of all students');
-        // }
-        // OLD CODE ENDS
+    }
 
+    afterAuthentication() {
         this.giveRemainingStudents();
-        $('#attendanceAuthenticate').modal('show');
-
+        this.givePresentStudents();
+        this.loaderService.showLoader();
+        this.peopleService.fetchAbsentMessages()
+            .subscribe((res: any) => {
+                this.loaderService.hideLoader();
+                this.absentMessageList = res.data;
+                this.uploadPwd = null;
+                $('#attendanceAuthenticate').modal('show');
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError("Couldn't fetch Absent messages, Please enter the messages yourself");
+                $('#attendanceAuthenticate').modal('show');
+            });
     }
 
     // give the list of all students whose attendance(Present)has not been marked yet 
     giveRemainingStudents() {
         this.remainingStudents = this.peopleList.filter(p => !p.present).map(p => { p.note = ''; return p; });
     }
+    givePresentStudents() {
+        this.presentStudents = this.peopleList.filter(p => p.present);
+    }
 
     onAuthenticateUpload() {
         console.log(this.remainingStudents);
-        console.log(this.uploadPwd);
-
 
         // check all absent notes are filled or not
-        const i = this.remainingStudents.findIndex(p => p.note.trim() === '');
+        const i = this.remainingStudents.findIndex(p => (!p.selectedNote && p.note.trim() === ''));
         if (i > -1) {
             this.toastService.showError('Please enter all the absent notes');
             return;
         }
+        this.finallyUpload();
+    }
+
+    onAuthenticateSubmit() {
         if (!this.uploadPwd || this.uploadPwd.trim() === '') {
             this.toastService.showError('Password is required to submit attendance');
             return;
         }
-        this.authenticate();
-    }
-
-    authenticate() {
         const data: any = {
             username: JSON.parse(localStorage.getItem('username')),
             password: this.uploadPwd
@@ -162,15 +154,15 @@ export class PeopleListComponent implements OnInit {
         this.loginService.login(data).subscribe((res: any) => {
             console.log(res);
             this.pwdChecking = false;
-            this.toastService.showSuccess('correct');
-            this.finallyUpload();
-
+            $('#authenticateModal').modal('hide');
+            this.afterAuthentication();
         }, (err) => {
             this.pwdChecking = false;
             if (err.status === 400) {
                 this.toastService.showError('incorrect password');
             } else {
                 this.toastService.showError(err.msg);
+                $('#authenticateModal').modal('hide');
             }
 
         });
@@ -219,7 +211,7 @@ export class PeopleListComponent implements OnInit {
         console.log(this.peopleService.peopleList);
 
 
-        data.attendance = this.peopleService.peopleList.map((p: any) => {
+        data.attendance = this.peopleService.peopleList.map(p => {
 
             let a: any = {
                 name: p.name,
@@ -228,32 +220,44 @@ export class PeopleListComponent implements OnInit {
             };
 
             if (a.present) {
-                // a.sign = p.sign.changingThisBreaksApplicationSecurity; OLD CODE WHEN SHOW PREVIEW OPTION WAS USED
+                // a.sign = p.sign.changingThisBreaksApplicationSecurity; // OLD CODE WHEN SHOW PREVIEW OPTION WAS USED
                 a.sign = p.sign;
 
             } else {
                 const absentStudent = this.remainingStudents.find(p => p._id === a.id);
                 if (!absentStudent) { throw new Error('student neither marked absent or present'); }
-                a.note = absentStudent.note;
+                let finalNote = '';
+                if (p.selectedNote) { finalNote += p.selectedNote; }
+                if (p.note) {
+                    if (p.selectedNote) {
+                        finalNote = finalNote + '\n' + p.note;
+                    } else {
+                        finalNote += p.note;
+                    }
+                }
+                a.note = finalNote;
             }
 
             return a;
 
 
         });
+console.log('DATA///////');
+console.log(data);
 
-        this.loaderService.showLoader();
-        this.peopleService.uploadGroupAttendance(data)
-            .subscribe((res: any) => {
-                $('#attendanceAuthenticate').modal('hide');
-                this.loaderService.hideLoader();
-                this.toastService.showSuccess('Attendance saved successfuly');
-                this.clearServiceData();
-                this.router.navigate(['/app/main']);
-            }, (err: any) => {
-                this.toastService.showError(err.msg);
-                this.loaderService.hideLoader();
-            });
+
+        // this.loaderService.showLoader();
+        // this.peopleService.uploadGroupAttendance(data)
+        //     .subscribe((res: any) => {
+        //         $('#attendanceAuthenticate').modal('hide');
+        //         this.loaderService.hideLoader();
+        //         this.toastService.showSuccess('Attendance saved successfuly');
+        //         this.clearServiceData();
+        //         this.router.navigate(['/app/main']);
+        //     }, (err: any) => {
+        //         this.toastService.showError(err.msg);
+        //         this.loaderService.hideLoader();
+        //     });
     }
 
     routeBack() {

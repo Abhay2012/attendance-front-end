@@ -65,10 +65,15 @@ export class Signature2Component implements OnInit {
         this.person.sign = this.setPersonSign();
         this.routeBack();
     }
+
     setPersonSign() {
         const datapair = $('#signature').jSignature('getData', 'svgbase64');
         const s = 'data:' + datapair[0] + ',' + datapair[1];
-        // this.signString = <string>this.sanitizer.bypassSecurityTrustUrl(s)
+        if (this.emptySign(datapair[1])) {
+            // reset the present and sign 
+            this.person.present = null;
+            return null;
+        }
         return s;
     }
     // onCancel() {

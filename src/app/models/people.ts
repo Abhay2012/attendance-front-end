@@ -9,6 +9,7 @@ export interface People {
     present: boolean | null;
     sign: string | any;
     note?:string;
+    selectedNote?:string;
 }
 
 export interface Address {

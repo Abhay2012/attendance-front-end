@@ -14,13 +14,16 @@ export class PeopleService {
 
     clickedPerson: People;  // tores the people for whom signature page is currently opened to his/her details and take signature
     peopleList: Array<People>; // stores the list of all students of selected group
-    groupName:string; // stores the groupName for which attendance is being taken
-    
+    groupName: string; // stores the groupName for which attendance is being taken
+
     constructor(
         private customHttp: CustomHttpService
         //   private toast: MyToastService
     ) { }
 
+    fetchAbsentMessages() {
+        return this.customHttp.get('/getMessages');
+    }
 
     uploadGroupAttendance(data: any) {
         return this.customHttp.post('/saveAttendance', data);
@@ -30,8 +33,8 @@ export class PeopleService {
         return this.customHttp.post('/uploadStudents', formData);
     }
 
-    sendMail(formData: any){
-        return this.customHttp.post('/sendMail',formData);
+    sendMail(formData: any) {
+        return this.customHttp.post('/sendMail', formData);
     }
 
 }

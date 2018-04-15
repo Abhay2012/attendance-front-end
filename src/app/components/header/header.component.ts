@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { PeopleService } from "../../providers/people.service";
+import { PeopleService } from '../../providers/people.service';
 declare const $;
 declare let html2canvas: any;
 declare let jsPDF: any;

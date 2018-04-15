@@ -45,7 +45,7 @@ export class CreateAbsentMessageComponent {
             .subscribe((res: any) => {
                 this.sending = false;
                 this.loaderService.hideLoader();
-                this.absentMessageService.addNewMessageToStore({message:this.message.value,_id:'111'});
+                this.absentMessageService.addNewMessageToStore(res.data);
                 this.absentMessageForm.reset();
                 this.toastService.showSuccess('Address Created Successfully');
 
