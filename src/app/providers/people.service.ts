@@ -37,4 +37,14 @@ export class PeopleService {
         return this.customHttp.post('/sendMail', formData);
     }
 
+    changePwd(old: string, nw: string, userName: string) {
+        const data: any = {
+            oldPassword: old,
+            newPassword: nw,
+            username: userName
+        };
+        return this.customHttp.post('/changePassword ', data);
+
+    }
+
 }

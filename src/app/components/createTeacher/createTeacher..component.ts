@@ -10,7 +10,11 @@ import { LoaderService } from '../../providers/loader.service';
     selector: 'app-create-teacher',
     templateUrl: './createTeacher.component.html',
     // styleUrls: ['./create-address.component.scss'],
-})   
+})
+
+
+// teacher refers to address office which has the same functionality as teacher
+// earlier their was the option of teacher which now has been used for office address
 
 export class CreateTeacherComponent {
 

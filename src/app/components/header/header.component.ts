@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PeopleService } from '../../providers/people.service';
+import { LoaderService } from '../../providers/loader.service';
+import { ToastService } from '../../providers/toast.service';
 declare const $;
 declare let html2canvas: any;
 declare let jsPDF: any;
@@ -18,9 +20,15 @@ export class HeaderComponent {
     isAdmin = JSON.parse(localStorage.getItem('role')) === 'admin';
     file: File;
 
+    // for password change
+    oldPwd: string;
+    newPwd: string;
+
     constructor(
         private router: Router,
-        private peopleService: PeopleService
+        private peopleService: PeopleService,
+        private ls: LoaderService,
+        private ts: ToastService
     ) {
 
         this.setNavbarContent();
@@ -31,11 +39,11 @@ export class HeaderComponent {
             this.navs = [
                 { title: 'Hem', routerLink: 'main' },
                 { title: 'Adresser', routerLink: 'addresses' },
-                { title: 'Handledare', routerLink: 'teachers' },
+                { title: 'Adresser office', routerLink: 'teachers' },
                 { title: 'Ladda upp excel fil', routerLink: 'uploadStudents' }
             ];
         } else {
-            
+
             // in case of teacher (address common login), show previous attendance page 
             if (JSON.parse(localStorage.getItem('role')) === 'teacher') {
                 this.navs = [{ title: 'Tidigare historik', routerLink: 'previousAttendance' }];
@@ -98,5 +106,24 @@ export class HeaderComponent {
         this.closeNavBar();
         this.router.navigate(['/app/absentMessages']);
 
+    }
+
+    onPasswordChange() {
+        $('#pwdChange').modal('show');
+
+    }
+
+    changePwd() {
+        const username = JSON.parse(localStorage.getItem('username'));
+        this.ls.showLoader();
+        this.peopleService.changePwd(this.oldPwd, this.newPwd, username)
+            .subscribe((res: any) => {
+                this.ls.hideLoader();
+                this.ts.showSuccess('Password changed successfully');
+                $('#pwdChange').modal('hide');
+            }, (err: any) => {
+                this.ts.showError(err.msg);
+                this.ls.hideLoader();
+            });
     }
 }

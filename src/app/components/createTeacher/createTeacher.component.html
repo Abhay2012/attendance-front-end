@@ -3,12 +3,12 @@
     <button class="btn btn-primary" routerLink="../">
         <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
 
-    <h1>Skapa ny Handledare</h1>
+    <h1>Skapa ny Adresser office</h1>
     <div style="margin-top:5%;margin-bottom:5%">
         <form name="filterForm" [formGroup]="addTeacherForm" (ngSubmit)="onSubmit()" novalidate>
             <div class="form-group">
-                <label for="teacher">Handledare</label>
-                <input type="text" class="form-control" formControlName="teacher" placeholder="Enter Handledare">
+                <label for="teacher">Adresser office</label>
+                <input type="text" class="form-control" formControlName="teacher" placeholder="Enter Adresser office">
                 <nl-show-errors [control]="teacher"></nl-show-errors>
             </div>
 

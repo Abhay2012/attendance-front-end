@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MainComponent } from '../../modules/main/main.component';
 import { CommonModule } from '@angular/common';
 import { AddressesComponent } from '../addresses/addresses.component';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
