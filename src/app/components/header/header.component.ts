@@ -58,7 +58,6 @@ export class HeaderComponent {
         localStorage.clear();
         // this.router.navigate(['/login']);
         $('.navbar-collapse').collapse('hide');
-
         location.reload();
 
     }
@@ -91,13 +90,18 @@ export class HeaderComponent {
     }
 
     sendMail(form) {
+        this.ls.showLoader();
         let sendMailForm = new FormData();
         sendMailForm.append('avatar', this.file);
         for (let key of Object.keys(form.value)) {
             sendMailForm.append(key, form.value[key]);
         }
         this.peopleService.sendMail(sendMailForm).subscribe((res: any) => {
+            this.ls.hideLoader();
+            this.ts.showSuccess('Mail Sent Successfully');
         }, (err: any) => {
+            this.ls.hideLoader();
+            this.ts.showError(err.msg);
         });
         this.closeNavBar();
     }
