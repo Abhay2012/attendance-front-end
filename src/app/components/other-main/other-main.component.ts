@@ -17,6 +17,7 @@ export class OtherMainComponent implements OnInit {
 
     // ngModal variables
     selectedGroup: any;
+    description: string;
     // selectedDate: any;
 
     constructor(
@@ -96,7 +97,7 @@ export class OtherMainComponent implements OnInit {
     onSubmit() {
         console.log('get groups called////', this.selectedGroup._id);
 
-        this.router.navigate([`/app/main/group/${this.selectedGroup._id}`]);
+        this.router.navigate([`/app/main/group/${this.selectedGroup._id}`, { description: this.description }]);
     }
 
     // getAttendance() {

@@ -47,4 +47,16 @@ export class PeopleService {
 
     }
 
+    // edit absent note for a particular student for a  particular date
+    editAbsentNote(attendanceId: string, studentAttendanceId: string, note: string) {
+
+        const data: any = {
+            _id: attendanceId,
+            id: studentAttendanceId,
+            note: note
+        };
+        return this.customHttp.post('/updateNote', data);
+
+    }
+
 }

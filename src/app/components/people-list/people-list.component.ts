@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { People } from '../../models/people';
 import { PeopleService } from '../../providers/people.service';
 import { ToastService } from '../../providers/toast.service';
@@ -15,10 +15,11 @@ declare const $;
     styleUrls: ['./people-list.component.scss'],
 })
 
-export class PeopleListComponent implements OnInit {
+export class PeopleListComponent implements OnInit, AfterViewInit {
 
     peopleList: Array<People>;
     group: any;
+    description: string;
     // absentNote: string;
     // absentNoteStudent: any;
     presentStudents: Array<People>; // just for showing before finally uploading attendance
@@ -42,10 +43,19 @@ export class PeopleListComponent implements OnInit {
 
         this.route.params.subscribe((params: any) => {
 
+            this.description = params.description;
             const grpId: string = params['id'];
             this.getAttendance(grpId);
         });
 
+    }
+
+    ngAfterViewInit() {
+        // to keep the modal bdy within view and make scrolable
+        let authenticateModalBody = document.getElementById('authenticateModalBody');
+        authenticateModalBody.style.position = 'relative';
+        authenticateModalBody.style.height = (window.innerHeight - 250) + 'px';
+        authenticateModalBody.style.overflow = 'auto';
     }
 
     giveCorrectIsoTime() {
@@ -184,6 +194,7 @@ export class PeopleListComponent implements OnInit {
         let data: any = {};
         data.group_id = this.group._id;
         data.group_name = this.group.group_name;
+        data.description = this.description;
         data.date = this.giveCorrectIsoTime();
         // OLD CODE  STARTS
         // data.attendance = this.peopleService.peopleList.map((p: any) => {
@@ -207,9 +218,6 @@ export class PeopleListComponent implements OnInit {
         // });
 
         // OLD CODE ENDS
-        console.log('collecting attendance///////');
-        console.log(this.peopleService.peopleList);
-
 
         data.attendance = this.peopleService.peopleList.map(p => {
 

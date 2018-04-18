@@ -114,6 +114,7 @@ export class HeaderComponent {
 
     onPasswordChange() {
         $('#pwdChange').modal('show');
+        this.closeNavBar();
 
     }
 

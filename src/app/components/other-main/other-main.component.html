@@ -14,6 +14,11 @@
         </select>
         <p *ngIf="groups?.length==0" style="color:red">No Groups Available</p>
     </div>
+
+    <div class="form-group">
+        <label for="group">Description</label>
+       <textarea class="form-control" [(ngModel)]="description" rows="3" placeholder="Enter description"></textarea>
+    </div>
     <!-- 
         <div class="col-sm-12 col-md-6">
 
