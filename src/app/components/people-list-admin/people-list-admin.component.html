@@ -4,14 +4,15 @@
 
     <div class="detail">
         <h5>Grupp Namn: {{grpAttendance?.group_name}}</h5>
+        <div *ngIf="grpAttendance.description && grpAttendance.description!='undefined' && grpAttendance.description.trim()!=''">
+            <h5>Gruppaktivitets ämne : </h5>
+            <p style="white-space: pre-wrap;">{{grpAttendance.description}}</p>
+        </div>
         <h5>Adress : {{grpAttendance?.address_name}}</h5>
         <h5 *ngIf="grpAttendance?.date">Date : {{grpAttendance?.date}}</h5>
     </div>
 
-    <div class="detail">
-        <h6>Description</h6>
-        <p style="white-space: pre-wrap;">{{grpAttendance.description}}</p>
-    </div>
+    
 
     <div *ngIf="grpAttendance?.attendance" style="margin-top:20px">
         <h4> Deltagare</h4>
@@ -82,7 +83,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button *ngIf="isAddressOffice &&clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onEditNoteBtn()">Edit note</button>
+                <button *ngIf="clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onEditNoteBtn()">Edit note</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
             </div>
         </div>

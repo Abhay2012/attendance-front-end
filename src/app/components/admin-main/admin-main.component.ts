@@ -14,6 +14,7 @@ declare const $;
 
 export class AdminMainComponent implements OnInit {
 
+    grpAttendanceCopy: any;
     groups: Array<any>;
     dates: Array<{ date: string }>;
     isAdmin = JSON.parse(localStorage.getItem('username')) === 'admin';
@@ -121,6 +122,7 @@ export class AdminMainComponent implements OnInit {
 
                 this.loaderService.hideLoader();
                 this.grpAttendance = res;
+                this.grpAttendanceCopy = JSON.parse(JSON.stringify(this.grpAttendance));
 
             }, (err: any) => {
                 this.loaderService.hideLoader();
@@ -172,6 +174,18 @@ export class AdminMainComponent implements OnInit {
 
     }
 
+    filterBy(ev){
+        this.grpAttendance = JSON.parse(JSON.stringify(this.grpAttendanceCopy));
+        if(ev.target.value == 'present')
+        this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => value.present);
+        else if(ev.target.value == 'absent')
+        this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => !value.present);
 
+        this.grpAttendance[0]['attendance'].sort((a,b)=>{
+            if(a.name < b.name) return -1;
+            else if(a.name > b.name) return 1;
+            else return 0;
+        })
+    }
 
 }

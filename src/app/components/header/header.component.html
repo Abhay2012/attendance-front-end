@@ -16,23 +16,23 @@
                 </a>
             </li>
             <span class="mobile-nav">
-            <li class="nav-item active" *ngIf="isAdmin">
-                <a class="nav-link" style="cursor: pointer" (click)="openModal()">Send Mail
+            <li class="nav-item active">
+                <a class="nav-link" style="cursor: pointer" (click)="openModal()">skicka e-post
                 </a>    
             </li>
 
-            <li class="nav-item active" *ngIf="isAdmin">
+            <li class="nav-item active">
                 <a class="nav-link" style="cursor: pointer" (click)="print()">Spara Pdf
                 </a>
             </li>
 
             <li class="nav-item active" *ngIf="isAdmin">
-                <a class="nav-link" style="cursor: pointer" (click)="onAbsentMessage()">Absent Messages
+                <a class="nav-link" style="cursor: pointer" (click)="onAbsentMessage()">Frånvaro meddelande
                 </a>
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link" style="cursor: pointer" (click)="onPasswordChange()">Change Password
+                <a class="nav-link" style="cursor: pointer" (click)="onPasswordChange()">byt lösenord
                 </a>
             </li>
 
@@ -50,11 +50,11 @@
                   
                 </a>
                 <div style="right: 0 !important;left: auto;" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" style="cursor: pointer;" *ngIf="isAdmin" (click)="openModal()">Send Mail</a>
-                  <a class="dropdown-item" style="cursor: pointer;" *ngIf="isAdmin" (click)="print()">Spara Pdf</a>
-                  <a class="dropdown-item" style="cursor: pointer;" *ngIf="isAdmin" (click)="onAbsentMessage()">Absent Messages</a>
+                  <a class="dropdown-item" style="cursor: pointer;"  (click)="openModal()">skicka e-post</a>
+                  <a class="dropdown-item" style="cursor: pointer;"  (click)="print()">Spara Pdf</a>
+                  <a class="dropdown-item" style="cursor: pointer;" *ngIf="isAdmin" (click)="onAbsentMessage()">Frånvaro meddelande</a>
                   <div *ngIf="isAdmin" class="dropdown-divider"></div>
-                  <a class="dropdown-item" style="cursor: pointer;" (click)="onPasswordChange()">Change Password</a>
+                  <a class="dropdown-item" style="cursor: pointer;" (click)="onPasswordChange()">byt lösenord</a>
                   <a class="dropdown-item" style="cursor: pointer;" (click)="onLogout()">Logout</a>
                 </div>
               </li>
@@ -66,7 +66,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Send Mail</h5>
+                <h5 class="modal-title">skicka e-post</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -95,7 +95,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Change Password</h5>
+                <h5 class="modal-title">byt lösenord</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

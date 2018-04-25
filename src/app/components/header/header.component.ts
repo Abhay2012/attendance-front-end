@@ -38,8 +38,8 @@ export class HeaderComponent {
         if (this.isAdmin) {
             this.navs = [
                 { title: 'Hem', routerLink: 'main' },
-                { title: 'Adresser', routerLink: 'addresses' },
-                { title: 'Adresser office', routerLink: 'teachers' },
+                { title: 'Surfplattor inlogning', routerLink: 'addresses' },
+                { title: 'Användarna kontoren', routerLink: 'teachers' },
                 { title: 'Ladda upp excel fil', routerLink: 'uploadStudents' }
             ];
         } else {

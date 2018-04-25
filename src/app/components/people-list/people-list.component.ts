@@ -126,7 +126,7 @@ export class PeopleListComponent implements OnInit, AfterViewInit {
                 $('#attendanceAuthenticate').modal('show');
             }, (err: any) => {
                 this.loaderService.hideLoader();
-                this.toastService.showError("Couldn't fetch Absent messages, Please enter the messages yourself");
+                this.toastService.showError("Couldn't fetch Frånvaro meddelande, Please enter the messages yourself");
                 $('#attendanceAuthenticate').modal('show');
             });
     }

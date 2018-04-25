@@ -3,11 +3,11 @@
     <button class="btn btn-primary" routerLink="../">
         <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
 
-    <h2>Skapa ny Adresser office</h2>
+    <h2>Skapa ny Användarna kontoren</h2>
     <div style="margin-top:5%;margin-bottom:5%">
         <form name="filterForm" [formGroup]="addTeacherForm" (ngSubmit)="onSubmit()" novalidate>
             <div class="form-group">
-                <label for="teacher">Adresser</label>
+                <label for="teacher">Surfplattor inlogning</label>
                 <select class="form-control" formControlName="teacher">
                     <option *ngFor="let address of addressList" [value]="address.address">
                         {{address.address}}

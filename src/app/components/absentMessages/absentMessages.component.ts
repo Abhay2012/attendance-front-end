@@ -50,7 +50,7 @@ export class AbsentMessagesComponent implements OnInit {
     onDelete(msg: any, index: number) {
 
         // take confirmation before deleting
-        if (confirm('This absent message will be deleted !')) {
+        if (confirm('This Frånvaro meddelande will be deleted !')) {
             this.loaderService.showLoader();
             this.absentMessageService.deleteAbsentMessage(msg._id)
                 .subscribe((res: any) => {

@@ -1,7 +1,7 @@
 <div class="container">
 
 
-    <h2>Adresser office</h2>
+    <h2>Användarna kontoren</h2>
     <div style="margin-bottom:25px">
         <button class="btn btn-primary" routerLink="../create">Skapa ny</button>
 
@@ -11,7 +11,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Adresser office</th>
+                        <th scope="col">Användarna kontoren</th>
                         <th scope="col">Användarnamn</th>
                         <th scope="col" style="text-align:center">redigera </th>
                         <th scope="col" style="text-align:center">Delete</th>
@@ -40,7 +40,7 @@
                         </td>
                     </tr>
                     <div *ngIf="teacherList?.length==0">
-                        <h6>No Adresser office available yet</h6>
+                        <h6>No Användarna kontoren available yet</h6>
                     </div>
 
 
@@ -58,7 +58,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">redigera Adresser office</h5>
+                <h5 class="modal-title">redigera Användarna kontoren</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -72,8 +72,8 @@
                     <form name="editForm" [formGroup]="editTeacherForm" novalidate>
 
                         <div class="form-group">
-                            <label for="teacher">Adresser office </label>
-                            <input type="text" disabled class="form-control" formControlName="teacher" placeholder="Enter Adresser office ">
+                            <label for="teacher">Användarna kontoren </label>
+                            <input type="text" disabled class="form-control" formControlName="teacher" placeholder="Enter Användarna kontoren ">
                         </div>
 
                         <div class="form-group">
