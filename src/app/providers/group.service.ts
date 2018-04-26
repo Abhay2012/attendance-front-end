@@ -32,7 +32,6 @@ export class GroupService {
     }
 
     getGroupAttendace(gId: string, date: string) {
-// console.log('INSIDE SERVICE: GET GROUP ATTENDANCE',this.grpAttendance);
 
         if (this.grpAttendance) {
             return of(this.grpAttendance);
@@ -44,9 +43,16 @@ export class GroupService {
 
     }
 
-    getAttendanceByStudentId(sId:string){
+    getAttendanceByStudentId(sId: string) {
 
         return this.customHttp.get(`/attendanceByStudentId/${sId}`);
+    }
 
+    deleteStudentFromGroup(gId: string, sId: string) {
+        return this.customHttp.delete(`/deleteStudent/${gId}/${sId}`);
+    }
+
+    deleteStudentFromAttendance(aId: string, sId: string) {
+        return this.customHttp.delete(`/deleteStudentFromAttendance/${aId}/${sId}`);
     }
 }

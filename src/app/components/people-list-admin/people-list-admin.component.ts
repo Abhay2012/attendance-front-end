@@ -23,6 +23,9 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
     editedNote: string;
     isAddressOffice: boolean = JSON.parse(localStorage.getItem('role')) === 'teacher';
 
+    selectedStudentToDelete: any; // for storing the student whose deelte btn is pressed
+
+
     constructor(
         private groupService: GroupService,
         private peopleService: PeopleService,
@@ -77,5 +80,38 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
                 this.toastService.showError(err.msg);
             });
 
+    }
+
+    
+    onStudentDelete2(ev: any, student: any) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        console.log(this.grpAttendance._id);
+        console.log(student);
+        this.selectedStudentToDelete = student;
+        $('#studentDeletionmodal').modal('show');
+    }
+
+    finallyDeleteStudent2() {
+
+        this.loaderService.showLoader();
+        this.groupService.deleteStudentFromAttendance(this.grpAttendance._id, this.selectedStudentToDelete.id)
+            .subscribe((res: any) => {
+                this.loaderService.hideLoader();
+                $('#studentDeletionmodal').modal('hide');
+                this.removeDeletedStudentFromList2();
+
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+    }
+
+    removeDeletedStudentFromList2() {
+        const i = this.grpAttendance.attendance.findIndex(s => s.id == this.selectedStudentToDelete.id);
+        if (i > -1) {
+            this.grpAttendance.attendance.splice(i, 1);
+            this.selectedStudentToDelete = null;
+        }
     }
 }

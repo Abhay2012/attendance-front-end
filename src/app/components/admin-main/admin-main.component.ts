@@ -21,13 +21,15 @@ export class AdminMainComponent implements OnInit {
 
     // ngModal variables
     selectedGroup: any;
-    selectedDate: string;
+    selectedDate: any;
 
     // below varibles are for showing the attendance record of particular student
     selectedStudent: any; // for storing the student whose attendance record is being viewed in modal
     selectedStudentAttendance: Array<any>;
     selectedStudentDateRecord: any; // stores the object containing the record for a particular date of selectedStudent
     selectedStudentDateSign: string;
+
+    selectedStudentToDelete: any; // for storing the student whose deelte btn is pressed
 
 
     grpAttendance: Array<any>;
@@ -47,7 +49,7 @@ export class AdminMainComponent implements OnInit {
 
         this.getGroups();
         this.groupService.grpAttendance = null; // to remove a bug in which grpAttendance in service 
-        // is not cleared when 
+        // is not cleared when
         // routeed away from people-list-component, duw to which fresh attendance is nt fetched 
         // in current(AdminMainComponent) component
     }
@@ -69,6 +71,8 @@ export class AdminMainComponent implements OnInit {
 
     onGroupChange() {
         // console.log(this.selectedGroup);
+        this.selectedDate = null;
+
         this.grpDetailInfo = null;
         this.grpAttendance = null;
         this.getDates();
@@ -81,7 +85,6 @@ export class AdminMainComponent implements OnInit {
         this.groupService.getDateList(this.selectedGroup._id)
             .subscribe((res: Array<any>) => {
                 this.dates = res;
-                this.selectedDate = null;
                 this.loaderService.hideLoader();
 
             }, (err: any) => {
@@ -116,7 +119,7 @@ export class AdminMainComponent implements OnInit {
         // console.log('loader start before grp attendance');
 
         this.loaderService.showLoader();
-        this.groupService.getGroupAttendace(this.selectedGroup._id, this.selectedDate)
+        this.groupService.getGroupAttendace(this.selectedGroup._id, this.selectedDate.date)
             .subscribe((res: any) => {
                 // console.log('loader hide after grp attendance');
 
@@ -174,18 +177,53 @@ export class AdminMainComponent implements OnInit {
 
     }
 
-    filterBy(ev){
+    filterBy(ev) {
         this.grpAttendance = JSON.parse(JSON.stringify(this.grpAttendanceCopy));
-        if(ev.target.value == 'present')
-        this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => value.present);
-        else if(ev.target.value == 'absent')
-        this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => !value.present);
-
-        this.grpAttendance[0]['attendance'].sort((a,b)=>{
-            if(a.name < b.name) return -1;
-            else if(a.name > b.name) return 1;
+        if (ev.target.value == 'present') {
+            this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => value.present);
+        } else if (ev.target.value == 'absent') {
+            this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => !value.present);
+        }
+        this.grpAttendance[0]['attendance'].sort((a, b) => {
+            if (a.name < b.name) { return -1; }
+            else if (a.name > b.name) { return 1; }
             else return 0;
-        })
+        });
     }
+
+    onStudentDelete(ev: any, student: any) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        console.log(student);
+        console.log(this.grpDetailInfo._id);
+
+        this.selectedStudentToDelete = student;
+        $('#studentDeletionmodal').modal('show');
+    }
+
+    finallyDeleteStudent() {
+
+        this.loaderService.showLoader();
+        this.groupService.deleteStudentFromGroup(this.grpDetailInfo._id, this.selectedStudentToDelete._id)
+            .subscribe((res: any) => {
+                this.loaderService.hideLoader();
+                $('#studentDeletionmodal').modal('hide');
+                this.removeDeletedStudentFromList();
+
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+    }
+
+    removeDeletedStudentFromList() {
+        const i = this.grpDetailInfo.students.findIndex(s => s._id == this.selectedStudentToDelete._id);
+        if (i > -1) {
+            this.grpDetailInfo.students.splice(i, 1);
+            this.selectedStudentToDelete = null;
+        }
+    }
+
+
 
 }
