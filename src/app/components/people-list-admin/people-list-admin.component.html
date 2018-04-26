@@ -43,7 +43,8 @@
                         </td>
                         <td *ngIf="a.present==null|| a.present==undefined">'Not Available'</td>
                         <td>
-                            <img *ngIf="a.present==true" style="width:100px;height:40px" [src]="giveSanitizedImageUrl(a.sign)" alt="Signature Image">
+                            <img *ngIf="a.present==true && a.sign.trim()!==''" style="width:100px;height:40px" [src]="giveSanitizedImageUrl(a.sign)">
+                            <p *ngIf="a.present==true && a.sign.trim()===''">Not Available</p>
                             <p *ngIf="a.present==false">{{a.note}}</p>
                             <p *ngIf="a.present==null|| a.present==undefined">'Not Available'</p>
                         </td>
@@ -70,8 +71,7 @@
 
 <!-- ATTENDANCE DETAIL MODAL -->
 
-<div class="modal fade" id="attendanceDetailModal" tabindex="-1" role="dialog" aria-labelledby="attendanceDetailModalTitle"
-    aria-hidden="true">
+<div class="modal" id="attendanceDetailModal" tabindex="-1" role="dialog" aria-labelledby="attendanceDetailModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -90,7 +90,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button *ngIf="clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onChangeToPresent()">Change to Present</button>
                 <button *ngIf="clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onEditNoteBtn()">Edit note</button>
+                <button *ngIf="clickedPerson && clickedPerson.present" type="button" class="btn btn-primary" (click)="onChangeToAbsent()">Change to Absent</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
             </div>
         </div>
@@ -100,7 +102,7 @@
 
 <!-- ABSENT NOTE EDIT MODAL -->
 
-<div class="modal fade" id="noteEditModal" tabindex="-1" role="dialog" aria-labelledby="noteEditModalTitle" aria-hidden="true">
+<div class="modal" id="noteEditModal" tabindex="-1" role="dialog" aria-labelledby="noteEditModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -124,25 +126,77 @@
     </div>
 </div>
 
-   <!-- MODAL TO CONFIRM THE DELETION OF STUDENT FROM GROUP  -->
 
-   <div class="modal fade" id="studentDeletionmodal" tabindex="-1" role="dialog" aria-labelledby="studentDeletionmodalLabel"
-   aria-hidden="true">
-   <div class="modal-dialog modal-sm" role="document">
-       <div class="modal-content">
-           <div class="modal-header">
-               <h5 class="modal-title" id="studentDeletionmodal">Deletion Confirmation</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                   <span aria-hidden="true">&times;</span>
-               </button>
-           </div>
-           <div class="modal-body">
-               <p>Are you sure to delete {{selectedStudentToDelete?.name}} from this attendance ?</p>
-           </div>
-           <div class="modal-footer">
-                   <button type="button" (click)="finallyDeleteStudent2()" class="btn btn-danger">Delete</button>
-               <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-           </div>
-       </div>
-   </div>
+<!-- ABSENT NOTE ADD  MODAL -->
+
+<div class="modal" id="noteAddModal" tabindex="-1" role="dialog" aria-labelledby="noteAddModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Absent Note</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="group">Add Note</label>
+                    <input type="text" class="form-control" [(ngModel)]="addedNote" placeholder="Enter Note">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onAddNote()">Upload</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--CHANGE TO  PRESENT MODAL -->
+
+<div class="modal" id="changeToPresentModal" tabindex="-1" role="dialog" aria-labelledby="changeToPresentModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeToPresentModal">Change to Present</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Attendance marked Present</p>
+                <p>Select one of the options below . </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="onTakeSignature()">Take signature</button>
+                <button type="button" class="btn btn-primary" (click)="onNoSignature()">No signature</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TO CONFIRM THE DELETION OF STUDENT FROM GROUP  -->
+
+<div class="modal fade" id="studentDeletionmodal" tabindex="-1" role="dialog" aria-labelledby="studentDeletionmodalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="studentDeletionmodal">Deletion Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to delete {{selectedStudentToDelete?.name}} from this attendance ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="finallyDeleteStudent2()" class="btn btn-danger">Delete</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>

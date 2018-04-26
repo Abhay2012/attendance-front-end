@@ -59,4 +59,9 @@ export class PeopleService {
 
     }
 
+    changeAttendanceToAbsent(newData: any) {
+        return this.customHttp.put('/updateAttendanceStatus', newData);
+
+    }
+
 }

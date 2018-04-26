@@ -71,7 +71,7 @@ export class AdminMainComponent implements OnInit {
 
     onGroupChange() {
         // console.log(this.selectedGroup);
-        this.selectedDate = null;
+        
 
         this.grpDetailInfo = null;
         this.grpAttendance = null;
@@ -84,6 +84,7 @@ export class AdminMainComponent implements OnInit {
         this.loaderService.showLoader();
         this.groupService.getDateList(this.selectedGroup._id)
             .subscribe((res: Array<any>) => {
+                this.selectedDate = null;
                 this.dates = res;
                 this.loaderService.hideLoader();
 

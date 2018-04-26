@@ -23,6 +23,8 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
     editedNote: string;
     isAddressOffice: boolean = JSON.parse(localStorage.getItem('role')) === 'teacher';
 
+    addedNote = ''; // used when a present student is changed to absent
+
     selectedStudentToDelete: any; // for storing the student whose deelte btn is pressed
 
 
@@ -50,7 +52,7 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
     }
 
     giveSanitizedImageUrl(url: string) {
-        return <string>this.sanitizer.bypassSecurityTrustUrl(url)
+        return <string>this.sanitizer.bypassSecurityTrustUrl(url);
     }
 
     onEditNoteBtn() {
@@ -82,7 +84,90 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
 
     }
 
-    
+    onChangeToAbsent() {
+        $('#attendanceDetailModal').modal('hide');
+        $('#noteAddModal').modal('show');
+
+    }
+
+    onAddNote() {
+        if (this.addedNote.trim() === '') {
+            this.toastService.showError('Note cannot be empty');
+            return;
+        }
+        const cp = <any>this.clickedPerson;
+
+        // make new student object with updated attendance details
+        const newData: any = {
+            id: cp.id,
+            name: cp.name,
+            present: false,
+            note: this.addedNote
+        };
+
+        const data: any = {
+            _id: this.grpAttendance._id,
+            data: newData
+        };
+
+        this.loaderService.showLoader();
+        this.peopleService.changeAttendanceToAbsent(data)
+            .subscribe((res: any) => {
+                this.clickedPerson.note = this.addedNote;
+                this.clickedPerson.present = false;
+                if (this.clickedPerson.sign) { delete this.clickedPerson.sign; }
+                this.loaderService.hideLoader();
+                this.toastService.showSuccess('Attendance changed successfully');
+                $('#noteAddModal').modal('hide');
+
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+    }
+
+
+    onChangeToPresent() {
+        $('#attendanceDetailModal').modal('hide');
+        $('#changeToPresentModal').modal('show');
+    }
+
+    onTakeSignature() { }
+
+
+    onNoSignature() {
+        const cp = <any>this.clickedPerson;
+        // make new student object with updated attendance details
+        const newData: any = {
+            id: cp.id,
+            name: cp.name,
+            present: true,
+            sign: ''
+        };
+
+        const data: any = {
+            _id: this.grpAttendance._id,
+            data: newData
+        };
+
+        this.loaderService.showLoader();
+        this.peopleService.changeAttendanceToAbsent(data)
+            .subscribe((res: any) => {
+                this.clickedPerson.sign = '';
+                this.clickedPerson.present = true;
+                if (this.clickedPerson.note) { delete this.clickedPerson.note; }
+                this.loaderService.hideLoader();
+                this.toastService.showSuccess('Attendance changed successfully');
+                $('#changeToPresentModal').modal('hide');
+
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+    }
+
+
+    // methods related to deletion
     onStudentDelete2(ev: any, student: any) {
         ev.preventDefault();
         ev.stopPropagation();
