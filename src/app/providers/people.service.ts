@@ -15,7 +15,9 @@ export class PeopleService {
     clickedPerson: People;  // tores the people for whom signature page is currently opened to his/her details and take signature
     peopleList: Array<People>; // stores the list of all students of selected group
     groupName: string; // stores the groupName for which attendance is being taken
+    attendanceId:string; // used only when admin is chnaging the already submitted attendnace
 
+    
     constructor(
         private customHttp: CustomHttpService
         //   private toast: MyToastService
@@ -59,7 +61,7 @@ export class PeopleService {
 
     }
 
-    changeAttendanceToAbsent(newData: any) {
+    changeAttendancStatus(newData: any) {
         return this.customHttp.put('/updateAttendanceStatus', newData);
 
     }

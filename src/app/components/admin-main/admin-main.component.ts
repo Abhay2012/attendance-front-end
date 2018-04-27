@@ -35,6 +35,7 @@ export class AdminMainComponent implements OnInit {
     grpAttendance: Array<any>;
     grpDetailInfo: any;  // without the attendance
 
+
     constructor(
         private router: Router,
         private groupService: GroupService,
@@ -71,7 +72,7 @@ export class AdminMainComponent implements OnInit {
 
     onGroupChange() {
         // console.log(this.selectedGroup);
-        
+
 
         this.grpDetailInfo = null;
         this.grpAttendance = null;
@@ -182,9 +183,12 @@ export class AdminMainComponent implements OnInit {
         this.grpAttendance = JSON.parse(JSON.stringify(this.grpAttendanceCopy));
         if (ev.target.value == 'present') {
             this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => value.present);
+            localStorage.setItem('pdfName', 'present');
         } else if (ev.target.value == 'absent') {
             this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => !value.present);
+            localStorage.setItem('pdfName', 'absent');
         }
+        localStorage.setItem('pdfDate',this.selectedDate.date);
         this.grpAttendance[0]['attendance'].sort((a, b) => {
             if (a.name < b.name) { return -1; }
             else if (a.name > b.name) { return 1; }

@@ -68,11 +68,13 @@ export class HeaderComponent {
                 let img = canvas.toDataURL('image/jpeg', 1.0);
                 let doc = new jsPDF('l', 'mm', [297, 210]);
                 doc.addImage(img, 'JPEG', 20, 20, 220, 180);
-                doc.save(`schema-attendance.pdf`);
+                const pdfName = localStorage.getItem('pdfName') === 'present' ? 'närvaro' : 'frånvaro ';
+                const pdfDate = localStorage.getItem('pdfDate');
+                doc.save(`${pdfName}_${pdfDate}.pdf`);
                 document.body.style.width = '100%';
                 document.body.style.height = '100%';
             }
-        })
+        });
         this.closeNavBar();
     }
 

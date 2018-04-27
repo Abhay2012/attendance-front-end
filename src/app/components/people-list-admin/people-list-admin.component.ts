@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { PeopleService } from '../../providers/people.service';
 import { LoaderService } from '../../providers/loader.service';
 import { ToastService } from '../../providers/toast.service';
+import { Router } from '@angular/router';
 
 declare const $;
 
@@ -33,7 +34,8 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
         private peopleService: PeopleService,
         private sanitizer: DomSanitizer,
         private loaderService: LoaderService,
-        private toastService: ToastService
+        private toastService: ToastService,
+        private router: Router
 
     ) { }
 
@@ -111,7 +113,7 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
         };
 
         this.loaderService.showLoader();
-        this.peopleService.changeAttendanceToAbsent(data)
+        this.peopleService.changeAttendancStatus(data)
             .subscribe((res: any) => {
                 this.clickedPerson.note = this.addedNote;
                 this.clickedPerson.present = false;
@@ -132,7 +134,15 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
         $('#changeToPresentModal').modal('show');
     }
 
-    onTakeSignature() { }
+    onTakeSignature() {
+        $('#changeToPresentModal').modal('hide');
+
+        this.peopleService.clickedPerson = this.clickedPerson;
+        this.peopleService.groupName = this.grpAttendance.group_name;
+        this.peopleService.attendanceId = this.grpAttendance._id;
+        const grpId: string = this.grpAttendance.group_id; //  just for routing to signature component
+        this.router.navigate([`/app/main/group/${grpId}/signature2`]);
+    }
 
 
     onNoSignature() {
@@ -151,7 +161,7 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
         };
 
         this.loaderService.showLoader();
-        this.peopleService.changeAttendanceToAbsent(data)
+        this.peopleService.changeAttendancStatus(data)
             .subscribe((res: any) => {
                 this.clickedPerson.sign = '';
                 this.clickedPerson.present = true;
