@@ -6,7 +6,7 @@
         <h5>Grupp Namn: {{grpAttendance?.group_name}}</h5>
         <div *ngIf="grpAttendance.description && grpAttendance.description!='undefined' && grpAttendance.description.trim()!=''">
             <h5>Gruppaktivitets ämne : </h5>
-            <p style="white-space: pre-wrap;">{{grpAttendance.description}}</p>
+            <h5 style="white-space: pre-wrap;">{{grpAttendance.description}}</h5>
         </div>
         <h5>Adress : {{grpAttendance?.address_name}}</h5>
         <h5 *ngIf="grpAttendance?.date">Date : {{grpAttendance?.date}}</h5>
@@ -90,9 +90,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button *ngIf="clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onChangeToPresent()">Change to Present</button>
-                <button *ngIf="clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onEditNoteBtn()">Edit note</button>
-                <button *ngIf="clickedPerson && clickedPerson.present" type="button" class="btn btn-primary" (click)="onChangeToAbsent()">Change to Absent</button>
+                <button *ngIf="clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onChangeToPresent()">Ändra till närvarande</button>
+                <button *ngIf="clickedPerson && !clickedPerson.present" type="button" class="btn btn-primary" (click)="onEditNoteBtn()">Redigera anteckningar</button>
+                <button *ngIf="clickedPerson && clickedPerson.present" type="button" class="btn btn-primary" (click)="onChangeToAbsent()">Ändra till frånvarande</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
             </div>
         </div>
@@ -114,7 +114,7 @@
             <div class="modal-body">
 
                 <div class="form-group">
-                    <label for="group">Edit Note</label>
+                    <label for="group">Redigera anteckningar</label>
                     <input type="text" class="form-control" [(ngModel)]="editedNote" placeholder="Enter New Note">
                 </div>
             </div>
@@ -160,7 +160,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="changeToPresentModal">Change to Present</h5>
+                <h5 class="modal-title" id="changeToPresentModal">Ändra till närvarande</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

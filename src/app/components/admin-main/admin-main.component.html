@@ -30,18 +30,19 @@
 
         <div style="margin-bottom:20px">
             <div *ngIf="grpAttendance">
-                <button class="btn btn-default" (click)="onGrpInfoBtn()">View Group Info </button>
+                <button class="btn btn-default" (click)="onGrpInfoBtn()">Se gruppens information </button>
                 <br>
                 <br>
                 <select class="form-control" style="width:25%" (change)="filterBy($event)">
-                    <option selected="true" disabled="true" value="">Filter By :</option>
-                    <option value="present">Present</option>
-                    <option value="absent">Absent</option>
+                    <option selected="true" disabled="true" value="">Filtrera efter :</option>
+                    <option value="present">Närvarande</option>
+                    <option value="absent">Frånvarande</option>
                 </select>
-
+                <button style="float:right" class="btn btn-danger" (click)="deleteAttendance()" *ngIf="isAdmin">Delete</button>  
+            
             </div>
             <div *ngIf="grpDetailInfo && selectedDate && dates?.length!==0">
-                <button class="btn btn-default" (click)="onGrpAttendanceBtn()">View Group Attendance</button>
+                <button class="btn btn-default" (click)="onGrpAttendanceBtn()">See gruppens närvarande</button>
             </div>
         </div>
 

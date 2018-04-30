@@ -40,8 +40,8 @@ export class Signature2Component implements OnInit {
         console.log(this.person);
         console.log(this.peopleService.attendanceId);
         if (this.peopleService.attendanceId) { this.isAddress = false; }
-        this.isAddress = JSON.parse(localStorage.getItem('userInfo')).role === 'address';
-
+        this.isAddress = JSON.parse(localStorage.getItem('userInfo'))[0].role === 'address';
+        console.log(this.isAddress);
         // in case of refresh
         if (!this.person) {
             this.routeBack();

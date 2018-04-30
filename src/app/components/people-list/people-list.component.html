@@ -10,7 +10,7 @@
         <h5>Grupp Namn: {{group?.group_name}}</h5>
         <div *ngIf="description!='undefined' && description.trim()!=''">
             <h5>Gruppaktivitets ämne</h5>
-            <p style="white-space: pre-wrap">{{this.description}}</p>
+            <h5 style="white-space: pre-wrap">{{this.description}}</h5>
         </div>
         <h5 *ngIf="group?.teachers">Handledare: {{group?.teachers.join(',')}}</h5>
         <h5>Date: {{today | swedishDatePipe}}</h5>

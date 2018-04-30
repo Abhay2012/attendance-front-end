@@ -55,4 +55,8 @@ export class GroupService {
     deleteStudentFromAttendance(aId: string, sId: string) {
         return this.customHttp.delete(`/deleteStudentFromAttendance/${aId}/${sId}`);
     }
+
+    deleteAttendance(aId: string) {
+        return this.customHttp.delete(`/deleteAttendance/${aId}`);
+    }
 }

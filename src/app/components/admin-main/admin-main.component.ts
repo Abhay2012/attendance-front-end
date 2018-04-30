@@ -229,6 +229,22 @@ export class AdminMainComponent implements OnInit {
         }
     }
 
-
+    deleteAttendance(){
+        let confirm = window.confirm('Sure? want to delete')
+        if(confirm){
+            this.loaderService.showLoader();
+            this.groupService.deleteAttendance(this.grpAttendance[0]['_id'])
+            .subscribe((res: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showSuccess(res.message);
+                this.selectedDate = '';
+                this.onGrpInfoBtn();
+                
+            }, (err: any) => {
+                this.loaderService.hideLoader();
+                this.toastService.showError(err.msg);
+            });
+        }
+    }
 
 }
