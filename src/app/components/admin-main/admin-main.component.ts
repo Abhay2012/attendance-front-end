@@ -14,6 +14,7 @@ declare const $;
 
 export class AdminMainComponent implements OnInit {
 
+    local: any;
     grpAttendanceCopy: any;
     groups: Array<any>;
     dates: Array<{ date: string }>;
@@ -48,6 +49,8 @@ export class AdminMainComponent implements OnInit {
 
     ngOnInit() {
 
+        this.local = localStorage;
+        if(!this.isAdmin) this.getDeleteStatus();
         this.getGroups();
         this.groupService.grpAttendance = null; // to remove a bug in which grpAttendance in service 
         // is not cleared when
@@ -55,7 +58,14 @@ export class AdminMainComponent implements OnInit {
         // in current(AdminMainComponent) component
     }
 
-
+    getDeleteStatus(){
+        this.groupService.getdelStatus().subscribe((res:any)=>{
+            console.log(res.data);
+            localStorage.setItem('delStatus',res.data.delStatus);
+        },(err:any)=>{
+            localStorage.setItem('delStatus','false');
+        })
+    }
 
     getGroups() {
 
@@ -112,6 +122,7 @@ export class AdminMainComponent implements OnInit {
 
     onDateChange() {
         console.log(this.selectedDate);
+        localStorage.setItem('pdfDate',this.selectedDate.date);
         this.grpAttendance = null;
         this.grpDetailInfo = null;
         this.getGrpAttendance();
@@ -156,7 +167,12 @@ export class AdminMainComponent implements OnInit {
                 this.loaderService.hideLoader();
                 this.selectedStudent = student;
                 this.selectedStudentAttendance = res.data;
-
+                this.selectedStudentAttendance = this.selectedStudentAttendance.map((a)=>{
+                    if(a.attendance.present){
+                        a.attendance.sign = <string>this.sanitizer.bypassSecurityTrustUrl(a.attendance.sign);
+                    }
+                    return a;
+                })
                 $('#attendanceRecordModal').modal('show');
 
             }, (err: any) => {
@@ -174,7 +190,7 @@ export class AdminMainComponent implements OnInit {
 
     onAttendanceRecordSelect(attendanceRecord: any) {
         this.selectedStudentDateRecord = attendanceRecord;
-        this.selectedStudentDateSign = <string>this.sanitizer.bypassSecurityTrustUrl(this.selectedStudentDateRecord.attendance.sign);
+        this.selectedStudentDateSign = this.selectedStudentDateRecord.attendance.sign;
         $('#viewSignmodal').modal('show');
 
     }
@@ -187,8 +203,10 @@ export class AdminMainComponent implements OnInit {
         } else if (ev.target.value == 'absent') {
             this.grpAttendance[0].attendance = this.grpAttendance[0]['attendance'].filter(value => !value.present);
             localStorage.setItem('pdfName', 'absent');
+        }else if(ev.target.value == 'all'){
+            localStorage.setItem('pdfName','');
         }
-        localStorage.setItem('pdfDate',this.selectedDate.date);
+        
         this.grpAttendance[0]['attendance'].sort((a, b) => {
             if (a.name < b.name) { return -1; }
             else if (a.name > b.name) { return 1; }

@@ -59,4 +59,10 @@ export class GroupService {
     deleteAttendance(aId: string) {
         return this.customHttp.delete(`/deleteAttendance/${aId}`);
     }
+
+    getdelStatus(){
+        // console.log(localStorage.getItem('username'))
+        return this.customHttp.get(`/getdelStatus/${JSON.parse(localStorage.getItem('userInfo'))[0]._id}`)
+    }
+
 }

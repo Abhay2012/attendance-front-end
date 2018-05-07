@@ -23,7 +23,7 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
     clickedPersonSign: string;
     editedNote: string;
     isAddressOffice: boolean = JSON.parse(localStorage.getItem('role')) === 'teacher';
-
+    local;
     addedNote = ''; // used when a present student is changed to absent
 
     selectedStudentToDelete: any; // for storing the student whose deelte btn is pressed
@@ -44,7 +44,9 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
         this.grpAttendance = this.grpAttendance[0];
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.local = localStorage;
+     }
 
     onPeopleSelect(p: People) {
         this.clickedPerson = p;
@@ -83,7 +85,6 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
                 this.loaderService.hideLoader();
                 this.toastService.showError(err.msg);
             });
-
     }
 
     onChangeToAbsent() {

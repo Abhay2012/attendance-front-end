@@ -19,6 +19,7 @@ export class HeaderComponent {
     navs: Array<{ title: string, routerLink: string }>;
     isAdmin = JSON.parse(localStorage.getItem('role')) === 'admin';
     file: File;
+    isAddress : boolean;
 
     // for password change
     oldPwd: string;
@@ -50,6 +51,7 @@ export class HeaderComponent {
             } else {
                 // in case of address
                 this.navs = [{ title: 'Hem', routerLink: 'main' }];
+                this.isAddress = true;
             }
         }
     }
@@ -68,9 +70,9 @@ export class HeaderComponent {
                 let img = canvas.toDataURL('image/jpeg', 1.0);
                 let doc = new jsPDF('l', 'mm', [297, 210]);
                 doc.addImage(img, 'JPEG', 20, 20, 220, 180);
-                const pdfName = localStorage.getItem('pdfName') === 'present' ? 'närvaro' : 'frånvaro ';
+                const pdfName = localStorage.getItem('pdfName') === 'present' ? 'närvaro' : (localStorage.getItem('pdfName') === 'absent' ? 'frånvaro ' : 'full lista');
                 const pdfDate = localStorage.getItem('pdfDate');
-                doc.save(`${pdfName}_${pdfDate}.pdf`);
+                doc.save(`${pdfName} ${pdfDate}.pdf`);
                 document.body.style.width = '100%';
                 document.body.style.height = '100%';
             }

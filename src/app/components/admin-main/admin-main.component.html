@@ -30,13 +30,14 @@
 
         <div style="margin-bottom:20px">
             <div *ngIf="grpAttendance">
-                <button class="btn btn-default" (click)="onGrpInfoBtn()">Se gruppens information </button>
+                <button class="btn btn-default" (click)="onGrpInfoBtn()">se specifikt deltagares information</button>
                 <br>
                 <br>
                 <select class="form-control" style="width:25%" (change)="filterBy($event)">
                     <option selected="true" disabled="true" value="">Filtrera efter :</option>
                     <option value="present">Närvarande</option>
                     <option value="absent">Frånvarande</option>
+                    <option value="all">Visa alla deltagare</option>
                 </select>
                 <button style="float:right" class="btn btn-danger" (click)="deleteAttendance()" *ngIf="isAdmin">Delete</button>  
             
@@ -63,7 +64,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Deltagare</th>
-                                <th style="text-align:center" scope="col">Delete</th>
+                                <th *ngIf="isAdmin || local.delStatus == 'true'" style="text-align:center" scope="col">Delete</th>
                             </tr>
                         </thead>
 
@@ -71,7 +72,7 @@
                             <tr style="cursor:pointer" *ngFor="let g of grpDetailInfo.students; let i=index" (click)="onStudentSelect(g)">
                                 <td>{{i+1}}</td>
                                 <td>{{g.name}}</td>
-                                <td style="text-align:center">
+                                <td style="text-align:center" *ngIf="isAdmin || local.delStatus == 'true'">
                                     <p data-placement="top" data-toggle="tooltip" title="Delete">
                                         <button class="btn btn-danger btn-xs" data-title="Delete" (click)="onStudentDelete($event,g)">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
@@ -121,6 +122,7 @@
                                 <tr>
                                     <th scope="col">Date</th>
                                     <th scope="col">Attendance</th>
+                                    <th scope="col">Signature/Anteckning</th>
                                 </tr>
                             </thead>
 
@@ -134,6 +136,15 @@
                                         <i class="fa fa-lg fa-times" style="color:red" aria-hidden="true"></i>
                                     </td>
                                     <td *ngIf="a.attendance.present==null || a.attendance.present==undefined">'Not Available'</td>
+                                    <td>
+                                        <div *ngIf="a.attendance.present">
+                                            <img [src]="a.attendance.sign" style="width:100px;height:40px" alt="Signature Image">
+                                        </div>
+                                        <div *ngIf="!a.attendance.present">
+                    
+                                            <p>{{a.attendance.note || 'Absent note Not Available'}}</p>
+                                        </div>                    
+                                    </td>
                                 </tr>
                                 <div *ngIf="!selectedStudentAttendance || selectedStudentAttendance.length==0">
                                     <h4>No attendance record available for this student</h4>

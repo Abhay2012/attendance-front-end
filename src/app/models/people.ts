@@ -24,6 +24,7 @@ export interface Teacher {
     _id: string;
     teacher: string;
     username: string;
+    delStatus : boolean;
     password?: string;
 
 }

@@ -69,6 +69,7 @@ export class TeachersComponent implements OnInit {
     }
 
     onEdit(t: Teacher, index: number) {
+        console.log(t);
         this.teacherInModal = t;
         this.indexInModal = index;
         this.initEditForm(t);
@@ -80,6 +81,7 @@ export class TeachersComponent implements OnInit {
             username: [t ? t.username : '', Validators.required],
             teacher: [t ? t.teacher : ''],
             password: [''],
+            delStatus : [t ? t.delStatus : false]
         });
     }
 
@@ -87,6 +89,7 @@ export class TeachersComponent implements OnInit {
     // get teacher() { return this.editTeacherForm.get('teacher'); }
     get username() { return this.editTeacherForm.get('username'); }
     get password() { return this.editTeacherForm.get('password'); }
+    get delStatus() { return this.editTeacherForm.get('delStatus'); }
 
     onEditSubmit() {
 
@@ -96,9 +99,9 @@ export class TeachersComponent implements OnInit {
         }
         // check if there is no change in the data
         const usernameChanged = this.username.value.trim() !== this.teacherInModal.username
-            , pwdChanged = this.password.value.trim() !== '';
-
-        if (!usernameChanged && !pwdChanged) {
+            , pwdChanged = this.password.value.trim() !== '',
+            delStatusChanged = this.delStatus.value !== this.teacherInModal.delStatus;
+        if (!usernameChanged && !pwdChanged&& !delStatusChanged) {
             alert('No information has been edited');
             return;
         }
@@ -115,7 +118,11 @@ export class TeachersComponent implements OnInit {
             data['password'] = this.editTeacherForm.value.password;
         }
 
+        if (delStatusChanged) {
+            data['delStatus'] = this.editTeacherForm.value.delStatus;
+        }
 
+        
         // finally send the request
         this.sendEditRequest(data);
 
@@ -132,8 +139,10 @@ export class TeachersComponent implements OnInit {
                     _id: this.teacherInModal._id,
                     teacher: data.teacher,
                     username: data.username || this.teacherInModal.username,
-                    password: data.password || this.teacherInModal.password
+                    password: data.password || this.teacherInModal.password,
+                    delStatus : 'delStatus' in data ? data.delStatus : this.teacherInModal.delStatus
                 });
+                console.log(data.delStatus);
                 this.toastService.showSuccess('Edited Successfully');
             }, (err: any) => {
                 this.loaderService.hideLoader();

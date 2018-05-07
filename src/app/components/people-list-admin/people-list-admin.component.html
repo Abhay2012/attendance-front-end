@@ -26,8 +26,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Deltagare</th>
                         <th scope="col">Närvaro</th>
-                        <th scope="col">Sign/Note</th>
-                        <th scope="col" style="text-align: center">Delete</th>
+                        <th scope="col">Signature/Anteckning</th>
+                        <th *ngIf="!isAddressOffice || local.delStatus == 'true'" scope="col" style="text-align: center">Delete</th>
                     </tr>
                 </thead>
 
@@ -48,7 +48,7 @@
                             <p *ngIf="a.present==false">{{a.note}}</p>
                             <p *ngIf="a.present==null|| a.present==undefined">'Not Available'</p>
                         </td>
-                        <td style="text-align:center">
+                        <td *ngIf="!isAddressOffice || local.delStatus == 'true'" style="text-align:center">
                             <p data-placement="top" data-toggle="tooltip" title="Delete">
                                 <button class="btn btn-danger btn-xs" data-title="Delete" (click)="onStudentDelete2($event,a)">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
