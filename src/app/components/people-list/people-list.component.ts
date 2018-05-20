@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { People } from '../../models/people';
 import { PeopleService } from '../../providers/people.service';
 import { ToastService } from '../../providers/toast.service';
@@ -15,7 +15,7 @@ declare const $;
     styleUrls: ['./people-list.component.scss'],
 })
 
-export class PeopleListComponent implements OnInit, AfterViewInit {
+export class PeopleListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     peopleList: Array<People>;
     group: any;
@@ -39,10 +39,19 @@ export class PeopleListComponent implements OnInit, AfterViewInit {
         private loginService: LoginService
     ) { }
 
+    ngOnDestroy(){
+        window.onbeforeunload = null;
+    }
+
     ngOnInit() {
 
-        this.route.params.subscribe((params: any) => {
+        window.onbeforeunload = function(e) {
+            var dialogText = "You can't refresh this page";
+            e.returnValue = dialogText;
+            return dialogText;
+         };
 
+        this.route.params.subscribe((params: any) => {
             this.description = params.description;
             const grpId: string = params['id'];
             this.getAttendance(grpId);
@@ -143,7 +152,7 @@ export class PeopleListComponent implements OnInit, AfterViewInit {
         console.log(this.remainingStudents);
 
         // check all absent notes are filled or not
-        const i = this.remainingStudents.findIndex(p => (!p.selectedNote && p.note.trim() === ''));
+        const i = this.remainingStudents.findIndex(p => (!p.selectedNote && p.note.trim() === '' && p.selectedNote == ''));
         if (i > -1) {
             this.toastService.showError('Please enter all the absent notes');
             return;

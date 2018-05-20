@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { People } from '../../models/people';
 import { PeopleService } from '../../providers/people.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,7 +15,7 @@ declare const $;
 
 /**Do not get confused with name signature2, there is no other component with name signature1 */
 
-export class Signature2Component implements OnInit {
+export class Signature2Component implements OnInit, OnDestroy {
 
 
     person: People;
@@ -34,6 +34,11 @@ export class Signature2Component implements OnInit {
     ) { }
 
     ngOnInit() {
+        window.onbeforeunload = function(e) {
+            var dialogText = "You can't refresh this page";
+            e.returnValue = dialogText;
+            return dialogText;
+         };
         this.person = this.peopleService.clickedPerson;
         this.personGroupName = this.peopleService.groupName;
 
@@ -49,6 +54,10 @@ export class Signature2Component implements OnInit {
         /**iniitalize the jquery plugin used for signature */
         $('#signature').jSignature();
 
+    }
+
+    ngOnDestroy(){
+        window.onbeforeunload = null;
     }
 
     emptySign(datapair: string) {
