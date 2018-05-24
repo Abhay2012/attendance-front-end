@@ -115,6 +115,9 @@
 
                 <div class="form-group">
                     <label for="group">Redigera anteckningar</label>
+                    <select [(ngModel)]="selectedNote" class="form-control">
+                        <option *ngFor="let note of absentNotes" [value]="note.message">{{note.message}}</option>
+                    </select>
                     <input type="text" class="form-control" [(ngModel)]="editedNote" placeholder="Enter New Note">
                 </div>
             </div>

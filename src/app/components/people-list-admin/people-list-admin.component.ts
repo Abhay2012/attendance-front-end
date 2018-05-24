@@ -22,6 +22,8 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
     clickedPerson: People;
     clickedPersonSign: string;
     editedNote: string;
+    selectedNote : string;
+    absentNotes = [];
     isAddressOffice: boolean = JSON.parse(localStorage.getItem('role')) === 'teacher';
     local;
     addedNote = ''; // used when a present student is changed to absent
@@ -40,7 +42,9 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
     ) { }
 
     ngOnChanges() {
-
+        this.peopleService.fetchAbsentMessages().subscribe((res:any)=>{
+            this.absentNotes = res.data;
+        })
         this.grpAttendance = this.grpAttendance[0];
     }
 
@@ -61,15 +65,18 @@ export class PeopleListAdminComponent implements OnInit, OnChanges {
 
     onEditNoteBtn() {
         this.editedNote = this.clickedPerson.note;
+        this.selectedNote = '';
         $('#attendanceDetailModal').modal('hide');
         $('#noteEditModal').modal('show');
 
     }
 
     onEdit() {
-        if (this.editedNote.trim() === '') {
+        if (this.editedNote.trim() === '' && this.selectedNote.trim() === '' ) {
             this.toastService.showError('Note cannot be empty');
             return;
+        }else{
+            this.editedNote = `${ this.editedNote} ${this.selectedNote}`;
         }
         const cp = <any>this.clickedPerson;
 
